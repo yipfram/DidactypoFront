@@ -11,6 +11,9 @@ import Apprendre from './pages/Apprendre'
 import Competition from './pages/Competition'
 import MaClasse from './pages/MaClasse'
 import MesInformations from './pages/MesInformations'
+import SeConnecter from './pages/SeConnecter'
+import Sinscrire from './pages/Sinscrire'
+import NotFound from './pages/NotFound'
 
 export default function App() {
 
@@ -24,6 +27,10 @@ export default function App() {
           <Route path="/competition" element={<Competition />} />
           <Route path="/maclasse" element={<MaClasse />} />
           <Route path="/mesinformations" element={<MesInformations />} />
+          <Route path="/seconnecter" element={<SeConnecter />} />
+          <Route path="/sinscrire" element={<Sinscrire />} />
+          
+          <Route path="*" element={<NotFound/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

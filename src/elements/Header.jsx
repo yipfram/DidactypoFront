@@ -15,7 +15,7 @@ export default function Header() {
             <Link to="competition" className={style.box}>Competition</Link>
             <Link to="maclasse" className={style.box}>Ma Classe</Link>
             <Link to="mesinformations" className={style.box}>Mes Informations</Link>
-            <Link to="/mesinformations">
+            <Link to="/seconnecter">
                 <img src={logo} alt="logo" className={style.logo}/>
             </Link>
         </div>
