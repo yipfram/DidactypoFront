@@ -20,6 +20,7 @@ export default function App() {
   return (
     <>
       <BrowserRouter>
+      
         <Header title="Stylé le header" />
         <Routes>
           <Route path="/" element={<Accueil />} />
