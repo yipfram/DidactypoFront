@@ -1,8 +1,30 @@
-# React + Vite
+# Voici les commandes utiles
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Environnement Python
+```bash
+python3 -m venv env
+python.exe -m pip install --upgrade pip #pour mettre à jour
+source env/bin/bin/activate #si vous êtes sur Linux
+.\env\Scripts\Activate #si vous êtes sur Windows
 
-Currently, two official plugins are available:
+#il faudra peut être éxécuter cette commande en tant qu'administrateur
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+pip install sqlalchemy
+pip install fastapi
+pip install pydantic
+pip install uvicorn
+```
+## React
+ ```bash
+npm install
+npm run dev
+
+npm install [nom de la librairie]
+ ```
+
+## FastAPI
+```bash
+uvicorn main:app --reload
+```
+Et allez sur http://127.0
