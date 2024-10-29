@@ -27,4 +27,4 @@ npm install [nom de la librairie]
 ```bash
 uvicorn main:app --reload
 ```
-Et allez sur http://127.0
+Et allez sur http://127.0.0.1:8000/docs

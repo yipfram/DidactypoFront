@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 
 import Membres from "../elements/Membres";
 
+import style from "../style/Connexion.module.css";
+import logo from "../img/superSympa.png";
+
 export default function Sinscrire() {
   const [utilisateurs, setUtilisateurs] = useState([]);
   const [formData, setFormData] = useState({
@@ -37,6 +40,22 @@ export default function Sinscrire() {
 
   const handleFormSubmit = async (evenement) => {
     evenement.preventDefault();
+    const pseudoExiste = utilisateurs.some(
+      (utilisateur) => utilisateur.pseudo === formData.pseudo
+    );
+    if (pseudoExiste) {
+      alert("Ce pseudo est déjà pris. Veuillez en choisir un autre.");
+      return;
+    }
+
+    const courrielExiste = utilisateurs.some(
+      (utilisateur) => utilisateur.courriel === formData.courriel
+    );
+    if (courrielExiste) {
+      alert("Ce courriel est déjà utilisé. Veuillez en choisir un autre.");
+      return;
+    }
+
     await api.post("/utilisateurs/", formData);
     fetchUtilisateurs();
     setFormData({
@@ -53,9 +72,12 @@ export default function Sinscrire() {
   };
 
   return (
-    <>
-      <h1>S'inscrire</h1>
+    <div className={style.connexion}>
+
       <form onSubmit={handleFormSubmit}>
+        <img src={logo} alt="Logo" />
+        <h1>S'inscrire</h1>
+
         <label htmlFor="pseudo">Pseudo</label>
         <input
           type="text"
@@ -106,16 +128,18 @@ export default function Sinscrire() {
           required
         />
 
-        <button type="submit">S'inscrire</button>
+        <button type="submit">Inscription</button>
+        <p>
+          Déjà inscrit ?
+          <Link to="/seconnecter">Se connecter</Link>
+        </p>
       </form>
-      <p>
-        Déjà inscrit ?
-        <Link to="/seconnecter">Se connecter</Link>
-      </p>
+
+
 
       {/* ATTENTION A ENLEVER */}
       <Membres />
-      
-    </>
+
+    </div>
   );
 }
