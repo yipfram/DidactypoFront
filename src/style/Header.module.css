@@ -1,12 +1,44 @@
+
 .header {
     background-color: var(--primary);
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    padding: 20px;
 }
 
-.header img {
+.header .logo {
     width: 100px;
     height: auto;
+}
+.header .iconCompte{
+    width: 5vw;
+    height: auto;
+}
+
+.header nav{
+    border: solid;
+    border-width: 0.1px;
+    border-radius: 30px;
+
+    padding : 1vw;
+
+    background-color: var(--secondary);
+}
+
+.header .box{
+    border-right: solid;
+    border-width: 0.1px;
+
+    padding: 1vw 3vw;
+
+    text-decoration : none;
+    color: var(--text-color);
+    
+}
+
+.header .box:last-of-type{ /*pour empêcher la border à droite du dernier élément */
+    border-right: none;
 }
