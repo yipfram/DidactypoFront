@@ -4,7 +4,7 @@
 ```bash
 python3 -m venv env
 python.exe -m pip install --upgrade pip #pour mettre à jour
-source env/bin/bin/activate #si vous êtes sur Linux
+source env/bin/activate #si vous êtes sur Linux
 .\env\Scripts\Activate #si vous êtes sur Windows
 
 #il faudra peut être éxécuter cette commande en tant qu'administrateur
