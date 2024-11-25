@@ -1,4 +1,5 @@
 import style from "../style/Apprendre.module.css";
+import { Link } from "react-router-dom";
 
 export default function Apprendre() {
   return (
@@ -10,8 +11,8 @@ export default function Apprendre() {
             et en faisant des exercices pour vous entrainer.</p>
         </div>
         <div className={style.choixboutons}>
-          <button>Cours</button>
-          <button>Exercices</button>
+          <Link to="/listeCours" className={style.boutonsCours}>Cours</Link>
+          <Link to="/listeExercices" className={style.boutonsCours}>Exercices</Link>
         </div>
       </main>
     </>
