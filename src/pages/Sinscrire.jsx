@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Membres from "../elements/Membres";
 
 import style from "../style/Connexion.module.css";
+import logo from "../img/logoDidactypo.png";
 
 export default function Sinscrire() {
   const [utilisateurs, setUtilisateurs] = useState([]);

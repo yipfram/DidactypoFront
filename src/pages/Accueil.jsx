@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import style from "../style/Accueil.module.css";
+import Leaderboard from "../elements/Defis";
 
 
 export default function Accueil() {
@@ -20,22 +21,7 @@ export default function Accueil() {
             </div>
        </div>
        <div className={style.leaderboard}>
-            <h2>Leaderboard :</h2>
-            <table>
-                <tr>
-                  <th>Position</th>  
-                  <th>Pseudo</th> 
-                  <th>Temps</th>
-                  <th>Fautes</th> 
-                </tr>
-                <tr>
-                  <td>1er</td>  
-                  <td>Jeremy</td> 
-                  <td>1.00min</td>
-                  <td>3</td> 
-                </tr>
-                
-            </table>
+          <Leaderboard/>
        </div>
     </main>   
     </>
