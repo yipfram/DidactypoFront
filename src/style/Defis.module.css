@@ -1,0 +1,44 @@
+/* Table principale */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #F1F3C2;
+    text-align: center;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  /* Entête du tableau */
+  .headtable {
+    background: #E8BB6D;
+  }
+  
+  .headcell {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    border: 1px solid #AAAAAA;
+  }
+  
+  /* Corps du tableau */
+  .corpstable {
+    background-color: #F1F3C2;
+  }
+  
+  .lignejoueur {
+    background-color: #F1F3C2;
+  }
+  
+  .cellule {
+    padding: 0.3vw;
+    font-size: 14px;
+    border: 1px solid #AAAAAA;
+    border-right: none;
+    border-left: none;
+  }
+  
+  .lignejoueur:hover {
+    background-color: #E8BB6D;
+  }
+  

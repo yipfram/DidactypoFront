@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
+import style from "../style/Defis.module.css";
 
 export default function Defis() {
     const [reussitesDefis, setReussitesDefis] = useState([]); // Définir l'état pour stocker les utilisateurs
@@ -25,26 +26,26 @@ export default function Defis() {
 
     return (
         <>
-            <h2>Réussite du défi</h2>
-            <table>
-                <thead>
+            <table className={style.table}>
+                <thead className={style.headtable}>
                     <tr>
-                        <th>Pseudo</th>
-                        <th>Numéro du défi</th>
-                        <th>Temps</th>
-                        <th>Date</th>
+                        <th className={style.headcell}>Pseudo</th>
+                        <th className={style.headcell}>Numéro du défi</th>
+                        <th className={style.headcell}>Temps</th>
+                        <th className={style.headcell}>Date</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={style.corpstable}>
                     {reussitesDefis.map((reussiteDefi) => (
-                        <tr key={`${reussiteDefi.pseudo_utilisateur}-${reussiteDefi.id_defi}`}>
-                            <td>{reussiteDefi.pseudo_utilisateur}</td> {/* Affichage du pseudo de l'utilisateur */}
-                            <td>{reussiteDefi.id_defi}</td> {/* Affichage de l'ID du défi */}
-                            <td>{reussiteDefi.temps_reussite} min</td> {/* Affichage du temps de réussite */}
-                            <td>{formatDate(reussiteDefi.date_reussite)}</td> {/* Formatage de la date */}
+                        <tr className={style.lignejoueur} key={`${reussiteDefi.pseudo_utilisateur}-${reussiteDefi.id_defi}`}>
+                            <td className={style.cellule}>{reussiteDefi.pseudo_utilisateur}</td> {/* Affichage du pseudo de l'utilisateur */}
+                            <td className={style.cellule}>{reussiteDefi.id_defi}</td> {/* Affichage de l'ID du défi */}
+                            <td className={style.cellule}>{reussiteDefi.temps_reussite} min</td> {/* Affichage du temps de réussite */}
+                            <td className={style.cellule}>{formatDate(reussiteDefi.date_reussite)}</td> {/* Formatage de la date */}
                         </tr>
                     ))}
                 </tbody>
+                
             </table>
         </>
     );
