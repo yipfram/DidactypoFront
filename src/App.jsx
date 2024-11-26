@@ -14,6 +14,8 @@ import MesInformations from './pages/MesInformations'
 import SeConnecter from './pages/SeConnecter'
 import Sinscrire from './pages/Sinscrire'
 import NotFound from './pages/NotFound'
+import ListeCours from './pages/ListeCours'
+import ListeExercices from './pages/ListeExercices'
 
 export default function App() {
 
@@ -30,7 +32,10 @@ export default function App() {
           <Route path="/mesinformations" element={<MesInformations />} />
           <Route path="/seconnecter" element={<SeConnecter />} />
           <Route path="/sinscrire" element={<Sinscrire />} />
-          
+        
+          <Route path="/listeCours" element={<ListeCours/>}/>
+          <Route path="/listeExercices" element={<ListeExercices/>}/>
+    
           <Route path="*" element={<NotFound/>} />
         </Routes>
         <Footer />
