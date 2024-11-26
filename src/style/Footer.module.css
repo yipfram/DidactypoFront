@@ -1,11 +1,15 @@
 .footer {
     background-color: var(--primary);
     
-
+    height:3vw;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 20px;
+    position:fixed;
+    left:0;
+    bottom:0;
+    width:100%;
 }
 
 
@@ -19,6 +23,6 @@
     height: auto;
 }
 .footer .logo {
-    width: 100px;
+    width: 75px;
     height: auto;
 }
