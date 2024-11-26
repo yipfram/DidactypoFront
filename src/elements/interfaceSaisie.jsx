@@ -9,6 +9,7 @@ const InterfaceSaisie = () => {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
+    const [hasError, setHasError] = useState(false); // État pour suivre les erreurs
 
     // Référence pour l'input
     const inputRef = useRef();
@@ -37,14 +38,18 @@ const InterfaceSaisie = () => {
         setInputText(newText);
 
         let correctCount = 0;
+        let hasErrorOccurred = false;
+
         for (let i = 0; i < newText.length && i < targetText.length; i++) {
             if (newText[i] === targetText[i]) {
                 correctCount++;
             } else {
+                hasErrorOccurred = true;
                 break;
             }
         }
         setCorrectChars(correctCount);
+        setHasError(hasErrorOccurred); // Met à jour l'état d'erreur
 
         // Vérifie si tout le texte a été correctement saisi
         if (newText === targetText) {
@@ -80,6 +85,7 @@ const InterfaceSaisie = () => {
         setStartTime(new Date()); // Démarre le chronomètre
         setEndTime(null);
         setElapsedTime(null);
+        setHasError(false); // Réinitialise l'état d'erreur
     };
 
     useEffect(() => {
@@ -87,7 +93,6 @@ const InterfaceSaisie = () => {
             inputRef.current.focus();
         }
     }, [isReady]);
-    
 
     // Calculer le temps écoulé
     useEffect(() => {
@@ -111,7 +116,7 @@ const InterfaceSaisie = () => {
     };
 
     return (
-        <div>
+        <div style={{ textAlign: 'center' }}> {/* Centre le contenu */}
             {!isReady && (
                 <button onClick={handleReadyClick} style={{
                     padding: '1em',
@@ -125,7 +130,13 @@ const InterfaceSaisie = () => {
 
             {isReady && (
                 <>
-                    <div style={{ marginBottom: '1em' }}>
+                    <div style={{ 
+                        marginBottom: '1em', 
+                        fontSize: '1.5em',  // Augmente la taille du texte
+                        fontWeight: 'bold',
+                        maxWidth: '600px', // Largeur max pour limiter la taille
+                        margin: '0 auto' // Centre horizontalement
+                    }}>
                         {renderTextWithColors()}
                     </div>
                     <form onSubmit={verifText}>
@@ -136,11 +147,15 @@ const InterfaceSaisie = () => {
                             onChange={handleInputChange}
                             disabled={!isReady} // Désactive jusqu'à ce que prêt
                             style={{
-                                width: '100%',
+                                width: '50%', // Réduit la largeur de l'input
+                                minWidth: '200px', // Largeur minimum
                                 border: 'none',
                                 outline: 'none',
                                 fontSize: '1.2em',
                                 padding: '0.5em',
+                                textAlign: 'center', // Centre le texte dans l'input
+                                margin: '0 auto', // Centre l'input horizontalement
+                                display: 'block'
                             }}
                         />
                         <button type="submit" style={{ display: 'none' }} />
@@ -148,9 +163,9 @@ const InterfaceSaisie = () => {
                     <div style={{
                         height: '5px',
                         width: `${progress}%`,
-                        background: 'green',
+                        background: hasError ? 'red' : 'green', // Rouge en cas d'erreur
                         marginTop: '0.5em',
-                        transition: 'width 0.3s ease'
+                        transition: 'width 0.3s ease, background-color 0.3s ease' // Animation de transition
                     }} />
                 </>
             )}
