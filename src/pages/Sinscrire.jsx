@@ -3,6 +3,7 @@ import api from "../api";
 import { Link } from "react-router-dom";
 
 import Membres from "../elements/Membres";
+import Defis from "../elements/Defis";
 
 import style from "../style/Connexion.module.css";
 import logo from "../img/logoDidactypo.png";
@@ -139,6 +140,7 @@ export default function Sinscrire() {
 
       {/* ATTENTION A ENLEVER */}
       <Membres />
+      <Defis />
 
     </div>
   );
