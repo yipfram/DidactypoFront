@@ -72,3 +72,27 @@ html, body {
     position : fixed;
     top: 50%;
 }
+
+.groupeButtonFenetreCours{
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.groupeButtonFenetreCours button{
+    background-color: #E8BB6D;
+    height: 4vw;
+    padding: 1vw 2vw;
+    margin: 0.7vw;
+    margin-top: 1vw;
+    border: none;
+    border-radius: 50px;
+    box-shadow: -1px 3px 3px rgb(78, 75, 75);
+    font-size: 1.8vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.groupeButtonFenetreCours button:hover {
+    background-color: #D8A75F; 
+  }
+

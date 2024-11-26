@@ -16,9 +16,10 @@ export default function ListeCours(){
         return listeCours;
     }
 
-    function handlerFenetreCours(){
+    function handlerShowFenetreCours(){
         setShowCours(true);
     }
+
 
     return(
         <>
@@ -27,8 +28,8 @@ export default function ListeCours(){
                     <ol>
                         <li>
                             
-                            <p onClick={handlerFenetreCours}>premiers pas</p>
-                            {showCours && <FenetreCours idCours = {1}/>}
+                            <p onClick={handlerShowFenetreCours}>premiers pas</p>
+                            {showCours && <FenetreCours idCours={1} setShowCours={setShowCours()}/>}
                         </li>
                     </ol>
                 </div>   
@@ -38,5 +39,6 @@ export default function ListeCours(){
         </>
 
     );
+    
     
 }
