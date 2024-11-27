@@ -37,6 +37,8 @@ export default function App() {
           <Route path="/listeExercices" element={<ListeExercices/>}/>
     
           <Route path="*" element={<NotFound/>} />
+          
+          <Route path="/*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>

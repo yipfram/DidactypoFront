@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api.jsx';
-import logo from '../img/logoDidactypo.png';
 import { Link, useNavigate } from 'react-router-dom';
+import style from '../style/Connexion.module.css';
 
 export default function Connexion() {
     const [utilisateurs, setUtilisateurs] = useState([]);
@@ -38,7 +38,7 @@ export default function Connexion() {
 
         // Vérifier si le pseudo ou l'email existe et si le mot de passe correspond
         const utilisateur = utilisateurs.find(
-            (utilisateur) => 
+            (utilisateur) =>
                 (utilisateur.pseudo === formData.pseudo || utilisateur.courriel === formData.pseudo) &&
                 utilisateur.mot_de_passe === formData.mot_de_passe
         );
@@ -56,32 +56,33 @@ export default function Connexion() {
     };
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <img src={logo} alt="Logo" />
-            <h1>Connectez-vous !</h1>
+        <div className={style.connexion}>
+            <form onSubmit={handleFormSubmit}>
+                <h1>Connectez-vous !</h1>
 
-            <label htmlFor="pseudo">Pseudo ou Email</label>
-            <input
-                type="text"
-                id="pseudo"
-                name="pseudo"
-                value={formData.pseudo}
-                onChange={handleInputChange}
-                required
-            />
+                <label htmlFor="pseudo">Pseudo ou Email</label>
+                <input
+                    type="text"
+                    id="pseudo"
+                    name="pseudo"
+                    value={formData.pseudo}
+                    onChange={handleInputChange}
+                    required
+                />
 
-            <label htmlFor="mot_de_passe">Mot de passe</label>
-            <input
-                type="password"
-                id="mot_de_passe"
-                name="mot_de_passe"
-                value={formData.mot_de_passe}
-                onChange={handleInputChange}
-                required
-            />
+                <label htmlFor="mot_de_passe">Mot de passe</label>
+                <input
+                    type="password"
+                    id="mot_de_passe"
+                    name="mot_de_passe"
+                    value={formData.mot_de_passe}
+                    onChange={handleInputChange}
+                    required
+                />
 
-            <button type="submit">Se connecter</button>
-            <p>Pas de compte ? <Link to="/sinscrire">Créez le votre dès maintenant !</Link></p>
-        </form>
+                <button type="submit">Se connecter</button>
+                <p>Pas de compte ? <Link to="/sinscrire">Créez le votre dès maintenant !</Link></p>
+            </form>
+        </div>
     );
 }
