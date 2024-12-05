@@ -1,45 +1,61 @@
 import style from "../style/Apprendre.module.css";
-import { useState } from "react";
-import Cours from "./Cours";
+import { useState,useEffect } from "react";
+import api from "../api";
 import ListeCours from "../pages/ListeCours";
 
 export default function FenetreCours(props){
     const [index,setIndex] = useState(0); 
-    const [cours,setCours] = useState(genererCours());
+    const [cours,setCours] = useState([]); //tableau avec toutes les sous-parties d'un cours 
+    
     var partieCours = cours[index];
 
-    const setShowCours = props.setShowCours();
+    const setShowCours = props.setShowCours;  
+    const idCours = props.idCours;  
 
+    
     /**
-     * fonction qui retourne un tableau contenant toutes les parties d'un cours, donc maximum une image par partie de cours
+     * Une partieCours est un paragraphe d'un cours qui est affiché dans FenetreCours et changé si on clique
+     * sur les boutons correspondants. C'est pour rendre un cours plus lisible.
      */
-    function genererCours(){
-        //tableau avec p et lien vers image
-        /*let cours = Cours(props.idCours);
-        let partiesCours = cours.split(";");
-        return partiesCours; */
-        return ["Première page","Deuxième page"];
+    const genererCours = async() =>{
+        try {
+            const resultat = await api.get(`/sous_cours/${idCours}`); //on veut récupérer tous les souscours d'un cours
+            setCours(resultat);
+        } catch (error) {
+            console.error("Erreur lors de la récupération d'une partie d'un cours :", error );
+        }
     }
 
-    function HandlerNext(){
+   useEffect(()=>{genererCours()})  // utiliser useEffect --> executer une seule fois au montage initial
+
+    function handlerNext(){
         if(index < cours.length-1)
             setIndex(index+1);
     }
     
-    function HandlerBack(){
+    function handlerBack(){
         if(index > 0)
             setIndex(index-1);
     }
 
+    function handlerExit(){
+        setShowCours(()=>{  
+            const newMap = new Map(props.showCours); // il faut lui donner une nouvelle map
+            newMap.set(idCours,false);
+            return newMap;
+        });
+    }
 
     return(
         <>
             <div className={style.fenetreCours}>
-                <p>{partieCours}</p>
+                <div className={style.contenuPartieCours}>
+                    <p>{partieCours}</p>
+                </div>
                 <div className = {style.groupeButtonFenetreCours}>
-                    <button onClick={HandlerBack}> back </button>
-                    <button onClick={props.setShowCours(false)}>exit</button>
-                    <button onClick={HandlerNext}> next </button>
+                    <button onClick={handlerBack}> back </button>
+                    <button onClick={handlerExit}>exit</button> {/*setShowCours cache la FenetreCours */}
+                    <button onClick={handlerNext}> next </button>
                 </div>
             </div>
         </>
