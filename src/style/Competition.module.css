@@ -1,0 +1,41 @@
+.Competition {
+    display: flex;
+    flex-direction: column; /* Organise en colonnes */
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative; /* Nécessaire pour un positionnement absolu */
+  }
+  
+  .Competition h1 {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .Competition > div {
+    display: flex;
+    flex-direction: row; /* Organise les enfants horizontalement */
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
+    flex: 1;
+    width: 100%;
+  }
+  
+  .InterfaceSaisie {
+    margin-right: auto; /* Place à gauche */
+    margin-left: 2cm; /* Décalage à gauche */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .leaderboard {
+    margin-left: auto; /* Décalage à droite */
+    margin-right: 2cm; /* Place à 2 cm du bord droit */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer les éléments dans la colonne */
+    align-items: flex-start;
+  }
+  
