@@ -32,18 +32,21 @@
     flex-direction: column;
 }
 
-.choixboutons button{
+.bouton{
     background-color: #E8BB6D;
-    height: 8vw;
-    padding: 1vw;
+    padding: 3vw;
     margin: 0.7vw;
     margin-top: 1vw;
     border: none;
     border-radius: 20px;
     box-shadow: -1px 3px 3px rgb(78, 75, 75);
     font-size: 1.8vw;
-    cursor: pointer; 
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    text-align: center;
 }
+
 
 .leaderboard{
     background-color: #F1F3C2;

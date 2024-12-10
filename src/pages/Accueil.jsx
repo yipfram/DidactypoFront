@@ -15,9 +15,9 @@ export default function Accueil() {
                 </p>
             </div>
             <div className={style.choixboutons}>
-                <button>Se connecter</button>
-                <button>Mode Apprentissage</button>
-                <button>Mode Compétition</button>
+               <Link to="./SeConnecter" className={style.bouton}>Se connecter</Link>
+               <Link to="./Apprendre" className={style.bouton}>Apprendre</Link>
+               <Link to="./Competition" className={style.bouton}>Compétition</Link>
             </div>
        </div>
        <div className={style.leaderboard}>
