@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import api from "../api";
 
 const InterfaceSaisie = (arg) => {
     
@@ -75,6 +76,27 @@ const InterfaceSaisie = (arg) => {
         setHasError(false);
     };
 
+    const updateDatabase = async (elapsedTime) => {
+        try {
+            const payload = {
+                id_defi: arg.defi.id_defi,
+                pseudo_utilisateur: "dotz", // Remplacer par le pseudo de l'utilisateur actuel
+                temps_reussite: elapsedTime
+            };
+   
+            console.log(payload);
+   
+            const headers = {
+                'Accept': 'application/json'
+            };
+   
+            await api.post(`/reussites_defi/?id_defi=${arg.defi.id_defi}&pseudo_utilisateur=dotz&temps_reussite=${elapsedTime}`, null, { headers }); // Remplacer par l'endpoint exact de ton API
+            console.log("Base de données mise à jour avec succès !");
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la base de données :", error);
+        }
+    };
+
     useEffect(() => {
         if (startTime && endTime) {
             const timeDiff = (endTime - startTime) / 1000;
@@ -82,8 +104,8 @@ const InterfaceSaisie = (arg) => {
             setInputText('');
             setIsReady(false);
 
-            if (onCompletion) {
-                onCompletion(timeDiff);
+            if (updateDatabase) {
+                updateDatabase(timeDiff);
             }
         }
     }, [endTime]);

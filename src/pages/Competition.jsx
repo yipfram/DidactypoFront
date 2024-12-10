@@ -30,6 +30,10 @@ export default function Competition() {
         console.log(defis);
     }, [defis]);
 
+    
+
+
+
     return (
         <main className={style.Competition}>
             <h1>Competition</h1>
@@ -50,3 +54,4 @@ export default function Competition() {
         </main>
     );
 }
+
