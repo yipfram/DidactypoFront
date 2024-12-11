@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/competition" element={<Competition />} />
           <Route path="/maclasse" element={<MaClasse />} />
           <Route path="/mesinformations" element={<MesInformations />} />
-          <Route path="/seconnecter" element={<SeConnecter />} />
+          <Route path="/connexion" element={<SeConnecter />} />
           <Route path="/sinscrire" element={<Sinscrire />} />
         
           <Route path="/listeCours" element={<ListeCours/>}/>
