@@ -31,7 +31,7 @@ export default function App() {
           <Route path="/maclasse" element={<MaClasse />} />
           <Route path="/mesinformations" element={<MesInformations />} />
           <Route path="/connexion" element={<SeConnecter />} />
-          <Route path="/sinscrire" element={<Sinscrire />} />
+          <Route path="/inscription" element={<Sinscrire />} />
         
           <Route path="/listeCours" element={<ListeCours/>}/>
           <Route path="/listeExercices" element={<ListeExercices/>}/>

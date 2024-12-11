@@ -1,11 +1,12 @@
-import { useState } from "react";
-import jwt_decode from "jwt-decode";
+import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import Connexion from "../elements/Connexion";
 import Modal from "../elements/Modal";
 
 export default function SeConnecter() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [decodedToken, setDecodedToken] = useState(null);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -15,30 +16,42 @@ export default function SeConnecter() {
     setIsModalOpen(false);
   };
 
+  const handleLogout = () => {
+    // Efface le token dans le stockage local
+    window.localStorage.removeItem("token");
+    
+    // Réinitialise l'état `decodedToken`
+    setDecodedToken(null);
 
-  const token = window.localStorage.getItem("token");
+    alert("Vous êtes bien déconnecté");
+  };
 
-  if (token) {
-    try {
-      const decodedToken = jwt_decode(token);
-      console.log(decodedToken);
-    } catch (error) {
-      console.error("Error decoding token", error);
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setDecodedToken(decoded);
+      } catch (error) {
+        console.error("Error decoding token", error);
+        setDecodedToken(null);
+      }
     }
-  }
-
+  }, []);
 
   return (
     <div>
       <h1>React Modal Example</h1>
-      <button onClick={openModal}>Open Modal</button>
+      <button onClick={openModal}>Se connecter</button>
+      <button onClick={handleLogout}>Se déconnecter</button>
 
       <Modal show={isModalOpen} onClose={closeModal}>
         <Connexion />
-        <button onClick={closeModal}>Close Modal</button>
+        <button onClick={closeModal}>Annuler</button>
       </Modal>
 
-      <p>Bienvenue !</p>
+      <p>Bienvenue, {decodedToken?.sub || "n'hésitez pas à vous connecter"}!</p>
     </div>
   );
 }

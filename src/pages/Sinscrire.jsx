@@ -132,7 +132,7 @@ export default function Sinscrire() {
         <button type="submit">Inscription</button>
         <p>
           Déjà inscrit ?
-          <Link to="/seconnecter">Se connecter</Link>
+          <Link to="/connexion">Se connecter</Link>
         </p>
       </form>
 

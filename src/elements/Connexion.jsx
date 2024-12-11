@@ -10,7 +10,6 @@ export default function Connexion(props) {
   const inputPseudo = useRef();
   const inputMdp = useRef();
 
-
   function onPasswordKeyPressHandler(e) {
     if (e.key === 'Enter') {
       onSubmitHandler(e);
@@ -34,33 +33,40 @@ export default function Connexion(props) {
       },
       body: formData,
     })
-      .then(response => response.json())
-      .then(data => {
-        switch (response.status) {
-          case 200:
-            window.localStorage.setItem("token", data.token);
-            onClose();
-            break;
-          case 401:
-            setErreur(data.detail || "Mot de passe ou pseudo incorrect");
-            break;
-          case 422:
-            setErreur(`Mauvaise syntaxe: ${data.detail?.[0]?.loc[1] || "Champ invalide"}`);
-            break;
-          case 404:
-            setErreur("Erreur lors de la connexion");
-            break;
-          default:
-            setErreur("Erreur lors de l'inscription");
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw { status: response.status, data };
+          });
         }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Full server response:", data);
+        window.localStorage.setItem("token", data.access_token);
         setIsLoading(false);
       })
-      .catch(() => {
-        setErreur("Erreur lors de l'inscription");
+      .catch(err => {
         setIsLoading(false);
+        if (err.status) {
+          switch (err.status) {
+            case 401:
+              setErreur(err.data.detail || "Mot de passe ou pseudo incorrect");
+              break;
+            case 422:
+              setErreur(`Mauvaise syntaxe: ${err.data.detail?.[0]?.loc[1] || "Champ invalide"}`);
+              break;
+            case 404:
+              setErreur("Erreur lors de la connexion");
+              break;
+            default:
+              setErreur("Erreur lors de l'inscription");
+          }
+        } else {
+          setErreur("Erreur lors de l'inscription");
+        }
       });
   }
-  
 
   return (
       <div>
