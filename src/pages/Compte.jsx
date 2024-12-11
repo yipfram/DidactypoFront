@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import Connexion from "../elements/Connexion";
 import Modal from "../elements/Modal";
 
-export default function SeConnecter() {
+export default function Compte() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [decodedToken, setDecodedToken] = useState(null);
 
@@ -42,7 +42,7 @@ export default function SeConnecter() {
 
   return (
     <div>
-      <h1>React Modal Example</h1>
+      <h1>{decodedToken ? `Bienvenue ${decodedToken.sub} !` : "Connectez vous pour accéder à votre progression !"}</h1>
       <button onClick={openModal}>Se connecter</button>
       <button onClick={handleLogout}>Se déconnecter</button>
 
@@ -50,8 +50,6 @@ export default function SeConnecter() {
         <Connexion />
         <button onClick={closeModal}>Annuler</button>
       </Modal>
-
-      <p>Bienvenue, {decodedToken?.sub || "n'hésitez pas à vous connecter"}!</p>
     </div>
   );
 }

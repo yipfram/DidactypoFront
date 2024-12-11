@@ -11,7 +11,7 @@ import Apprendre from './pages/Apprendre'
 import Competition from './pages/Competition'
 import MaClasse from './pages/MaClasse'
 import MesInformations from './pages/MesInformations'
-import SeConnecter from './pages/SeConnecter'
+import Compte from './pages/Compte'
 import Sinscrire from './pages/Sinscrire'
 import NotFound from './pages/NotFound'
 import ListeCours from './pages/ListeCours'
@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/competition" element={<Competition />} />
           <Route path="/maclasse" element={<MaClasse />} />
           <Route path="/mesinformations" element={<MesInformations />} />
-          <Route path="/connexion" element={<SeConnecter />} />
+          <Route path="/compte" element={<Compte />} />
           <Route path="/inscription" element={<Sinscrire />} />
         
           <Route path="/listeCours" element={<ListeCours/>}/>

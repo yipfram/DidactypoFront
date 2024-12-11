@@ -42,9 +42,9 @@ export default function Connexion(props) {
         return response.json();
       })
       .then(data => {
-        console.log("Full server response:", data);
         window.localStorage.setItem("token", data.access_token);
         setIsLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         setIsLoading(false);
