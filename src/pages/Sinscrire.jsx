@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Membres from "../elements/Membres";
+import Defis from "../elements/Defis";
 
 import style from "../style/Connexion.module.css";
 import logo from "../img/logoDidactypo.png";
@@ -20,6 +21,8 @@ export default function Sinscrire() {
     numCours: 0,
     tempsTotal: 0,
   });
+
+  const navigate = useNavigate();
 
   const fetchUtilisateurs = async () => {
     const reponse = await api.get("/utilisateurs/");
@@ -69,11 +72,12 @@ export default function Sinscrire() {
       numCours: 0,
       tempsTotal: 0,
     });
+
+    navigate("/compte"); // Utilisation correcte après la soumission
   };
 
   return (
     <div className={style.connexion}>
-
       <form onSubmit={handleFormSubmit}>
         <img src={logo} alt="Logo" />
         <h1>S'inscrire</h1>
@@ -130,16 +134,13 @@ export default function Sinscrire() {
 
         <button type="submit">Inscription</button>
         <p>
-          Déjà inscrit ?
-          <Link to="/seconnecter">Se connecter</Link>
+          Déjà inscrit ? <Link to="/compte">Se connecter</Link>
         </p>
       </form>
 
-
-
       {/* ATTENTION A ENLEVER */}
       <Membres />
-
+      <Defis />
     </div>
   );
 }

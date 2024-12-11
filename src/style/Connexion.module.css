@@ -1,12 +1,11 @@
 .connexion {
-    background-image: url('../img/xavSquelettePensif.png');
+    background-image: url('../img/fondConnexion.png');
     background-size: cover;
     background-position: center;
 }
 
 .connexion form {
-    background-color: var(--primary);
-    opacity: 0.8;
+    background-color: #A1D6B2;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -18,7 +17,6 @@
 .connexion img {
     width: 30%;
     height: auto;
-    display: block;
     margin: 0 auto;
 }
 
