@@ -14,6 +14,9 @@ pip install sqlalchemy
 pip install fastapi
 pip install pydantic
 pip install uvicorn
+pip install pyjwt
+pip install passlib
+pip install python-multipart
 ```
 ## React
  ```bash
