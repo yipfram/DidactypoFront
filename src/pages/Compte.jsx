@@ -3,6 +3,8 @@ import { jwtDecode } from "jwt-decode";
 
 import Connexion from "../elements/Connexion";
 import Modal from "../elements/Modal";
+import StatsCours from "../elements/StatsCours";
+import StatsMots from "../elements/StatsMots";
 
 export default function Compte() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +21,7 @@ export default function Compte() {
   const handleLogout = () => {
     // Efface le token dans le stockage local
     window.localStorage.removeItem("token");
-    
+
     // Réinitialise l'état `decodedToken`
     setDecodedToken(null);
 
@@ -43,13 +45,19 @@ export default function Compte() {
   return (
     <div>
       <h1>{decodedToken ? `Bienvenue ${decodedToken.sub} !` : "Connectez vous pour accéder à votre progression !"}</h1>
-      <button onClick={openModal}>Se connecter</button>
-      <button onClick={handleLogout}>Se déconnecter</button>
+      {!decodedToken ? <button onClick={openModal}>Se connecter</button> : <button onClick={handleLogout}>Se déconnecter</button>}
 
-      <Modal show={isModalOpen} onClose={closeModal}>
-        <Connexion />
-        <button onClick={closeModal}>Annuler</button>
-      </Modal>
+      {!decodedToken ?
+        <Modal show={isModalOpen} onClose={closeModal}>
+          <Connexion />
+          <button onClick={closeModal}>Annuler</button>
+        </Modal> :
+        <div>
+          <StatsCours pseudo={decodedToken.sub}/>
+          <StatsMots pseudo={decodedToken.sub}/>
+        </div>
+      }
+
     </div>
   );
 }
