@@ -21,7 +21,7 @@ export default function App() {
   return (
     <>
       <BrowserRouter>
-        <div className="top">
+        <div>
           <Header />
           <Suspense fallback={<Loading />}>
             <Routes>
