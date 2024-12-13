@@ -1,47 +1,45 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import './style/App.css'
+import './style/App.css';
+import Header from './elements/Header';
+import Footer from './elements/Footer';
+import Loading from './elements/Loading';
 
-import Header from './elements/Header'
-import Footer from './elements/Footer'
-
-import Accueil from './pages/Accueil'
-import Apprendre from './pages/Apprendre'
-import Competition from './pages/Competition'
-import MaClasse from './pages/MaClasse'
-import MesInformations from './pages/MesInformations'
-import Compte from './pages/Compte'
-import Sinscrire from './pages/Sinscrire'
-import NotFound from './pages/NotFound'
-import ListeCours from './pages/ListeCours'
-import ListeExercices from './pages/ListeExercices'
+const Accueil = lazy(() => import('./pages/Accueil'));
+const Apprendre = lazy(() => import('./pages/Apprendre'));
+const Competition = lazy(() => import('./pages/Competition'));
+const MaClasse = lazy(() => import('./pages/MaClasse'));
+const MesInformations = lazy(() => import('./pages/MesInformations'));
+const Compte = lazy(() => import('./pages/Compte'));
+const Sinscrire = lazy(() => import('./pages/Sinscrire'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const ListeCours = lazy(() => import('./pages/ListeCours'));
+const ListeExercices = lazy(() => import('./pages/ListeExercices'));
 
 export default function App() {
-
   return (
     <>
       <BrowserRouter>
-      
-        <Header title="Stylé le header" />
-        <Routes>
-          <Route path="/" element={<Accueil />} />
-          <Route path="/apprendre" element={<Apprendre />} />
-          <Route path="/competition" element={<Competition />} />
-          <Route path="/maclasse" element={<MaClasse />} />
-          <Route path="/mesinformations" element={<MesInformations />} />
-          <Route path="/compte" element={<Compte />} />
-          <Route path="/inscription" element={<Sinscrire />} />
-        
-          <Route path="/listeCours" element={<ListeCours/>}/>
-          <Route path="/listeExercices" element={<ListeExercices/>}/>
-    
-          <Route path="*" element={<NotFound/>} />
-          
-          <Route path="/*" element={<NotFound />} />
-        </Routes>
+        <div className="top">
+          <Header />
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<Accueil />} />
+              <Route path="/apprendre" element={<Apprendre />} />
+              <Route path="/competition" element={<Competition />} />
+              <Route path="/maclasse" element={<MaClasse />} />
+              <Route path="/mesinformations" element={<MesInformations />} />
+              <Route path="/compte" element={<Compte />} />
+              <Route path="/inscription" element={<Sinscrire />} />
+              <Route path="/listeCours" element={<ListeCours />} />
+              <Route path="/listeExercices" element={<ListeExercices />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </div>
         <Footer />
       </BrowserRouter>
     </>
-  )
+  );
 }

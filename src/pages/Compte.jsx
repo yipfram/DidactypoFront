@@ -3,8 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 import Connexion from "../elements/Connexion";
 import Modal from "../elements/Modal";
-import StatsCours from "../elements/StatsCours";
-import StatsMots from "../elements/StatsMots";
+import Stats from "../elements/Stats";
 
 export default function Compte() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,8 +23,6 @@ export default function Compte() {
 
     // Réinitialise l'état `decodedToken`
     setDecodedToken(null);
-
-    alert("Vous êtes bien déconnecté");
   };
 
   useEffect(() => {
@@ -45,19 +42,22 @@ export default function Compte() {
   return (
     <div>
       <h1>{decodedToken ? `Bienvenue ${decodedToken.sub} !` : "Connectez vous pour accéder à votre progression !"}</h1>
-      {!decodedToken ? <button onClick={openModal}>Se connecter</button> : <button onClick={handleLogout}>Se déconnecter</button>}
+      {!decodedToken ? (
+        <button onClick={openModal}>Se connecter</button>
+      ) : (
+        <button onClick={handleLogout}>Se déconnecter</button>
+      )}
 
-      {!decodedToken ?
+      {!decodedToken ? (
         <Modal show={isModalOpen} onClose={closeModal}>
           <Connexion />
           <button onClick={closeModal}>Annuler</button>
-        </Modal> :
+        </Modal>
+      ) : (
         <div>
-          <StatsCours pseudo={decodedToken.sub}/>
-          <StatsMots pseudo={decodedToken.sub}/>
+          <Stats pseudo={decodedToken.sub} />
         </div>
-      }
-
+      )}
     </div>
   );
 }
