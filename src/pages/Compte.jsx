@@ -6,6 +6,8 @@ import Modal from "../elements/Modal";
 import Stats from "../elements/Stats";
 import Badges from "../elements/Badges";
 
+import style from "../style/Compte.module.css";
+
 export default function Compte() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [decodedToken, setDecodedToken] = useState(null);
@@ -55,7 +57,7 @@ export default function Compte() {
           <button onClick={closeModal}>Annuler</button>
         </Modal>
       ) : (
-        <div>
+        <div className={style.stats}>
           <Stats pseudo={decodedToken.sub} />
           <Badges pseudo={decodedToken.sub} />
         </div>

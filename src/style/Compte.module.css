@@ -1,0 +1,20 @@
+.stats {
+    display: flex;
+    justify-content: space-around;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 50%;
+}
+
+.badges div {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    width: 25%;
+    max-width: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+}

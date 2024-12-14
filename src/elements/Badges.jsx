@@ -1,6 +1,8 @@
 import api from "../api";
 import { useState, useEffect } from "react";
 
+import style from "../style/Compte.module.css";
+
 export default function Badges(props) {
     const [badges, setBadges] = useState([]);
 
@@ -14,7 +16,7 @@ export default function Badges(props) {
     }, []);
 
     return (
-        <div>
+        <div className={style.badges}>
             {badges.map((badge) => (
                 <div key={badge.id_badge}>
                     <img src={badge.image_badge} alt={badge.titre_badge} />
