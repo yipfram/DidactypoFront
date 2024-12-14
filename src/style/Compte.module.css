@@ -13,8 +13,14 @@
     margin-right: 5px;
     margin-bottom: 5px;
     text-align: center;
+    min-width: 120px;
     width: 25%;
     max-width: 200px;
     border: 1px solid black;
     border-radius: 10px;
+}
+.badges div img {
+    max-width: 100%;
+    height: auto;
+    max-height: 150px;
 }

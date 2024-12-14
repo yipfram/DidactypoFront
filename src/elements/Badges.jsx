@@ -7,7 +7,7 @@ export default function Badges(props) {
     const [badges, setBadges] = useState([]);
 
     const fetchBadges = async () => {
-        const response = await api.get(`/utilisateurs/moi/badge/${props.pseudo}`);
+        const response = await api.get(`/badge/${props.pseudo}`);
         setBadges(response.data);
     };
 
