@@ -67,8 +67,7 @@ html, body {
     max-width: 60vw; 
     width: 55vw;
     box-shadow: -1px 3px 3px rgb(78, 75, 75);
-    /**/
-
+    white-space: pre-line;
     position : fixed;
     top: 30%;
     right: 22%;

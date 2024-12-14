@@ -1,88 +1,85 @@
 import style from "../style/Apprendre.module.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../api";
-import ListeCours from "../pages/ListeCours";
 
-export default function FenetreCours(props){
-    const [index,setIndex] = useState(0); 
-    const [cours,setCours] = useState([]); //tableau avec toutes les sous-parties d'un cours 
-    
-    var partieCours = cours[index];
+export default function FenetreCours(props) {
+    const [index, setIndex] = useState(0);
+    const [cours, setCours] = useState([]); // Table of all sub-parts of a course
 
-    const setShowCours = props.setShowCours;  
-    const idCours = props.idCours;  
+    const partieCours = cours[index];
+    const setShowCours = props.setShowCours;
+    const idCours = props.idCours;
 
-    
-    /**
-     * Une partieCours est un paragraphe d'un cours qui est affiché dans FenetreCours et changé si on clique
-     * sur les boutons correspondants. C'est pour rendre un cours plus lisible.
-     */
-    const genererCours = async() =>{
+    // Decode escaped newlines
+    function decodeEscapedString(str) {
+        return str.replace(/\\n/g, "\n");
+    }
+
+    // Fetch and decode the course data
+    async function genererCours() {
         try {
-            const resultat = await api.get(`/sous_cours/${idCours}`); //on veut récupérer tous les souscours d'un cours
-            const data = resultat.data
-            /* La table sous_cours a comme attributs : id_sous_cours,id_cours_parent, titre_sous_cours, contenu_cours, 
-            * chemin_img_sous_cours. La clé primaire est sur les deux id
-            * On utilise id_sous_cours pour définir l'ordre des sous cours
-            */
-            setCours(data);
+            const resultat = await api.get(`/sous_cours/${idCours}`);
+            const decodedData = resultat.data.map(coursPart => ({
+                ...coursPart,
+                contenu_cours: decodeEscapedString(coursPart.contenu_cours || "")
+            }));
+            console.log("Decoded Data from API:", decodedData);
+            setCours(decodedData);
         } catch (error) {
-            console.error("Erreur lors de la récupération d'une partie d'un cours :", error );
+            console.error("Erreur lors de la récupération d'une partie d'un cours :", error);
         }
     }
 
-   useEffect(()=>{genererCours()})  // utiliser useEffect --> executer une seule fois au montage initial
+    useEffect(() => {
+        genererCours();
+    }, []);
 
-    function handlerNext(){
-        if(index < cours.length-1)
-            setIndex(index+1);
-    }
-    
-    function handlerBack(){
-        if(index > 0)
-            setIndex(index-1);
+    function handlerNext() {
+        if (index < cours.length - 1) setIndex(index + 1);
     }
 
-    function handlerExit(){
-        setShowCours(()=>{  
-            const newMap = new Map(props.showCours); // il faut lui donner une nouvelle map
-            newMap.set(idCours,false);
+    function handlerBack() {
+        if (index > 0) setIndex(index - 1);
+    }
+
+    function handlerExit() {
+        setShowCours(() => {
+            const newMap = new Map(props.showCours);
+            newMap.set(idCours, false);
             return newMap;
         });
     }
 
-    function contenuPartieCours(){
-        return(
+    function contenuPartieCours() {
+        return (
             <div className={style.contenuPartieCours}>
-                    {partieCours ? ( //il faut faire ça à cause du delai de la requête bd, sinon il y a ReferenceError
-                        <>
-                        {/*Tests pour afficher un élément seulement si on l'a définit dans la bd
-                        *On peut donc combiner les composants, par exemple seulement une image ou un titre et un paragraphe*/}
-
+                {partieCours ? (
+                    <>
                         {partieCours.titre_sous_cours && <h1>{partieCours.titre_sous_cours}</h1>}
-                        {partieCours.contenu_cours && <p>{partieCours.contenu_cours}</p>}
-                        {partieCours.chemin_img_sous_cours && <img src={partieCours.chemin_img_sous_cours} alt="image partie cours"></img>}
-                        
-                        </>
-                    ) : (
-                        <p>Chargement...</p>
-                    )}
-                </div>
+                        {partieCours.contenu_cours && (
+                            <p className={style.contenuPartieCours}>{partieCours.contenu_cours}</p>
+                        )}
+                        {partieCours.chemin_img_sous_cours && (
+                            <img src={partieCours.chemin_img_sous_cours} alt="image partie cours" />
+                        )}
+                    </>
+                ) : (
+                    <p>Chargement...</p>
+                )}
+            </div>
         );
     }
 
-    return(
+    return (
         <>
             <div className={style.fenetreCours}>
                 {contenuPartieCours()}
-                <div className = {style.groupeButtonFenetreCours}>
-                    <button onClick={handlerBack}> back </button>
-                    <button onClick={handlerExit}>exit</button> {/*setShowCours cache la FenetreCours */}
-                    <button onClick={handlerNext}> next </button>
+                <div className={style.groupeButtonFenetreCours}>
+                    <button onClick={handlerBack}>back</button>
+                    <button onClick={handlerExit}>exit</button>
+                    <button onClick={handlerNext}>next</button>
                 </div>
             </div>
         </>
-
     );
 }
-
