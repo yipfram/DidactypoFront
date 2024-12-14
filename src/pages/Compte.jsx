@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import Connexion from "../elements/Connexion";
 import Modal from "../elements/Modal";
 import Stats from "../elements/Stats";
+import Badges from "../elements/Badges";
 
 export default function Compte() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +57,7 @@ export default function Compte() {
       ) : (
         <div>
           <Stats pseudo={decodedToken.sub} />
+          <Badges pseudo={decodedToken.sub} />
         </div>
       )}
     </div>
