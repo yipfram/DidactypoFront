@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../api';
 
 import Loading from '../elements/Loading';
+import VerifConnection from '../elements/VerifConnection';
 
 import style from "../style/MaClasse.module.css";
 import styleList from "../style/MaClasse.module.css";
@@ -87,7 +88,7 @@ export default function MaClasse() {
   };
 
   return (
-    <>
+    <VerifConnection>
       {connected ? (
         idClasse !== null ? (
           <main className={style.pageClasse}>
@@ -136,6 +137,6 @@ export default function MaClasse() {
       )}
 
 
-    </>
+    </VerifConnection>
   );
 }
