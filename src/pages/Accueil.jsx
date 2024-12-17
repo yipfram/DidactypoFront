@@ -10,8 +10,8 @@ export default function Accueil() {
     <main className={style.accueil}>
        <div className={style.accueilmenu}>
             <div className={style.texteaccueil}>
-                <p>Bienvenue sur Dydactypo ! <br/>
-                Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t amusant !
+                <p>Bienvenue sur Didactypo ! <br/>
+                Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t'amusant !
                 </p>
             </div>
             <div className={style.choixboutons}>

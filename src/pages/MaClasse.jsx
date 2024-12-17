@@ -111,7 +111,7 @@ export default function MaClasse() {
                   <Loading />
                 ) : membres.length > 0 ? (
                   membres.map((membre) => (
-                    <li key={membre.id} className={styleList.eleve}>
+                    <li key={membre.pseudo} className={styleList.eleve}>
                       <span>
                         <img className={styleList.icone} src={icone} alt="icone" />
                       </span>

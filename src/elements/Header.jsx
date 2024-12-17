@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import style from "../style/Header.module.css";
 
@@ -12,11 +12,11 @@ export default function Header() {
                 <img src={logo} alt="logo" className={style.logo}/>
             </Link>
             <nav>
-                <Link to="/" className={style.box}>Accueil</Link>
-                <Link to="apprendre" className={style.box}>Apprendre</Link>
-                <Link to="competition" className={style.box}>Competition</Link>
-                <Link to="maclasse" className={style.box}>Ma Classe</Link>
-                <Link to="mesinformations" className={style.box}>Mes Informations</Link>
+                <NavLink to="/">Accueil</NavLink>
+                <NavLink to="/apprendre">Apprendre</NavLink>
+                <NavLink to="/competition">Competition</NavLink>
+                <NavLink to="/maclasse">Ma Classe</NavLink>
+                <NavLink to="/mesinformations">Infos utiles</NavLink>
             </nav>
             <Link to="/compte">
                 <img src={iconCompte} alt="compte" className={style.iconCompte}/>
