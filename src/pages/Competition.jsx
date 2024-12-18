@@ -3,7 +3,7 @@ import InterfaceSaisie from '../elements/InterfaceSaisie.jsx';
 import Leaderboard from "../elements/Defis.jsx";
 import api from "../api";
 import style from '../style/Competition.module.css';
-import VerifConnection from '../elements/VerifConnexion.jsx';
+import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 
 export default function Competition() {
     const [defis, setDefis] = useState([]);

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-import Stats from "../elements/Stats";
-import Badges from "../elements/Badges";
+import Stats from "../elements/CompteUtilisateur/Stats";
+import Badges from "../elements/CompteUtilisateur/Badges";
 
 import style from "../style/Compte.module.css";
-import VerifConnection from "../elements/VerifConnexion";
+import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
 
 export default function Compte() {
   const [decodedToken, setDecodedToken] = useState(null);

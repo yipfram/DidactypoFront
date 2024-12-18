@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom';
 import api from '../api';
 
 import Loading from '../elements/Loading';
-import VerifConnection from '../elements/VerifConnexion';
+import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion';
 
 import style from "../style/MaClasse.module.css";
 import styleList from "../style/MaClasse.module.css";
 import icone from "../img/IconCompte.png";
+import Modal from '../elements/Modal';
+import RejoindreClasse from '../elements/Classe/RejoindreClasse';
+import QuitterClasse from '../elements/Classe/QuitterClasse';
 
 export default function MaClasse() {
   const [connected, setConnected] = useState(false);
@@ -87,6 +90,27 @@ export default function MaClasse() {
     }
   };
 
+  //Rejoindre une classe
+  const [isJoinOpen, setIsJoinOpen] = useState(false);
+
+  const openJoin = () => {
+    setIsJoinOpen(true);
+  };
+
+  const closeJoin = () => {
+    setIsJoinOpen(false);
+  };
+
+  //Quitter une classe
+  const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+
+  const openLeave = () => {
+    setIsLeaveOpen(true);
+  }
+
+  const closeLeave = () => {
+    setIsLeaveOpen(false);
+  }
   return (
     <VerifConnection>
       {connected ? (
@@ -95,14 +119,21 @@ export default function MaClasse() {
             {loadingClasse ? (
               <Loading />
             ) : (
-              <div className={style.classegauche}>
-                <div className={style.classe}>
-                  <h2>{classe.nom_groupe} :</h2>
-                  <p>Description:</p>
-                  <h3>{classe.description_groupe}</h3>
+              <>
+                <div className={style.classegauche}>
+                  <div className={style.classe}>
+                    <h2>{classe.nom_groupe} :</h2>
+                    <p>Description:</p>
+                    <h3>{classe.description_groupe}</h3>
+                  </div>
+                  <button className={style.btnajouter}>Ajouter un élève</button>
+                  <button onClick={openLeave}>Quitter la classe</button>
                 </div>
-                <button className={style.btnajouter}>Ajouter un élève</button>
-              </div>
+                <Modal show={isLeaveOpen} onClose={closeLeave}>
+                  <QuitterClasse pseudo_utilisateur={decodedToken.sub} id_groupe={idClasse}/>
+                  <button onClick={closeLeave}>Annuler</button>
+                </Modal>
+              </>
             )}
             <div>
               <h2>Membres</h2>
@@ -125,9 +156,18 @@ export default function MaClasse() {
             </div>
           </main>
         ) : (
-          <main>
-            <h1>Vous ne faites pas partie d'une classe ! </h1>
-          </main>
+          <>
+            <main>
+              <Modal show={isJoinOpen} onClose={closeJoin}>
+                <RejoindreClasse pseudo_utilisateur={decodedToken.sub} />
+                <button onClick={closeJoin}>Annuler</button>
+              </Modal>
+              <h1>Vous ne faites pas partie d'une classe !</h1>
+              <button onClick={openJoin}>Rejoindre une classe</button>
+              <p>ou</p>
+              <button>Créer votre propre classe</button>
+            </main>
+          </>
         )
       ) : (
         <main>
