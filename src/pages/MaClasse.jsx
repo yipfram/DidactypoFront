@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../api';
 
 import Loading from '../elements/Loading';
-import VerifConnection from '../elements/VerifConnection';
+import VerifConnection from '../elements/VerifConnexion';
 
 import style from "../style/MaClasse.module.css";
 import styleList from "../style/MaClasse.module.css";

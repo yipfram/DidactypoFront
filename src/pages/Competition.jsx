@@ -3,6 +3,7 @@ import InterfaceSaisie from '../elements/InterfaceSaisie.jsx';
 import Leaderboard from "../elements/Defis.jsx";
 import api from "../api";
 import style from '../style/Competition.module.css';
+import VerifConnection from '../elements/VerifConnexion.jsx';
 
 export default function Competition() {
     const [defis, setDefis] = useState([]);
@@ -30,28 +31,30 @@ export default function Competition() {
         console.log(defis);
     }, [defis]);
 
-    
+
 
 
 
     return (
-        <main className={style.Competition}>
-            <h1>Competition</h1>
-            {isLoading ? (
-                <p>Chargement des défis...</p>
-            ) : error ? (
-                <p className={style.error}>{error}</p>
-            ) : (
-                <div>
-                    <div className={style.InterfaceSaisie}>
-                        <InterfaceSaisie defi={defis[0]} />
+        <VerifConnection>
+            <main className={style.Competition}>
+                <h1>Competition</h1>
+                {isLoading ? (
+                    <p>Chargement des défis...</p>
+                ) : error ? (
+                    <p className={style.error}>{error}</p>
+                ) : (
+                    <div>
+                        <div className={style.InterfaceSaisie}>
+                            <InterfaceSaisie defi={defis[0]} />
+                        </div>
+                        <div className={style.leaderboard}>
+                            <Leaderboard />
+                        </div>
                     </div>
-                    <div className={style.leaderboard}>
-                        <Leaderboard />
-                    </div>
-                </div>
-            )}
-        </main>
+                )}
+            </main>
+        </VerifConnection>
     );
 }
 
