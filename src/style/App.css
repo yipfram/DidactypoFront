@@ -4,10 +4,23 @@
   --tertiary: #F1F3C2;
   --quaternary: #E8BB6D;
   --text-color: #000000;
+  --text-color-emphasis: #5a9a6a;
 }
 
 body {
   background-color: var(--secondary);
   color: var(--text-color);
   margin : 0px;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.active {
+  background-color: var(--quaternary);
 }

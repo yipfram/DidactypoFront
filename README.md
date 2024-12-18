@@ -17,6 +17,7 @@ pip install uvicorn
 pip install pyjwt
 pip install passlib
 pip install python-multipart
+pip install pathlib
 ```
 ## React
  ```bash

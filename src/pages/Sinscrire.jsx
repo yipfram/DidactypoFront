@@ -137,10 +137,6 @@ export default function Sinscrire() {
           Déjà inscrit ? <Link to="/compte">Se connecter</Link>
         </p>
       </form>
-
-      {/* ATTENTION A ENLEVER */}
-      <Membres />
-      <Defis />
     </div>
   );
 }
