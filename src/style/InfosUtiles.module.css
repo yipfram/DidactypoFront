@@ -1,0 +1,44 @@
+.infos {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 80%;
+    max-width: 800px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header styling */
+.infos h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--text-color-emphasis);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Paragraph styling */
+.infos p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+/* Citation styling */
+.infos cite {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #444;
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+}
+
+.infos img {
+    width: 70%;
+    min-width: 200px;
+}

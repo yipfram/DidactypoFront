@@ -20,6 +20,11 @@ export default function VerifConnection({ children }) {
     setIsModalOpen(false);
   };
 
+  const disconnect = () => {
+    window.localStorage.removeItem("token");
+    window.location.reload();
+  }
+
   useEffect(() => {
     const token = window.localStorage.getItem("token");
 
@@ -52,6 +57,7 @@ export default function VerifConnection({ children }) {
             <div className={style.verif}>
               <h1>Votre session a expiré !</h1>
               <button onClick={openModal}>Se reconnecter</button>
+              <button onClick={disconnect}>Se déconnecter</button>
             </div>
             <Modal show={isModalOpen} onClose={closeModal}>
               <Connexion />

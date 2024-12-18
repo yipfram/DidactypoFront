@@ -122,9 +122,9 @@ export default function MaClasse() {
               <>
                 <div className={style.classegauche}>
                   <div className={style.classe}>
-                    <h2>{classe.nom_groupe} :</h2>
-                    <p>Description:</p>
-                    <h3>{classe.description_groupe}</h3>
+                    <h2>{classe.nom_groupe}</h2>
+                    <h3>Description: {classe.description_groupe}</h3>
+                    <h3>Code pour rejoindre la classe: <h1>{idClasse}</h1></h3>
                   </div>
                   <button className={style.btnajouter}>Ajouter un élève</button>
                   <button onClick={openLeave}>Quitter la classe</button>

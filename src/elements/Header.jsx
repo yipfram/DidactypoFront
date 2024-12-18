@@ -16,7 +16,7 @@ export default function Header() {
                 <NavLink to="/apprendre">Apprendre</NavLink>
                 <NavLink to="/competition">Competition</NavLink>
                 <NavLink to="/maclasse">Ma Classe</NavLink>
-                <NavLink to="/mesinformations">Infos utiles</NavLink>
+                <NavLink to="/infos">Infos utiles</NavLink>
             </nav>
             <Link to="/compte">
                 <img src={iconCompte} alt="compte" className={style.iconCompte}/>

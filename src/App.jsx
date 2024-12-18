@@ -10,7 +10,7 @@ const Accueil = lazy(() => import('./pages/Accueil'));
 const Apprendre = lazy(() => import('./pages/Apprendre'));
 const Competition = lazy(() => import('./pages/Competition'));
 const MaClasse = lazy(() => import('./pages/MaClasse'));
-const MesInformations = lazy(() => import('./pages/MesInformations'));
+const InfosUtiles = lazy(() => import('./pages/InfosUtiles'));
 const Compte = lazy(() => import('./pages/Compte'));
 const Sinscrire = lazy(() => import('./pages/Sinscrire'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -29,7 +29,7 @@ export default function App() {
               <Route path="/apprendre" element={<Apprendre />} />
               <Route path="/competition" element={<Competition />} />
               <Route path="/maclasse" element={<MaClasse />} />
-              <Route path="/mesinformations" element={<MesInformations />} />
+              <Route path="/infos" element={<InfosUtiles />} />
               <Route path="/compte" element={<Compte />} />
               <Route path="/inscription" element={<Sinscrire />} />
               <Route path="/listeCours" element={<ListeCours />} />
