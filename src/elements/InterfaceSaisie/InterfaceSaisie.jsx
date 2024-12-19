@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import api from "../api";
+import api from "../../api";
 
 const InterfaceSaisie = (arg) => {
     var targetText = arg.defi.description_defi;

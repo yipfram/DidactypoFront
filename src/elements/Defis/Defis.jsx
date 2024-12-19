@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api";
+import api from "../../api";
 import style from "../style/Defis.module.css";
 
 export default function Defis() {

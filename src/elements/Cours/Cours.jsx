@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api";
+import api from "../../api";
 
 export default function Cours(id_cours) {
     const [cours, setCours] = useState([]); // Définir l'état pour stocker les cours
