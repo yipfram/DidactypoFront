@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 
 import api from '../api';
 
-import Loading from '../elements/Loading';
+import Loading from '../elements/Components/Loading';
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion';
-
-import style from "../style/MaClasse.module.css";
-import styleList from "../style/MaClasse.module.css";
-import icone from "../img/IconCompte.png";
-import Modal from '../elements/Modal';
+import Modal from '../elements/Components/Modal';
 import RejoindreClasse from '../elements/Classe/RejoindreClasse';
 import QuitterClasse from '../elements/Classe/QuitterClasse';
+
+import style from "../style/MaClasse.module.css";
+
+import icone from "../img/IconCompte.png";
 
 export default function MaClasse() {
   const [connected, setConnected] = useState(false);
@@ -137,14 +137,14 @@ export default function MaClasse() {
             )}
             <div>
               <h2>Membres</h2>
-              <ul className={styleList.listeEleve}>
+              <ul className={style.listeEleve}>
                 {loadingMembres ? (
                   <Loading />
                 ) : membres.length > 0 ? (
                   membres.map((membre) => (
-                    <li key={membre.pseudo} className={styleList.eleve}>
+                    <li key={membre.pseudo} className={style.eleve}>
                       <span>
-                        <img className={styleList.icone} src={icone} alt="icone" />
+                        <img className={style.icone} src={icone} alt="icone" />
                       </span>
                       {membre.pseudo}
                     </li>

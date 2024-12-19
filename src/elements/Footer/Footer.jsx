@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-import style from "../style/Footer.module.css";
+import style from "./Footer.module.css";
 
-import logo from "../img/logoDidactypo.png";
-import iut from "../img/logoIUT.png";
+import logo from "../../img/logoDidactypo.png";
+import iut from "../../img/logoIUT.png";
 
 export default function Footer() {
     return (

@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import './HoverText.module.css'; // You can style this in your CSS file
+import style from './HoverText.module.css'; // You can style this in your CSS file
 
 const HoverText = ({ text }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      className="hover-container"
+      className={style.hoverContainer}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       Hover over me
-      {hovered && <div className="hover-text">{text}</div>}
+      {hovered && <div className={style.hoverText}>{text}</div>}
     </div>
   );
 };

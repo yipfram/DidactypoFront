@@ -1,9 +1,8 @@
-import style from "../style/Apprendre.module.css";
-import FenetreCours from "../elements/FenetreCours";
 import api from "../api";
 import { useState,useEffect } from "react";
 
-
+import style from "../style/Apprendre.module.css";
+import FenetreCours from "../elements/Cours/FenetreCours";
 
 export default function ListeCours(){
     const [listeCours,setListeCours] = useState([]);

@@ -1,9 +1,9 @@
 import { NavLink, Link } from "react-router-dom";
 
-import style from "../style/Header.module.css";
+import style from "./Header.module.css";
 
-import logo from "../img/logoDidactypo.png";
-import iconCompte from "../img/IconCompte.png";
+import logo from "../../img/logoDidactypo.png";
+import iconCompte from "../../img/IconCompte.png";
 
 export default function Header() {
     return (

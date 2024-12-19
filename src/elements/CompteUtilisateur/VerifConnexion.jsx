@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
-import Modal from '../Modal';
+import Modal from '../Components/Modal';
 import Connexion from '../CompteUtilisateur/Connexion';
 import { Link } from 'react-router-dom';
 
-import style from '../../style/VerifConnexion.module.css';
+import style from './VerifConnexion.module.css';
 
 export default function VerifConnection({ children }) {
   const [connected, setConnected] = useState(true);

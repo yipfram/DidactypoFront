@@ -1,4 +1,4 @@
-import style from "../style/Apprendre.module.css";
+import style from "../../style/Apprendre.module.css";
 import { useState, useEffect } from "react";
 import api from "../../api";
 
