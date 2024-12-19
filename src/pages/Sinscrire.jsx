@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
 
-import Membres from "../elements/Membres";
-import Defis from "../elements/Defis";
+import api from "../api";
 
 import style from "../style/Connexion.module.css";
+
 import logo from "../img/logoDidactypo.png";
 
 export default function Sinscrire() {
