@@ -11,7 +11,7 @@ export default function Footer() {
             <a href="https://univ-lyon1.fr">
                 <img src={iut} alt="logo" className={style.logoIUT} />
             </a>
-            <Link to="/">Qui sommes-nous ?</Link>
+            <Link to="/infos">Qui sommes-nous ?</Link>
             <p>License Apache2.0</p>
             <a href="https://www.github.com/orgs/team-maitrobe/didactypo">
                 <img src={logo} alt="logo" className={style.logo} />
