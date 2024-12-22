@@ -1,0 +1,30 @@
+/* HoverText.css */
+.hoverContainer {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.hoverText {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    max-width: 200px;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hoverContainer:hover .hoverText {
+    opacity: 1;
+    visibility: visible;
+}

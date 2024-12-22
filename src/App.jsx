@@ -2,9 +2,9 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './style/App.css';
-import Header from './elements/Header';
-import Footer from './elements/Footer';
-import Loading from './elements/Loading';
+import Header from './elements/Header/Header';
+import Footer from './elements/Footer/Footer';
+import Loading from './elements/Components/Loading';
 
 const Accueil = lazy(() => import('./pages/Accueil'));
 const Apprendre = lazy(() => import('./pages/Apprendre'));

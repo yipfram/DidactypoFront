@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import InterfaceSaisie from '../elements/InterfaceSaisie.jsx';
-import Leaderboard from "../elements/Defis.jsx";
 import api from "../api";
 import style from '../style/Competition.module.css';
+
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
+import InterfaceSaisie from '../elements/InterfaceSaisie/InterfaceSaisie.jsx';
+import Leaderboard from "../elements/Defis/Defis.jsx";
 
 export default function Competition() {
     const [defis, setDefis] = useState([]);

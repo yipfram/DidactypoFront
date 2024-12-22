@@ -1,6 +1,6 @@
-import style from "../style/Apprendre.module.css";
+import style from "../../style/Apprendre.module.css";
 import { useState, useEffect } from "react";
-import api from "../api";
+import api from "../../api";
 
 export default function FenetreCours(props) {
     const [index, setIndex] = useState(0);

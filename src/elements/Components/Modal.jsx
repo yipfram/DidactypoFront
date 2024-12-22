@@ -1,4 +1,4 @@
-import style from '../style/Modal.module.css';
+import style from './Modal.module.css';
 
 const Modal = ({ show, onClose, children }) => {
   if (!show) return null; // N'affiche rien si `show` est false

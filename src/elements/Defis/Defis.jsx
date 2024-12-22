@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../api";
-import style from "../style/Defis.module.css";
+import api from "../../api";
+import style from "./Defis.module.css";
 
 export default function Defis() {
     const [reussitesDefis, setReussitesDefis] = useState([]); // Définir l'état pour stocker les utilisateurs

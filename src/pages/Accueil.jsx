@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import style from "../style/Accueil.module.css";
-import Leaderboard from "../elements/Defis";
+import Leaderboard from "../elements/Defis/Defis";
 
 
 export default function Accueil() {
