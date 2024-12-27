@@ -25,15 +25,23 @@ html, body {
     width: 55vw;
     box-shadow: -1px 3px 3px rgb(78, 75, 75);
     opacity: 90%;
-}
-
-.texteapprendre *{
     font-size: 1.8vw;
     text-decoration : none;
     color: var(--text-color);
 }
 
-.choixboutons {
+
+.texteListeApprendre:hover{ /*Le texte dans la liste dans liste cours*/
+
+    background-color: #E8BB6D;
+   
+}
+
+
+    
+
+
+.choixboutons /*la div sur la page Apprendre avec les link vers Cours et Exercices*/ {
     display: flex;
     gap: 5vw;
     margin-top: 20px;
@@ -58,23 +66,35 @@ html, body {
     background-color: #E8BB6D;
 }
 
-.fenetreCours{
+.fenetreCours{ /*la div dans laquelle on met les sous-cours qui apparait quant on clique sur le nom du cours*/
     filter: none;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     background-color: #F1F3C2;
-    padding: 20px;
+    padding: 1vw;
     border-radius: 20px;
     max-width: 60vw; 
     width: 55vw;
+    height: 30vw;
     box-shadow: -1px 3px 3px rgb(78, 75, 75);
-    white-space: pre-line;
+    /**/
+
     position : fixed;
-    top: 30%;
+    top: 10%;
     right: 22%;
-    
+    overflow : auto; 
+    justify-content: space-between; 
+    font-size: 1.4rem;
 }
 
-.groupeButtonFenetreCours{
+.fenetreCours img {
+    max-width: 30%; 
+    max-height: 30%; 
+    object-fit: contain;
+}
+
+.groupeButtonFenetreCours{ /*la div avec les bouttons Back Exit Next dans la fenetre Sous-cours*/
     display:flex;
     justify-content: space-evenly;
 }
@@ -88,7 +108,7 @@ html, body {
     border: none;
     border-radius: 50px;
     box-shadow: -1px 3px 3px rgb(78, 75, 75);
-    font-size: 1.8vw;
+    font-size: 1.8vw; /*Que le texte dans la div des sous-cours*/
     cursor: pointer;
     transition: background-color 0.3s ease; 
 }

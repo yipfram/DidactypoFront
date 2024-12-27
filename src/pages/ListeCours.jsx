@@ -52,7 +52,7 @@ export default function ListeCours(){
                     <ol>
                         {listeCours.map((cours)=>(
                             
-                            <li key={cours.id_cours}>
+                            <li key={cours.id_cours} className={style.texteListeApprendre}>
                                 <p onClick={()=>{handlerShowFenetreCours(cours.id_cours)}}>{cours.titre_cours}</p>
                                 {/*Pour que seulement le cours cliqué s'affiche*/}
                                 {showCours.get(cours.id_cours) && <FenetreCours idCours ={cours.id_cours} setShowCours={setShowCours}
