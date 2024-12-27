@@ -16,7 +16,7 @@ export default function Competition() {
         const fetchDefis = async () => {
             try {
                 const response = await api.get("/defis");
-                setDefis(response.data); // Schedule state update
+                setDefis(response.data);
                 setIsLoading(false);
             } catch (err) {
                 setError("Erreur lors de la récupération des défis.");
@@ -24,17 +24,32 @@ export default function Competition() {
             }
         };
 
-        fetchDefis(); // Call the fetch function
+        fetchDefis();
     }, []);
 
-    // Log defis whenever it changes
-    useEffect(() => {
-        console.log(defis);
-    }, [defis]);
+    const handleDefiCompletion = async (id_defi, elapsedTime) => {
+        try {
+            const payload = {
+                id_defi,
+                pseudo_utilisateur: "dotz",
+                temps_reussite: elapsedTime,
+            };
 
+            const headers = {
+                'Accept': 'application/json',
+            };
 
+            await api.post(
+                `/reussites_defi/?id_defi=${id_defi}&pseudo_utilisateur=dotz&temps_reussite=${elapsedTime}`,
+                null,
+                { headers }
+            );
 
-
+            console.log("Base de données mise à jour avec succès !");
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la base de données :", error);
+        }
+    };
 
     return (
         <VerifConnection>
@@ -47,7 +62,12 @@ export default function Competition() {
                 ) : (
                     <div>
                         <div className={style.InterfaceSaisie}>
-                            <InterfaceSaisie defi={defis[0]} />
+                            {defis[0] && (
+                                <InterfaceSaisie
+                                    defi={defis[0]}
+                                    onCompletion={handleDefiCompletion}
+                                />
+                            )}
                         </div>
                         <div className={style.leaderboard}>
                             <Leaderboard />
@@ -58,4 +78,3 @@ export default function Competition() {
         </VerifConnection>
     );
 }
-
