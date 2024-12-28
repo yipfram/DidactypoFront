@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const InterfaceSaisie = ({ defi, setEndTime, isReady }) => {
-    const targetText = defi?.description_defi || "";
+const InterfaceSaisie = ({ targetText, setEndTime, isReady }) => {
     const [inputText, setInputText] = useState('');
     const [correctChars, setCorrectChars] = useState(0);
     const [hasError, setHasError] = useState(false);

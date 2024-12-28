@@ -7,15 +7,16 @@ export default function ListeExercices() {
   const [selectedExercise, setSelectedExercise] = useState(null); // Stocke les données de l'exercice sélectionné
   const [isModalOpen, setIsModalOpen] = useState(false); // Gère l'état de la modale
   const [exercises, setExercises] = useState([]);
+  const [endTime, setEndTime] = useState(null); // Ajoute la gestion de la fin d'exercice
+  const [isReady, setIsReady] = useState(false); // Ajoute l'état "prêt"
 
-  // Liste statique d'exercices pour le test
-  const fetchTitreExercices = async()=>{
+  // Fonction pour récupérer les exercices
+  const fetchTitreExercices = async () => {
     try {
       const response = await api.get("/exercices/");
       setExercises(response.data);
-
-    } catch (error){
-      console.log("Erreur lors de la recupération des exercices : ", error);
+    } catch (error) {
+      console.log("Erreur lors de la récupération des exercices : ", error);
     }
   };
 
@@ -35,6 +36,9 @@ export default function ListeExercices() {
     setSelectedExercise(null); // Réinitialise l'exercice sélectionné
   };
 
+  // Texte cible pour l'exercice
+  const targetText = selectedExercise?.description_exercice;
+
   return (
     <>
       <main className={style.apprendre}>
@@ -43,7 +47,6 @@ export default function ListeExercices() {
           {exercises.map((exercise) => (
             <div key={exercise.id_exercice} className={style.exercice}>
               <h2>{exercise.titre_exercice}</h2>
-              
               <button onClick={() => handleStartExercise(exercise)}>
                 Commencer
               </button>
@@ -59,10 +62,11 @@ export default function ListeExercices() {
             {selectedExercise && (
               <>
                 <h2>{selectedExercise.titre_exercice}</h2>
-                <InterfaceSaisie defi={exercises[0]}
-                                 setEndTime={setEndTime}
-                                 isReady={isReady}  
-                                 />
+                <InterfaceSaisie
+                  targetText={targetText}
+                  setEndTime={setEndTime} // Passe la fonction à InterfaceSaisie
+                  isReady={isReady} // Passe l'état "prêt" à InterfaceSaisie
+                />
               </>
             )}
             <button onClick={closeModal} className={style.closeButton}>
