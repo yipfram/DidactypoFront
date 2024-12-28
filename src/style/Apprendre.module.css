@@ -97,3 +97,21 @@ html, body {
     background-color: #D8A75F; 
   }
 
+  .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.popupContent h2 {
+  font-size: 18px;
+  color: #4caf50;
+}
+

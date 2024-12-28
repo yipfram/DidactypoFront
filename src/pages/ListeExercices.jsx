@@ -6,9 +6,8 @@ import api from "../api";
 export default function ListeExercices() {
   const [selectedExercise, setSelectedExercise] = useState(null); // Stocke les données de l'exercice sélectionné
   const [isModalOpen, setIsModalOpen] = useState(false); // Gère l'état de la modale
+  const [isPopupVisible, setIsPopupVisible] = useState(false); // Gère l'état de la pop-up
   const [exercises, setExercises] = useState([]);
-  const [endTime, setEndTime] = useState(null); // Ajoute la gestion de la fin d'exercice
-  const [isReady, setIsReady] = useState(false); // Ajoute l'état "prêt"
 
   // Fonction pour récupérer les exercices
   const fetchTitreExercices = async () => {
@@ -34,6 +33,16 @@ export default function ListeExercices() {
   const closeModal = () => {
     setIsModalOpen(false); // Ferme la modale
     setSelectedExercise(null); // Réinitialise l'exercice sélectionné
+  };
+
+  // Fonction pour afficher la pop-up lorsque l'exercice est terminé
+  const handleExerciseComplete = () => {
+    setIsModalOpen(false); // Ferme la modale
+    setIsPopupVisible(true); // Affiche la pop-up
+    setTimeout(() => {
+      setIsPopupVisible(false); // Cache la pop-up après 3 secondes
+      setSelectedExercise(null); // Réinitialise l'exercice sélectionné
+    }, 3000); // Délai avant de cacher la pop-up
   };
 
   // Texte cible pour l'exercice
@@ -64,14 +73,24 @@ export default function ListeExercices() {
                 <h2>{selectedExercise.titre_exercice}</h2>
                 <InterfaceSaisie
                   targetText={targetText}
-                  setEndTime={setEndTime} // Passe la fonction à InterfaceSaisie
+                  setEndTime={() => {}} // Pas besoin de gérer ici, on utilise handleExerciseComplete
                   isReady={true} // Passe l'état "prêt" à InterfaceSaisie
+                  onExerciseComplete={handleExerciseComplete} // Appelle la fonction lorsqu'exercice est terminé
                 />
               </>
             )}
             <button onClick={closeModal} className={style.closeButton}>
               Fermer
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Pop-up de félicitations */}
+      {isPopupVisible && (
+        <div className={style.popup}>
+          <div className={style.popupContent}>
+            <h2>Bravo pour avoir terminé cet exercice !</h2>
           </div>
         </div>
       )}

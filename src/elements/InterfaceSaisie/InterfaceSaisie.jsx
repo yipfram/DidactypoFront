@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const InterfaceSaisie = ({ targetText, setEndTime, isReady }) => {
+const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }) => {
     const [inputText, setInputText] = useState('');
     const [correctChars, setCorrectChars] = useState(0);
     const [hasError, setHasError] = useState(false);
@@ -27,6 +27,9 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady }) => {
 
         if (newText === targetText) {
             setEndTime(new Date());
+            if (onExerciseComplete) {
+                onExerciseComplete(); // Appelle la fonction de fin d'exercice
+            }
         }
     };
 
