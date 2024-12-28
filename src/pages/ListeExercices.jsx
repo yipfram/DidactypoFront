@@ -65,7 +65,7 @@ export default function ListeExercices() {
                 <InterfaceSaisie
                   targetText={targetText}
                   setEndTime={setEndTime} // Passe la fonction à InterfaceSaisie
-                  isReady={isReady} // Passe l'état "prêt" à InterfaceSaisie
+                  isReady={true} // Passe l'état "prêt" à InterfaceSaisie
                 />
               </>
             )}
