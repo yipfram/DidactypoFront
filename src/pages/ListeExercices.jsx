@@ -35,10 +35,43 @@ export default function ListeExercices() {
     setSelectedExercise(null); // Réinitialise l'exercice sélectionné
   };
 
+
+  const markExerciseAsCompleted = async (exerciseId, userPseudo) => {
+    try {
+      const response = await fetch('/exercices_realises/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id_exercice: exerciseId,
+          pseudo: userPseudo,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Erreur lors de la mise à jour de l\'exercice');
+      }
+  
+      const data = await response.json();
+      console.log('Exercice marqué comme réalisé:', data);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de l\'exercice comme réalisé:', error);
+    }
+  };
+  
+
+
   // Fonction pour afficher la pop-up lorsque l'exercice est terminé
   const handleExerciseComplete = () => {
     setIsModalOpen(false); // Ferme la modale
     setIsPopupVisible(true); // Affiche la pop-up
+
+    const exerciseId = selectedExercise.id_exercice; // Supposons que selectedExercise contienne les infos de l'exercice
+    const userPseudo = "Dotz"; // Remplacez par la valeur réelle du pseudo de l'utilisateur
+
+    markExerciseAsCompleted(exerciseId, userPseudo);
+
     setTimeout(() => {
       setIsPopupVisible(false); // Cache la pop-up après 3 secondes
       setSelectedExercise(null); // Réinitialise l'exercice sélectionné
