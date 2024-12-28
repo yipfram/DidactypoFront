@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InterfaceSaisie from "../elements/InterfaceSaisie/InterfaceSaisie";
 import style from "../style/Apprendre.module.css";
+import api from "../api";
 
 export default function ListeExercices() {
   const [selectedExercise, setSelectedExercise] = useState(null); // Stocke les données de l'exercice sélectionné
   const [isModalOpen, setIsModalOpen] = useState(false); // Gère l'état de la modale
+  const [exercises, setExercises] = useState([]);
 
   // Liste statique d'exercices pour le test
-  const exercises = [
-    { id: 1, title: "Exercice 1", description: "Exercice de mathématiques" },
-    { id: 2, title: "Exercice 2", description: "Exercice de français" },
-    { id: 3, title: "Exercice 3", description: "Exercice d'anglais" },
-  ];
+  const fetchTitreExercices = async()=>{
+    try {
+      const response = await api.get("/exercices/");
+      setExercises(response.data);
+
+    } catch (error){
+      console.log("Erreur lors de la recupération des exercices : ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTitreExercices();
+  }, []);
 
   // Fonction pour gérer le clic sur un bouton "Commencer"
   const handleStartExercise = (exercise) => {
@@ -31,9 +41,9 @@ export default function ListeExercices() {
         <h1>Exercices</h1>
         <div className={style.listeExercices}>
           {exercises.map((exercise) => (
-            <div key={exercise.id} className={style.exercice}>
-              <h2>{exercise.title}</h2>
-              <p>{exercise.description}</p>
+            <div key={exercise.id_exercice} className={style.exercice}>
+              <h2>{exercise.titre_exercice}</h2>
+              
               <button onClick={() => handleStartExercise(exercise)}>
                 Commencer
               </button>
@@ -48,8 +58,11 @@ export default function ListeExercices() {
           <div className={style.modalContent}>
             {selectedExercise && (
               <>
-                <h2>{selectedExercise.title}</h2>
-                <InterfaceSaisie exerciseData={selectedExercise} />
+                <h2>{selectedExercise.titre_exercice}</h2>
+                <InterfaceSaisie defi={exercises[0]}
+                                 setEndTime={setEndTime}
+                                 isReady={isReady}  
+                                 />
               </>
             )}
             <button onClick={closeModal} className={style.closeButton}>
