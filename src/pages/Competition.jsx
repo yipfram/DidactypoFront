@@ -68,6 +68,8 @@ export default function Competition() {
         }
     }, [endTime]);
 
+    const targetTextCompetition = defis[0]?.description_defi;
+
     return (
         <VerifConnection>
             <main className={style.Competition}>
@@ -93,7 +95,7 @@ export default function Competition() {
                         )}
                         {isReady && (
                             <InterfaceSaisie
-                                defi={defis[0]}
+                                targetText={targetTextCompetition}
                                 setEndTime={setEndTime}
                                 isReady={isReady}
                             />
