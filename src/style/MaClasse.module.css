@@ -79,3 +79,9 @@
     display: flex;
     align-items: center; 
 }
+
+@media (max-width: 1000px) {
+    .pageClasse {
+        flex-direction: column;
+    }
+}

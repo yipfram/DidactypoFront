@@ -15,6 +15,7 @@ import AjouterEleve from '../elements/Classe/AjouterEleve';
 import style from "../style/MaClasse.module.css";
 
 import icone from "../img/IconCompte.png";
+import Chat from '../elements/Chat/Chat';
 
 export default function MaClasse() {
   const [connected, setConnected] = useState(false);
@@ -164,6 +165,7 @@ export default function MaClasse() {
                 </Modal>
               </>
             )}
+            <Chat class_id={idClasse} utilisateur={decodedToken.sub}/> 
             <div>
               <h2>Membres</h2>
               <ul className={style.listeEleve}>
@@ -186,7 +188,7 @@ export default function MaClasse() {
           </main>
         ) : (
           <>
-            <main>
+            <main className={style.pageClasse}>
               <Modal show={isJoinOpen} onClose={closeJoin}>
                 <RejoindreClasse pseudo_utilisateur={decodedToken.sub} />
                 <button onClick={closeJoin}>Annuler</button>
@@ -208,8 +210,6 @@ export default function MaClasse() {
           <Link to="/compte">Se connecter !</Link>
         </main>
       )}
-
-
     </VerifConnection>
   );
 }
