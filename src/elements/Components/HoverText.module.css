@@ -1,30 +1,28 @@
-/* HoverText.css */
 .hoverContainer {
-    position: relative;
-    display: inline-block;
-    padding: 10px;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.hoverText {
-    position: absolute;
-    bottom: 100%;
+    position: relative; /* Keeps the tooltip positioned relative to the container */
+    display: inline;    /* Ensures the wrapper doesn't interfere with layout */
+  }
+  
+  .hoverText {
+    position: absolute; /* Ensures the tooltip is positioned correctly */
+    bottom: 100%;       /* Places the tooltip above the container */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7); /* Tooltip background color */
     color: white;
     padding: 5px 10px;
     border-radius: 4px;
     max-width: 200px;
     text-align: center;
-    opacity: 0;
-    visibility: hidden;
+    opacity: 0;          /* Hidden by default */
+    visibility: hidden;  /* Prevents interaction when hidden */
     transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.hoverContainer:hover .hoverText {
-    opacity: 1;
-    visibility: visible;
-}
+    z-index: 10;         /* Ensures tooltip appears above other elements */
+    pointer-events: none; /* Prevents accidental interaction with the tooltip */
+  }
+  
+  .hoverContainer:hover .hoverText {
+    opacity: 1;          /* Makes the tooltip visible */
+    visibility: visible; /* Ensures it's interactable when hovered */
+  }
+  

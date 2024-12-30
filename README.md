@@ -18,6 +18,7 @@ pip install pyjwt
 pip install passlib
 pip install python-multipart
 pip install pathlib
+pip install bcrypt
 ```
 ## React
  ```bash
