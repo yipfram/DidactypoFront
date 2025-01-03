@@ -33,12 +33,8 @@
   text-align: center; /* Centre le texte dans le champ */
 }
 
-.leaderboard {
-  display: flex;
-  flex-direction: column; /* Organise les éléments en colonne */
-  align-items: flex-start; /* Aligne les éléments à gauche dans le conteneur */
-  justify-content: center; /* Centre verticalement */
-  margin-left: auto; /* Place à droite de la ligne */
-  max-width: 400px; /* Limite la largeur du leaderboard */
-  padding: 10px;
+.Competition .leaderboard {
+  height: auto; 
+  min-height: 300px; 
+  max-width: 300px;
 }

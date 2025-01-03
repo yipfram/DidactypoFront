@@ -73,7 +73,6 @@ export default function Competition() {
     return (
         <VerifConnection>
             <main className={style.Competition}>
-                <h1>Competition</h1>
                 {isLoading ? (
                     <p>Chargement des défis...</p>
                 ) : error ? (

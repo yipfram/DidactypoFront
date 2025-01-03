@@ -66,10 +66,13 @@ export default function Connexion(props) {
           Il faut être connecté pour accéder aux ressources de Didactypo.
         </p>
         <form onSubmit={onSubmitHandler}>
+          <fieldset>
           <label>
             Pseudo
             <input type="text" ref={inputPseudo} required autoFocus={true}/>
           </label>
+          </fieldset>
+          <fieldset>
           <label>
             Mot de passe
             <input type={showPassword ? "text" : "password"} ref={inputMdp} required onKeyPress={onPasswordKeyPressHandler}/>
@@ -77,6 +80,8 @@ export default function Connexion(props) {
               {showPassword ? "Cacher" : "Afficher"}
             </button>
           </label>
+          </fieldset>
+          
           <div>
             <input type="submit" value="Se connecter"/>
           </div>

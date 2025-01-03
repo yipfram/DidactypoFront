@@ -1,32 +1,79 @@
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modalContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    position: relative;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .modalCloseBtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #86d9b8; /* Couleur verte de la div */
+  padding: 30px;
+  border-radius: 20px; /* Bords arrondis */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Effet d'ombre */
+  position: relative;
+  max-width: 400px; /* Largeur maximale */
+  width: 100%;
+  text-align: center; /* Centre le texte et les boutons */
+  font-family: 'Arial', sans-serif;
+}
+
+.modalContent input {
+  width: 80%; /* Largeur des champs de saisie */
+  padding: 10px;
+  margin: 10px 0; /* Espacement entre les champs */
+  border: 2px solid #ffffff; /* Bord blanc */
+  border-radius: 10px; /* Bords arrondis */
+  background-color: #ffffff; /* Fond blanc */
+  font-size: 1rem;
+  text-align: center;
+}
+
+.modalContent button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: #ffffff; /* Couleur blanche des boutons */
+  color: #000; /* Couleur du texte */
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modalContent button:hover {
+  background-color: #b5e4d0; /* Couleur au survol */
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px; /* Taille du bouton de fermeture */
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.modalContent p {
+  font-size: 1rem;
+  color: #000000; /* Texte noir */
+  margin: 10px 0;
+}
+
+.modalContent h2 {
+  font-size: 1.5rem;
+  color: #ffffff; /* Couleur blanche pour le titre */
+  margin-bottom: 20px;
+}
+
+.modalContent fieldset{
+  border: none;
+}
