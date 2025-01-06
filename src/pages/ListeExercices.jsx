@@ -1,13 +1,25 @@
 import { useState, useEffect } from "react";
-import InterfaceSaisie from "../elements/InterfaceSaisie/InterfaceSaisie";
+import {jwtDecode} from "jwt-decode"; // Si non installé : npm install jwt-decode
+import InterfaceSaisie from "../elements/InterfaceSaisie/InterfaceSaisie.jsx";
 import style from "../style/Apprendre.module.css";
 import api from "../api";
 
 export default function ListeExercices() {
-  const [selectedExercise, setSelectedExercise] = useState(null); // Stocke les données de l'exercice sélectionné
+  const [selectedExercise, setSelectedExercise] = useState(null); // Stocke l'exercice sélectionné
   const [isModalOpen, setIsModalOpen] = useState(false); // Gère l'état de la modale
   const [isPopupVisible, setIsPopupVisible] = useState(false); // Gère l'état de la pop-up
+  const [endTime, setEndTime] = useState(null); // Stocke l'heure de fin d'exercice
   const [exercises, setExercises] = useState([]);
+
+  // Récupère le pseudo de l'utilisateur depuis le token
+  const getUserPseudo = () => {
+    const token = window.localStorage.getItem("token");
+    if (!token) return null;
+    const decoded = jwtDecode(token);
+    return decoded.sub; // Remplacez "sub" par la clé correspondant au pseudo dans votre token
+  };
+
+  const userPseudo = getUserPseudo();
 
   // Fonction pour récupérer les exercices
   const fetchTitreExercices = async () => {
@@ -26,6 +38,7 @@ export default function ListeExercices() {
   // Fonction pour gérer le clic sur un bouton "Commencer"
   const handleStartExercise = (exercise) => {
     setSelectedExercise(exercise); // Définit l'exercice sélectionné
+    setEndTime(null); // Réinitialise l'heure de fin
     setIsModalOpen(true); // Ouvre la modale
   };
 
@@ -63,20 +76,33 @@ export default function ListeExercices() {
 
 
   // Fonction pour afficher la pop-up lorsque l'exercice est terminé
-  const handleExerciseComplete = () => {
+  const handleExerciseComplete = async () => {
     setIsModalOpen(false); // Ferme la modale
     setIsPopupVisible(true); // Affiche la pop-up
-
-    const exerciseId = selectedExercise.id_exercice; // Supposons que selectedExercise contienne les infos de l'exercice
-    const userPseudo = "Dotz"; // Remplacez par la valeur réelle du pseudo de l'utilisateur
-
-    markExerciseAsCompleted(exerciseId, userPseudo);
-
+  
+    console.log("Fin de l'exercice :", endTime); // Affiche l'heure de fin dans la console
+  
+    // Appel à l'API pour enregistrer l'exercice comme réalisé
+    try {
+      const response = await api.post("/exercices_realises/", null, {
+        params: {
+          id_exercice: selectedExercise.id_exercice,
+          pseudo: userPseudo,
+        },
+      });
+  
+      console.log("Exercice réalisé enregistré :", response.data);
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement de l'exercice réalisé :", error);
+    }
+  
+    // Cache la pop-up après 3 secondes
     setTimeout(() => {
-      setIsPopupVisible(false); // Cache la pop-up après 3 secondes
+      setIsPopupVisible(false); // Cache la pop-up
       setSelectedExercise(null); // Réinitialise l'exercice sélectionné
-    }, 3000); // Délai avant de cacher la pop-up
+    }, 3000);
   };
+  
 
   // Texte cible pour l'exercice
   const targetText = selectedExercise?.description_exercice;
@@ -106,9 +132,9 @@ export default function ListeExercices() {
                 <h2>{selectedExercise.titre_exercice}</h2>
                 <InterfaceSaisie
                   targetText={targetText}
-                  setEndTime={() => {}} // Pas besoin de gérer ici, on utilise handleExerciseComplete
-                  isReady={true} // Passe l'état "prêt" à InterfaceSaisie
-                  onExerciseComplete={handleExerciseComplete} // Appelle la fonction lorsqu'exercice est terminé
+                  setEndTime={setEndTime} // Définit l'heure de fin via cette prop
+                  isReady={true}
+                  onExerciseComplete={handleExerciseComplete}
                 />
               </>
             )}
