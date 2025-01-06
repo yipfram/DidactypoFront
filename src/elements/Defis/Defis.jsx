@@ -67,7 +67,7 @@ export default function Defis() {
                     </thead>
                     <tbody className={style.corpstable}>
                         {rows.map((reussiteDefi, index) => (
-                            <tr className={style.lignejoueur} key={{index}}>
+                            <tr className={style.lignejoueur} key={index}>
                                 <td className={style.cellule}>
                                     {startIndex + index + 1} {/* Index global */}
                                 </td>
