@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from "../api";
 import style from '../style/Competition.module.css';
-
+import { jwtDecode } from "jwt-decode"; // Si non installé : npm install jwt-decode
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 import InterfaceSaisie from '../elements/InterfaceSaisie/InterfaceSaisie.jsx';
 import Leaderboard from "../elements/Defis/Defis.jsx";
@@ -15,6 +15,15 @@ export default function Competition() {
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
 
+    const getUserPseudo = () => {
+        const token = window.localStorage.getItem("token");
+        if (!token) return null;
+        const decoded = jwtDecode(token);
+        return decoded.sub; // Remplacez "sub" par la clé correspondant au pseudo dans votre token
+    };
+
+    const userPseudo = getUserPseudo();
+
     // Fetch des défis
     useEffect(() => {
         const fetchDefis = async () => {
@@ -22,6 +31,7 @@ export default function Competition() {
                 const response = await api.get("/defis");
                 setDefis(response.data);
                 setIsLoading(false);
+                console.log("Défis récupérés :", response.data); // Vérification des défis
             } catch (err) {
                 setError("Erreur lors de la récupération des défis.");
                 setIsLoading(false);
@@ -33,6 +43,7 @@ export default function Competition() {
 
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
+        console.log("Bouton 'Prêt' cliqué");
         setIsReady(true);
         setStartTime(new Date());
         setEndTime(null);
@@ -51,12 +62,12 @@ export default function Competition() {
                 try {
                     const payload = {
                         id_defi: defis[0]?.id_defi,
-                        pseudo_utilisateur: "dotz", // Adapter selon la session
+                        pseudo_utilisateur: userPseudo, // Utilisation du pseudo de l'utilisateur
                         temps_reussite: timeDiff,
                     };
 
                     await api.post(
-                        `/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${payload.pseudo_utilisateur}&temps_reussite=${payload.temps_reussite}`
+                        `/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`
                     );
                     console.log("Base de données mise à jour avec succès !");
                 } catch (error) {
@@ -68,7 +79,8 @@ export default function Competition() {
         }
     }, [endTime]);
 
-    const targetTextCompetition = defis[0]?.description_defi;
+    const targetTextCompetition = defis.length > 0 ? defis[0]?.description_defi : '';
+    console.log("Target Text Competition :", targetTextCompetition); // Vérification du texte cible
 
     return (
         <VerifConnection>
@@ -92,7 +104,7 @@ export default function Competition() {
                                 Prêt
                             </button>
                         )}
-                        {isReady && (
+                        {isReady && targetTextCompetition && (
                             <InterfaceSaisie
                                 targetText={targetTextCompetition}
                                 setEndTime={setEndTime}
