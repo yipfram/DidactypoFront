@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import style from './HoverText.module.css'; // You can style this in your CSS file
+import PropTypes from 'prop-types';
+import style from './HoverText.module.css';
 
-const HoverText = ({ text }) => {
+const HoverText = ({ text, children = 'Hover over me' }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -9,11 +10,23 @@ const HoverText = ({ text }) => {
       className={style.hoverContainer}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setHovered(false)}
     >
-      Hover over me
-      {hovered && <div className={style.hoverText}>{text}</div>}
+      {children}
+      <div
+        className={`${style.hoverText} ${hovered ? style.visible : ''}`}
+        aria-hidden={!hovered}
+      >
+        {text}
+      </div>
     </div>
   );
+};
+
+HoverText.propTypes = {
+  text: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 export default HoverText;

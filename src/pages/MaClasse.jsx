@@ -14,132 +14,59 @@ import AjouterEleve from '../elements/Classe/AjouterEleve';
 
 import style from "../style/MaClasse.module.css";
 
-import icone from "../img/IconCompte.png";
+import Chat from '../elements/Chat/Chat';
+import MembresClasse from '../elements/Classe/MembresClasse';
 
 export default function MaClasse() {
   const [connected, setConnected] = useState(false);
   const [decodedToken, setDecodedToken] = useState(null);
   const [classe, setClasse] = useState(null);
   const [idClasse, setIdClasse] = useState(null);
-  const [membres, setMembres] = useState([]);
   const [loadingClasse, setLoadingClasse] = useState(true);
-  const [loadingMembres, setLoadingMembres] = useState(true);
-  const [mounted, setMounted] = useState(false); // Track if component is mounted
 
+  // Check connection status and decode token
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      const token = window.localStorage.getItem("token");
-      if (token !== null) {
-        setConnected(true);
-        console.log("Token:", token); // Log the token
-        if (token) {
-          try {
-            const decoded = jwtDecode(token);
-            console.log("Decoded token:", decoded); // Log the decoded token
-            setDecodedToken(decoded);
-          } catch (error) {
-            console.error("Error decoding token", error);
-          }
-        }
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      setConnected(true);
+      try {
+        setDecodedToken(jwtDecode(token));
+      } catch (error) {
+        console.error("Error decoding token", error);
       }
     }
-  }, [mounted]);
+  }, []);
 
+  // Fetch class details for the logged-in user
   useEffect(() => {
     if (decodedToken) {
-      console.log("Fetching class data for user:", decodedToken.sub); // Log when fetching class data
+      const fetchClasse = async (userId) => {
+        try {
+          const reponseIdClasse = await api.get(`/membre_classe/${userId}`);
+          const tempIdClasse = reponseIdClasse.data.id_groupe;
+          setIdClasse(tempIdClasse);
+
+          const reponseClasse = await api.get(`/groupe/${tempIdClasse}`);
+          setClasse(reponseClasse.data);
+          setLoadingClasse(false);
+        } catch (error) {
+          console.error("Erreur lors de la récupération des infos de la classe :", error);
+        }
+      };
       fetchClasse(decodedToken.sub);
     }
   }, [decodedToken]);
 
-  const fetchClasse = async (userId) => {
-    try {
-      console.log("Fetching class ID for user:", userId); // Log the user ID
-      const reponseIdClasse = await api.get(`/membre_classe/${userId}`);
-      const tempIdClasse = reponseIdClasse.data.id_groupe;
-      console.log("Fetched class ID:", tempIdClasse); // Log the class ID
-      setIdClasse(tempIdClasse);
-
-      const reponseClasse = await api.get(`/groupe/${tempIdClasse}`);
-      console.log("Fetched class data:", reponseClasse.data); // Log the class data
-      setClasse(reponseClasse.data);
-      setLoadingClasse(false);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des infos de la classe :", error);
-    }
-  };
-
-  useEffect(() => {
-    if (idClasse !== null) {
-      console.log("Class ID updated, fetching members for class:", idClasse); // Log when fetching members
-      fetchMembreClasse(idClasse);
-    }
-  }, [idClasse]);
-
-  const fetchMembreClasse = async (idClasse) => {
-    try {
-      console.log("Fetching members for class ID:", idClasse); // Log the class ID when fetching members
-      const reponseMembreClasse = await api.get(`/membre_classe_par_groupe/${idClasse}`);
-      console.log("Fetched members data:", reponseMembreClasse.data); // Log the members data
-      setMembres(reponseMembreClasse.data);
-      setLoadingMembres(false);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des membres de la classe :", error);
-    }
-  };
-
-  //Rejoindre une classe
+  // Modals states and handlers
   const [isJoinOpen, setIsJoinOpen] = useState(false);
-
-  const openJoin = () => {
-    setIsJoinOpen(true);
-  };
-
-  const closeJoin = () => {
-    setIsJoinOpen(false);
-  };
-
-  //Quitter une classe
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
-
-  const openLeave = () => {
-    setIsLeaveOpen(true);
-  }
-
-  const closeLeave = () => {
-    setIsLeaveOpen(false);
-  }
-
-  //Créer une classe
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-
-  const openCreate = () => {
-    setIsCreateOpen(true);
-  }
-
-  const closeCreate = () => {
-    setIsCreateOpen(false);
-  }
-
-  //Créer une classe
   const [isAddOpen, setIsAddOpen] = useState(false);
-
-  const openAdd = () => {
-    setIsAddOpen(true);
-  }
-
-  const closeAdd = () => {
-    setIsAddOpen(false);
-  }
 
   return (
     <VerifConnection>
       {connected ? (
-        idClasse !== null ? (
+        idClasse ? (
           <main className={style.pageClasse}>
             {loadingClasse ? (
               <Loading />
@@ -151,65 +78,44 @@ export default function MaClasse() {
                     <h3>Description: {classe.description_groupe}</h3>
                     <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{idClasse}</strong></h3>
                   </div>
-                  <button className={style.btnajouter} onClick={openAdd}>Ajouter un élève</button>
-                  <button onClick={openLeave}>Quitter la classe</button>
+                  <button className={style.btnajouter} onClick={() => setIsAddOpen(true)}>Ajouter un élève</button>
+                  <button onClick={() => setIsLeaveOpen(true)}>Quitter la classe</button>
                 </div>
-                <Modal show={isLeaveOpen} onClose={closeLeave}>
-                  <QuitterClasse pseudo_utilisateur={decodedToken.sub} id_groupe={idClasse}/>
-                  <button onClick={closeLeave}>Annuler</button>
+                <Modal show={isLeaveOpen} onClose={() => setIsLeaveOpen(false)}>
+                  <QuitterClasse pseudo_utilisateur={decodedToken.sub} id_groupe={idClasse} />
+                  <button onClick={() => setIsLeaveOpen(false)}>Annuler</button>
                 </Modal>
-                <Modal show={isAddOpen} onClose={closeAdd}>
-                  <AjouterEleve id_groupe={idClasse}/>
-                  <button onClick={closeAdd}>Annuler</button>
+                <Modal show={isAddOpen} onClose={() => setIsAddOpen(false)}>
+                  <AjouterEleve id_groupe={idClasse} />
+                  <button onClick={() => setIsAddOpen(false)}>Annuler</button>
                 </Modal>
               </>
             )}
-            <div>
-              <h2>Membres</h2>
-              <ul className={style.listeEleve}>
-                {loadingMembres ? (
-                  <Loading />
-                ) : membres.length > 0 ? (
-                  membres.map((membre) => (
-                    <li key={membre.pseudo} className={style.eleve}>
-                      <span>
-                        <img className={style.icone} src={icone} alt="icone" />
-                      </span>
-                      {membre.pseudo}
-                    </li>
-                  ))
-                ) : (
-                  <p>Aucun membre trouvé.</p>
-                )}
-              </ul>
-            </div>
+            <Chat class_id={idClasse} utilisateur={decodedToken.sub} />
+            <MembresClasse idClasse={idClasse}/>
           </main>
         ) : (
-          <>
-            <main>
-              <Modal show={isJoinOpen} onClose={closeJoin}>
-                <RejoindreClasse pseudo_utilisateur={decodedToken.sub} />
-                <button onClick={closeJoin}>Annuler</button>
-              </Modal>
-              <Modal show={isCreateOpen} onClose={closeCreate}>
-                <CreerClasse pseudo_utilisateur={decodedToken.sub} />
-                <button onClick={closeCreate}>Annuler</button>
-              </Modal>
-              <h1>Vous ne faites pas partie d'une classe !</h1>
-              <button onClick={openJoin}>Rejoindre une classe</button>
-              <p>ou</p>
-              <button onClick={openCreate}>Créer votre propre classe</button>
-            </main>
-          </>
+          <main className={style.pageClasse}>
+            <Modal show={isJoinOpen} onClose={() => setIsJoinOpen(false)}>
+              <RejoindreClasse pseudo_utilisateur={decodedToken.sub} />
+              <button onClick={() => setIsJoinOpen(false)}>Annuler</button>
+            </Modal>
+            <Modal show={isCreateOpen} onClose={() => setIsCreateOpen(false)}>
+              <CreerClasse pseudo_utilisateur={decodedToken.sub} />
+              <button onClick={() => setIsCreateOpen(false)}>Annuler</button>
+            </Modal>
+            <h1>Vous ne faites pas partie d'une classe !</h1>
+            <button onClick={() => setIsJoinOpen(true)}>Rejoindre une classe</button>
+            <p>ou</p>
+            <button onClick={() => setIsCreateOpen(true)}>Créer votre propre classe</button>
+          </main>
         )
       ) : (
         <main>
-          <h1>Vous devez être connecté pour accéder a votre classe</h1>
+          <h1>Vous devez être connecté pour accéder à votre classe</h1>
           <Link to="/compte">Se connecter !</Link>
         </main>
       )}
-
-
     </VerifConnection>
   );
 }

@@ -45,37 +45,9 @@
     background-color: #D8A75F; 
   }
 
-.listeEleve {
-    list-style: none; 
-    padding: 0;
-}
 
-.listeEleve li {
-    display: flex;
-    align-items: center;
-    background-color: #F1F3C2;
-    border-radius: 50px; 
-    margin: 2vw 0; 
-    padding: 0.5vw 1vw;
-    width: 12vw; 
-    height: 4vw; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-}
-
-
-.icone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #FFE0E0; 
-    border-radius: 50%; 
-    height: 3vw; 
-    width: 3vw;
-    margin-right: 1vw; 
-}
-
-
-.eleve {
-    display: flex;
-    align-items: center; 
+@media (max-width: 1000px) {
+    .pageClasse {
+        flex-direction: column;
+    }
 }

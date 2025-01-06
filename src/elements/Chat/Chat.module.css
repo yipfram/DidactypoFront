@@ -1,0 +1,117 @@
+/* Chat container */
+.chat {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Form styling */
+.chat form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.chat form input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+.chat form input:focus {
+    border-color: #0066cc;
+}
+
+.chat form button {
+    width: 15%;
+    padding: 10px;
+    border: none;
+    background-color: #0066cc;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.chat form button:hover:enabled {
+    background-color: #005bb5;
+}
+
+/* Styling for each message */
+.chat div > div {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pseudo {
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.texte {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.date {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Styling for empty state when no messages are present */
+.chat div > div:empty {
+    color: #aaa;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Responsive behavior */
+@media (max-width: 600px) {
+    .chat {
+        padding: 15px;
+    }
+
+    .chat form input {
+        width: 70%;
+        font-size: 14px;
+    }
+
+    .chat form button {
+        width: 25%;
+        font-size: 14px;
+    }
+
+    .chat .pseudo {
+        font-size: 14px;
+    }
+
+    .chat .texte {
+        font-size: 12px;
+    }
+
+    .chat .date {
+        font-size: 10px;
+    }
+}
