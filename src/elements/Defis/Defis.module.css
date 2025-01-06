@@ -14,8 +14,8 @@
   }
   
   .headcell {
-    padding: 10px;
-    font-size: 16px;
+    padding: 8px;
+    font-size: 1.1rem;
     font-weight: bold;
     color: #000000;
     border: 1px solid #AAAAAA;
@@ -31,8 +31,8 @@
   }
   
   .cellule {
-    padding: 0.3vw;
-    font-size: 14px;
+    padding: 0.2vw;
+    font-size: 1rem;
     border: 1px solid #AAAAAA;
     border-right: none;
     border-left: none;
@@ -42,3 +42,40 @@
     background-color: #E8BB6D;
   }
   
+
+  .pagination {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.pageButton {
+    background-color: #E8BB6D;
+    color: #000000;
+    border: none;
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.pageButton:hover {
+    background-color: #F1F3C2;
+    color: #000000;
+}
+
+.pageButton:disabled {
+    background-color: #AAAAAA;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.pageInfo {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000000;
+}

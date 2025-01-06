@@ -1,11 +1,9 @@
 .footer {
     background-color: var(--primary);
     
-    height:3vw;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px;
     margin-top: auto;
     width: 100%;
 
@@ -18,11 +16,17 @@
     color: var(--text-color);
     text-decoration: none;
 }
+
+.footer p{
+    color: var(--text-color);
+    text-decoration: none;
+}
+
 .footer .logoIUT{
-    width: 10vw;
-    height: auto;
+    width: 2.5;
+    height: 2.5vw;
 }
 .footer .logo {
-    width: 75px;
-    height: auto;
+    width: 2.5vw;
+    height: 2.5vw;
 }
