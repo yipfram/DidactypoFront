@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from 'react-router-dom'; //Pour récupérer les variables dans l'URL
 import {jwtDecode} from "jwt-decode"; // Si non installé : npm install jwt-decode
 import InterfaceSaisie from "../elements/InterfaceSaisie/InterfaceSaisie.jsx";
 import style from "../style/Apprendre.module.css";
@@ -10,6 +11,10 @@ export default function ListeExercices() {
   const [isPopupVisible, setIsPopupVisible] = useState(false); // Gère l'état de la pop-up
   const [endTime, setEndTime] = useState(null); // Stocke l'heure de fin d'exercice
   const [exercises, setExercises] = useState([]);
+  const [searchParams] = useSearchParams(); //stocke les variables dans l'URL
+  const idExo = searchParams.get('idExo'); //seulement si on passe par le bouton exercice dans le sous-cours
+
+  
 
   // Récupère le pseudo de l'utilisateur depuis le token
   const getUserPseudo = () => {
@@ -22,18 +27,26 @@ export default function ListeExercices() {
   const userPseudo = getUserPseudo();
 
   // Fonction pour récupérer les exercices
-  const fetchTitreExercices = async () => {
-    try {
-      const response = await api.get("/exercices/");
-      setExercises(response.data);
-    } catch (error) {
-      console.log("Erreur lors de la récupération des exercices : ", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchTitreExercices = async () => {
+      try {
+        const response = await api.get("/exercices/");
+        setExercises(response.data);
+
+        // If idExo is present in URL, select the exercise after fetching exercises
+        if (idExo) {
+          const exercise = response.data.find(ex => ex.id_exercice === parseInt(idExo));
+          if (exercise) {
+            setSelectedExercise(exercise);
+            setIsModalOpen(true);
+          }
+        }
+      } catch (error) {
+        console.log("Erreur lors de la récupération des exercices : ", error);
+      }
+    };
     fetchTitreExercices();
-  }, []);
+  }, [idExo]);
 
   // Fonction pour gérer le clic sur un bouton "Commencer"
   const handleStartExercise = (exercise) => {

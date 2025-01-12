@@ -1,6 +1,8 @@
 import style from "../../style/Apprendre.module.css";
 import { useState, useEffect } from "react";
 import api from "../../api";
+import { Link } from "react-router-dom";
+
 
 export default function FenetreCours(props) {
     const [index, setIndex] = useState(0);
@@ -53,8 +55,9 @@ export default function FenetreCours(props) {
     function contenuPartieCours() {
         return (
             <div className={style.contenuPartieCours}>
-                {partieCours ? (
+                {partieCours ? ( 
                     <>
+                        {/*pour générer le titre, le texte et l'image*/}
                         {partieCours.titre_sous_cours && <h1>{partieCours.titre_sous_cours}</h1>}
                         {partieCours.contenu_cours && (
                             <p className={style.contenuPartieCours}>{partieCours.contenu_cours}</p>
@@ -62,9 +65,12 @@ export default function FenetreCours(props) {
                         {partieCours.chemin_img_sous_cours && (
                             <img src={partieCours.chemin_img_sous_cours} alt="image partie cours" />
                         )}
+                        {/*On met seulement un boutton si le titre dans la bd (titre_sous_cours) est égal à "Exercice"*/}
+                        {partieCours.titre_sous_cours === "Exercice" && <Link to={`/listeExercices?idExo=${partieCours.id_cours_parent}`}
+                         className={style.boutonsCours}>Exercices</Link>}
                     </>
                 ) : (
-                    <p>Chargement...</p>
+                    <p>Chargement...</p> //pour le temps d'attente de l'appel api
                 )}
             </div>
         );
@@ -75,9 +81,9 @@ export default function FenetreCours(props) {
             <div className={style.fenetreCours}>
                 {contenuPartieCours()}
                 <div className={style.groupeButtonFenetreCours}>
-                    <button onClick={handlerBack}>back</button>
-                    <button onClick={handlerExit}>exit</button>
-                    <button onClick={handlerNext}>next</button>
+                    <button onClick={handlerBack} className={style.boutonsCours}>précédant</button>
+                    <button onClick={handlerExit} className={style.boutonsCours}>sortir</button>
+                    <button onClick={handlerNext} className={style.boutonsCours}>prochain</button>
                 </div>
             </div>
         </>
