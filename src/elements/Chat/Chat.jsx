@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { addDoc, collection, serverTimestamp, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 import style from './Chat.module.css';
@@ -9,6 +9,13 @@ export default function Chat(props) {
     const [newMessage, setNewMessage] = useState('');
     const messagesRef = collection(db, "messages");
     const [messagesList, setMessagesList] = useState([]);
+    const chatContainerRef = useRef(null);
+
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [messagesList]);
 
     useEffect(() => {
         const queryMessages = query(messagesRef, where("class_id", "==", class_id), orderBy("date_envoi"));
@@ -38,13 +45,13 @@ export default function Chat(props) {
     }
 
     return (
-        <div className={style.chat}>
+        <div className={style.chat} ref={chatContainerRef}>
             <div>
                 {messagesList.map((message) => (
                     <div key={message.id}>
-                        <p className={style.pseudo}>{message.utilisateur} :</p> {/* Pseudo utilisateur */}
-                        <p className={style.texte}>{message.text}</p> {/* Contenu du message */}
-                        <p className={style.date}>{new Date(message.date_envoi?.seconds * 1000).toLocaleString()}</p> {/* Date du message */}
+                        <p className={style.pseudo}>{message.utilisateur} :</p>
+                        <p className={style.texte}>{message.text}</p>
+                        <p className={style.date}>{new Date(message.date_envoi?.seconds * 1000).toLocaleString()}</p>
                     </div>
                 ))}
             </div>
@@ -54,9 +61,9 @@ export default function Chat(props) {
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Saisissez votre message..."
                     value={newMessage}
-                    aria-label="Message Input" // Add an accessible label
+                    aria-label="Message Input"
                 />
-                <button type="submit" disabled={!newMessage.trim()}>Envoyer</button> {/* Disable button when empty */}
+                <button type="submit" disabled={!newMessage.trim()}>Envoyer</button>
             </form>
         </div>
     )

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-import Stats from "../elements/CompteUtilisateur/Stats";
+import Stat from "../elements/Stats/CoursFinis";
+import CoursFinis from "../elements/Stats/CoursFinis";
 import Badges from "../elements/CompteUtilisateur/Badges";
 
 import style from "../style/Compte.module.css";
@@ -9,7 +10,7 @@ import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
 
 export default function Compte() {
   const [decodedToken, setDecodedToken] = useState(null);
-
+  
   useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -34,8 +35,8 @@ export default function Compte() {
           <h1>Bienvenue {decodedToken.sub} !</h1>
           <button onClick={handleLogout}>Se déconnecter</button>
           <div className={style.stats}>
-            <Stats pseudo={decodedToken.sub} />
             <Badges pseudo={decodedToken.sub} />
+            <CoursFinis pseudo={decodedToken.sub}/>
           </div>
         </>
       ) : null}

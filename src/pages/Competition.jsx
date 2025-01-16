@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from "../api";
 import style from '../style/Competition.module.css';
-import { jwtDecode } from "jwt-decode"; // Si non installé : npm install jwt-decode
+import { jwtDecode } from "jwt-decode";
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 import InterfaceSaisie from '../elements/InterfaceSaisie/InterfaceSaisie.jsx';
 import Leaderboard from "../elements/Defis/Defis.jsx";
@@ -19,7 +19,7 @@ export default function Competition() {
         const token = window.localStorage.getItem("token");
         if (!token) return null;
         const decoded = jwtDecode(token);
-        return decoded.sub; // Remplacez "sub" par la clé correspondant au pseudo dans votre token
+        return decoded.sub; //"sub" est le champ contenant le pseudo de l'utilisateur
     };
 
     const userPseudo = getUserPseudo();
