@@ -5,8 +5,9 @@ import style from "./Defis.module.css";
 export default function Defis() {
     const [reussitesDefis, setReussitesDefis] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 9; 
+    const itemsPerPage = 9;
 
+    // Fonction pour récupérer les réussites de défi
     const fetchReussitesDefi = async () => {
         try {
             const reponse = await api.get("/reussites_defi");
@@ -40,7 +41,6 @@ export default function Defis() {
         });
     }
 
-
     // Gérer les boutons de pagination
     const totalPages = Math.ceil(reussitesDefis.length / itemsPerPage);
 
@@ -51,6 +51,29 @@ export default function Defis() {
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
+
+    // Fonction pour attribuer les badges
+    const gererBadges = async (pseudo, position) => {
+        try {
+            if (position <= 10) {
+                await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=1`); // changer ici l'id du badges si ils changent dans la bd
+                console.log(`Badge 1 ajouté avec succès à ${pseudo}`);
+            }
+    
+            if (position <= 5) {
+                await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=2`);
+                console.log(`Badge 2 ajouté avec succès à ${pseudo}`);
+            }
+    
+            if (position === 1) {
+                await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=3`);
+                console.log(`Badge 3 ajouté avec succès à ${pseudo}`);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la base de données", error);
+        }
+    };
+    
 
 
     return (
@@ -66,20 +89,31 @@ export default function Defis() {
                         </tr>
                     </thead>
                     <tbody className={style.corpstable}>
-                        {rows.map((reussiteDefi, index) => (
-                            <tr className={style.lignejoueur} key={index}>
-                                <td className={style.cellule}>
-                                    {startIndex + index + 1} {/* Index global */}
-                                </td>
-                                <td className={style.cellule}>{reussiteDefi.pseudo_utilisateur}</td>
-                                <td className={style.cellule}>
-                                    {reussiteDefi.temps_reussite} {reussiteDefi.temps_reussite !== "---" ? "s" : ""}
-                                </td>
-                                <td className={style.cellule}>
-                                    {reussiteDefi.date_reussite !== "---" ? formatDate(reussiteDefi.date_reussite) : "---"}
-                                </td>
-                            </tr>
-                        ))}
+                        {rows.map((reussiteDefi, index) => {
+                            const position = startIndex + index + 1; // Position globale (index dans les résultats)
+                            
+                            // Appeler la fonction pour gérer les badges lorsque chaque ligne est rendue
+                            useEffect(() => {
+                                if (reussiteDefi.pseudo_utilisateur !== "---") {
+                                    gererBadges(reussiteDefi.pseudo_utilisateur, position);
+                                }
+                            }, [reussiteDefi.pseudo_utilisateur, position]); // Dépendances pour l'effet
+
+                            return (
+                                <tr className={style.lignejoueur} key={index}>
+                                    <td className={style.cellule}>
+                                        {position} {/* Index global */}
+                                    </td>
+                                    <td className={style.cellule}>{reussiteDefi.pseudo_utilisateur}</td>
+                                    <td className={style.cellule}>
+                                        {reussiteDefi.temps_reussite} {reussiteDefi.temps_reussite !== "---" ? "s" : ""}
+                                    </td>
+                                    <td className={style.cellule}>
+                                        {reussiteDefi.date_reussite !== "---" ? formatDate(reussiteDefi.date_reussite) : "---"}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
 

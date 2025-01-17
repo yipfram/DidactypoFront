@@ -4,6 +4,7 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
     const [inputText, setInputText] = useState('');
     const [correctChars, setCorrectChars] = useState(0);
     const [hasError, setHasError] = useState(false);
+    const [errorCount, setErrorCount] = useState(0);  // L'état pour suivre le nombre d'erreurs
 
     const inputRef = useRef();
 
@@ -12,19 +13,27 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
         setInputText(newText);
 
         let correctCount = 0;
+        let errorCountLocal = errorCount; // On garde l'état de errorCount
         let hasErrorOccurred = false;
 
+        // Parcours de chaque caractère pour comparer
         for (let i = 0; i < newText.length && i < targetText.length; i++) {
             if (newText[i] === targetText[i]) {
                 correctCount++;
             } else {
-                hasErrorOccurred = true;
-                break;
+                if (!hasErrorOccurred) {
+                    // Si c'est la première erreur, on incrémente le compteur
+                    errorCountLocal++;
+                    hasErrorOccurred = true; // On marque qu'il y a une erreur
+                }
             }
         }
+
         setCorrectChars(correctCount);
         setHasError(hasErrorOccurred);
+        setErrorCount(errorCountLocal); // On met à jour le nombre total d'erreurs
 
+        // Quand le texte est exactement égal au texte cible, on termine l'exercice
         if (newText === targetText) {
             setEndTime(new Date());
             if (onExerciseComplete) {
@@ -104,6 +113,11 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
                     background: hasError ? 'red' : 'green',
                     transition: 'width 0.3s ease, background-color 0.3s ease',
                 }} />
+            </div>
+
+            {/* Affichage du nombre de fautes */}
+            <div style={{ marginTop: '10px', fontSize: '1.2em' }}>
+                <p>Fautes : {errorCount}</p>
             </div>
         </div>
     );
