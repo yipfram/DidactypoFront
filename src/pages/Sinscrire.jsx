@@ -78,7 +78,6 @@ export default function Sinscrire() {
   return (
     <div className={style.connexion}>
       <form onSubmit={handleFormSubmit}>
-        <img src={logo} alt="Logo" />
         <h1>S'inscrire</h1>
 
         <label htmlFor="pseudo">Pseudo</label>

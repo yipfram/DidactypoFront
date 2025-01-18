@@ -1,57 +1,78 @@
-.connexion {
-    background-image: url('../img/fondConnexion.png');
-    background-size: cover;
-    background-position: center;
+/* Empêcher le scroll horizontal */
+body {
+    overflow-x: hidden; /* Désactive le défilement horizontal */
+    margin: 0; /* Supprime les marges par défaut */
+    height: 100vh; /* S'assure que le corps occupe toute la hauteur */
+    width: 100vw;
 }
 
+/* Styles spécifiques à la section connexion */
+.connexion {
+    background-image: url('../img/fondConnexion.png');
+    background-size: cover; /* L'image couvre tout l'espace */
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Pleine hauteur de l'écran */
+    width: 100vw; /* Pleine largeur de l'écran */
+    display: flex; /* Pour centrer le formulaire */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    overflow-y: auto; /* Ajoute un scroll vertical si nécessaire */
+}
+
+
+
 .connexion form {
-    background-color: #A1D6B2;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    margin: auto;
-    border-top: 5px;
+    background-color: rgba(161, 214, 178, 0.9); /* Couleur de fond semi-transparente */
+    border-radius: 12px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre marquée */
+    padding: 15px; /* Espacement interne réduit */
+    max-width: 300px; /* Largeur maximale réduite */
+    width: 90%; /* Prend jusqu'à 90% de la largeur disponible */
+    margin-bottom: 5vw;
 }
 
 .connexion img {
-    width: 30%;
+    width: 4vw; /* Réduit la taille de l'image */
     height: auto;
-    margin: 0 auto;
+    display: block;
+    margin: 0 auto 15px; /* Centre l'image et réduit l'espacement en bas */
 }
 
 .connexion label {
     display: block;
-    margin: 10px 0 5px;
+    margin: 8px 0 5px; /* Marges réduites */
 }
 
 .connexion input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 8px; /* Réduit l'espacement interne */
+    margin-bottom: 12px; /* Réduit l'espacement entre les champs */
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px; /* Taille de police légèrement réduite */
     box-sizing: border-box;
 }
 
 .connexion button {
+    margin-top: 8px; /* Espacement au-dessus réduit */
     background-color: white;
-    color: var(--text-color);
-    padding: 10px;
+    color: var(--text-color, #000);
+    padding: 8px; /* Réduit la taille du bouton */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px; /* Taille de police légèrement réduite */
     width: 100%;
 }
 
 .connexion button:hover {
     background-color: #357ab8;
+    color: white;
 }
 
 .connexion p {
     text-align: center;
-    margin-top: 20px;
-    
+    margin-top: 1vw; /* Réduit l'espacement avec le paragraphe */
+    font-size: 18px; /* Police légèrement réduite */
 }

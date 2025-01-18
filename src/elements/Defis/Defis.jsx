@@ -122,7 +122,7 @@ export default function Defis() {
     };
 
     return (
-        <div>
+        <div className={style.tableWrapper}>
             <table className={style.table}>
                 <thead className={style.headtable}>
                     <tr>
