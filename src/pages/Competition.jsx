@@ -31,7 +31,7 @@ export default function Competition() {
                 const response = await api.get("/defis");
                 setDefis(response.data);
                 setIsLoading(false);
-                console.log("Défis récupérés :", response.data); // Vérification des défis
+                //console.log("Défis récupérés :", response.data); // Vérification des défis
             } catch (err) {
                 setError("Erreur lors de la récupération des défis.");
                 setIsLoading(false);
@@ -44,7 +44,7 @@ export default function Competition() {
 
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
-        console.log("Bouton 'Prêt' cliqué");
+       // console.log("Bouton 'Prêt' cliqué");
         setIsReady(true);
         setStartTime(new Date());
         setEndTime(null);
@@ -54,7 +54,7 @@ export default function Competition() {
 
     const gestionDefiQuotidien = async (userPseudo) => {
         const dateAct = new Date();
-        console.log("Date actuelle :", dateAct);
+        //console.log("Date actuelle :", dateAct);
     
         try {
             // Obtenir l'utilisateur avec son cptDefi
@@ -82,13 +82,13 @@ export default function Competition() {
                     dateAct.getFullYear() === dateDerniereReussite.getFullYear();
     
                 if (isSameDay) {
-                    console.log("Le défi a déjà été comptabilisé aujourd'hui !");
+                 //   console.log("Le défi a déjà été comptabilisé aujourd'hui !");
                 } else {
                     cptDefi++;
-                    console.log("Streak incrémenté !");
+                 //   console.log("Streak incrémenté !");
                 }
             } else {
-                console.log("Aucune réussite précédente trouvée. cptDefi initialisé à 1.");
+              //  console.log("Aucune réussite précédente trouvée. cptDefi initialisé à 1.");
                 cptDefi = 1; // Si aucune réussite n'a été trouvée, cptDefi commence à 1
             }
     
@@ -146,7 +146,7 @@ export default function Competition() {
                     await api.post(
                         `/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`
                     );
-                    window.location.reload();
+                    //window.location.reload();
 
                     console.log("Base de données mise à jour avec succès !");
                 } catch (error) {
@@ -159,7 +159,7 @@ export default function Competition() {
     }, [endTime]);
 
     const targetTextCompetition = defis.length > 0 ? defis[0]?.description_defi : '';
-    console.log("Target Text Competition :", targetTextCompetition); // Vérification du texte cible
+    // console.log("Target Text Competition :", targetTextCompetition); // Vérification du texte cible
 
     return (
         <VerifConnection>

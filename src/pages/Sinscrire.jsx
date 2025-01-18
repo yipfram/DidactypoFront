@@ -16,7 +16,7 @@ export default function Sinscrire() {
     prenom: "",
     courriel: "",
     est_admin: false,
-    moyMotsParMinute: 0,
+    cptDefi: 0,
     numCours: 0,
     tempsTotal: 0,
   });
@@ -67,7 +67,7 @@ export default function Sinscrire() {
       prenom: "",
       courriel: "",
       est_admin: false,
-      moyMotsParMinute: 0,
+      cptDefi: 0,
       numCours: 0,
       tempsTotal: 0,
     });
