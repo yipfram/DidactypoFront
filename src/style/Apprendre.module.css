@@ -76,7 +76,7 @@ html, body {
     border-radius: 20px;
     max-width: 60vw; 
     width: 55vw;
-    height: 30vw;
+    height: 33vw;
     box-shadow: -1px 3px 3px rgb(78, 75, 75);
     /**/
 
@@ -99,7 +99,7 @@ html, body {
     justify-content: space-evenly;
 }
 
-.groupeButtonFenetreCours button{
+.boutonsCours{/*Le bouton exercice dans la sous-cours + les bouttons prochain,sortir,précédant*/
     background-color: #E8BB6D;
     height: 4vw;
     padding: 1vw 2vw;
@@ -111,6 +111,8 @@ html, body {
     font-size: 1.8vw; /*Que le texte dans la div des sous-cours*/
     cursor: pointer;
     transition: background-color 0.3s ease; 
+    text-decoration: none;
+    color : black;
 }
 
 .groupeButtonFenetreCours button:hover {
