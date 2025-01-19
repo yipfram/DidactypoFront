@@ -37,8 +37,6 @@ export default function VerifConnection({ children }) {
       const decoded = jwtDecode(token);
 
       const currentTime = Date.now() / 1000; // current time in seconds
-      console.log(decoded.exp);
-      console.log(currentTime);
 
       if (decoded.exp < currentTime) {
         setTimeOut(true);

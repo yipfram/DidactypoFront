@@ -33,7 +33,7 @@
 
 .header>a {
     height: 100%;
-    
+    margin-right: 2vw;
     & img{
         height:100%;
     }

@@ -24,3 +24,21 @@ body {
 .active {
   background-color: var(--quaternary);
 }
+
+body::-webkit-scrollbar {
+  width: 15px; 
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--quaternary);
+  border-radius: 8px;
+  border: 2px solid var(--secondary); 
+}
+
+body::-webkit-scrollbar-track {
+  background-color: var(--secondary); 
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #D5A563;
+}

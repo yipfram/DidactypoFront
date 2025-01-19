@@ -1,26 +1,105 @@
-.stats {
+.container {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1200px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.header button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.header button:hover {
+    background-color: #d32f2f;
 }
 
 .badges {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 50%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adaptation au viewport */
+    gap: 20px; /* Espace plus généreux entre les badges */
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
 }
 
 .badges div {
-    margin-right: 5px;
-    margin-bottom: 5px;
     text-align: center;
-    min-width: 120px;
-    width: 25%;
-    max-width: 200px;
-    border: 1px solid black;
+    border: 1px solid #ddd;
     border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    background-color: var(--tertiary);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.badges div div {
+    background-color: var(--primary);
+}
+
+.badges div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .badges div img {
-    max-width: 100%;
+    max-width: 80%; /* Limite la taille pour éviter l'étirement */
     height: auto;
-    max-height: 150px;
+    max-height: 120px; /* Taille maximale pour une apparence uniforme */
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.badges div h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0 5px;
+}
+
+.badges div p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.graph-container {
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fafafa;
 }

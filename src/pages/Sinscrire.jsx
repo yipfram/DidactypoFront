@@ -16,7 +16,7 @@ export default function Sinscrire() {
     prenom: "",
     courriel: "",
     est_admin: false,
-    moyMotsParMinute: 0,
+    cptDefi: 0,
     numCours: 0,
     tempsTotal: 0,
   });
@@ -67,7 +67,7 @@ export default function Sinscrire() {
       prenom: "",
       courriel: "",
       est_admin: false,
-      moyMotsParMinute: 0,
+      cptDefi: 0,
       numCours: 0,
       tempsTotal: 0,
     });
@@ -78,7 +78,6 @@ export default function Sinscrire() {
   return (
     <div className={style.connexion}>
       <form onSubmit={handleFormSubmit}>
-        <img src={logo} alt="Logo" />
         <h1>S'inscrire</h1>
 
         <label htmlFor="pseudo">Pseudo</label>

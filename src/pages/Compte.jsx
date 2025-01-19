@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-import Stats from "../elements/CompteUtilisateur/Stats";
+import CoursFinis from "../elements/Stats/CoursFinis";
+import Mpm from "../elements/Stats/Mpm";
+import TempsDefi from "../elements/Stats/TempsDefi";
+
 import Badges from "../elements/CompteUtilisateur/Badges";
 
 import style from "../style/Compte.module.css";
@@ -9,7 +12,7 @@ import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
 
 export default function Compte() {
   const [decodedToken, setDecodedToken] = useState(null);
-
+  
   useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -30,14 +33,30 @@ export default function Compte() {
   return (
     <VerifConnection>
       {decodedToken ? (
-        <>
-          <h1>Bienvenue {decodedToken.sub} !</h1>
-          <button onClick={handleLogout}>Se déconnecter</button>
+        <div className={style.container}>
+          {/* Header avec le message de bienvenue et le bouton de déconnexion */}
+          <div className={style.header}>
+            <h1>Bienvenue {decodedToken.sub} !</h1>
+            <button onClick={handleLogout}>Se déconnecter</button>
+          </div>
+
+          
+
+          {/* Section des graphiques */}
           <div className={style.stats}>
-            <Stats pseudo={decodedToken.sub} />
+            <div className={style["graph-container"]}>
+              <Mpm pseudo={decodedToken.sub} />
+            </div>
+            <div className={style["graph-container"]}>
+              <TempsDefi pseudo={decodedToken.sub} />
+            </div>
+          </div>
+
+          {/* Section des badges */}
+          <div className={style.badges}>
             <Badges pseudo={decodedToken.sub} />
           </div>
-        </>
+        </div>
       ) : null}
     </VerifConnection>
   );
