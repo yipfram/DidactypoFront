@@ -6,6 +6,7 @@ import Mpm from "../elements/Stats/Mpm";
 import TempsDefi from "../elements/Stats/TempsDefi";
 
 import Badges from "../elements/CompteUtilisateur/Badges";
+import ChangementMdp from "../elements/CompteUtilisateur/ChangementMdp";
 
 import style from "../style/Compte.module.css";
 import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
@@ -40,7 +41,7 @@ export default function Compte() {
             <button onClick={handleLogout}>Se déconnecter</button>
           </div>
 
-          
+          <ChangementMdp />
 
           {/* Section des graphiques */}
           <div className={style.stats}>
