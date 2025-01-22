@@ -20,7 +20,6 @@ export default function Chat(props) {
     useEffect(() => {
         const queryMessages = query(messagesRef, where("class_id", "==", class_id), orderBy("date_envoi"));
         const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-            console.log("LOU Y'A UN NOUVEAU MESSAGE");
             let messages = [];
             snapshot.forEach((doc) => {
                 messages.push({ ...doc.data(), id: doc.id })

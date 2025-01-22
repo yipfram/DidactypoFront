@@ -31,7 +31,6 @@ export default function Competition() {
                 const response = await api.get("/defis");
                 setDefis(response.data);
                 setIsLoading(false);
-                //console.log("Défis récupérés :", response.data); // Vérification des défis
             } catch (err) {
                 setError("Erreur lors de la récupération des défis.");
                 setIsLoading(false);
@@ -44,17 +43,14 @@ export default function Competition() {
 
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
-       // console.log("Bouton 'Prêt' cliqué");
         setIsReady(true);
         setStartTime(new Date());
         setEndTime(null);
         setElapsedTime(null);
-        gestionDefiQuotidien(userPseudo);
     };
 
     const gestionDefiQuotidien = async (userPseudo) => {
-        const dateAct = new Date();
-        //console.log("Date actuelle :", dateAct);
+        const dateAct = new Date(); // Date actuelle en minutes
     
         try {
             // Obtenir l'utilisateur avec son cptDefi
@@ -64,63 +60,82 @@ export default function Competition() {
             // Obtenir les réussites de défi
             const reponse = await api.get(`/reussites_defi/${userPseudo}`);
             const reussites = reponse.data;
+
+            if (!reussites || reussites.length === 0) {
+                cptDefi = 1;
+                await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
+                return cptDefi;
+            }
     
             // Trier les réussites par date décroissante
             const sortedReussites = reussites.sort(
                 (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
             );
     
-            const lastDateReussite = sortedReussites.length > 0 ? sortedReussites[0].date_reussite : null;
-            console.log("Dernière date de réussite :", lastDateReussite);
+            const lastDateReussite = sortedReussites[1] ? new Date(sortedReussites[1].date_reussite) : null;
     
             if (lastDateReussite) {
-                const dateDerniereReussite = new Date(lastDateReussite);
-    
-                // Comparer la date actuelle avec la dernière date de réussite en utilisant les jours
-                const isSameDay = dateAct.getDate() === dateDerniereReussite.getDate() &&
-                    dateAct.getMonth() === dateDerniereReussite.getMonth() &&
-                    dateAct.getFullYear() === dateDerniereReussite.getFullYear();
-    
-                if (isSameDay) {
-                 //   console.log("Le défi a déjà été comptabilisé aujourd'hui !");
-                } else {
+                // Normaliser les dates pour comparer uniquement les jours
+                const lastDay = new Date(lastDateReussite.getFullYear(), 
+                                       lastDateReussite.getMonth(), 
+                                       lastDateReussite.getDate());
+                
+                const currentDay = new Date(dateAct.getFullYear(),
+                                          dateAct.getMonth(),
+                                          dateAct.getDate());
+                
+                const daysDiff = Math.floor((currentDay - lastDay) / (1000 * 60 * 60 * 24));
+                
+                
+                if (daysDiff === 0) {
+                    return cptDefi;
+                } else if (daysDiff === 1) {
                     cptDefi++;
-                 //   console.log("Streak incrémenté !");
+                } else {
+                    cptDefi = 1;
                 }
             } else {
-              //  console.log("Aucune réussite précédente trouvée. cptDefi initialisé à 1.");
-                cptDefi = 1; // Si aucune réussite n'a été trouvée, cptDefi commence à 1
+                cptDefi = 1;
             }
     
             // Mettre à jour cptDefi dans le backend
             await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
     
+            // Gestion des badges
             try {
-                if (cptDefi === 3) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=4`);
-                    console.log(`Badge 4 ajouté avec succès à ${userPseudo}`);
-                }
-                if (cptDefi === 7) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=5`);
-                    console.log(`Badge 5 ajouté avec succès à ${userPseudo}`);
-                }
-                if (cptDefi === 14) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
-                    console.log(`Badge 6 ajouté avec succès à ${userPseudo}`);
-                }
-                if (cptDefi === 20) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
-                    console.log(`Badge 7 ajouté avec succès à ${userPseudo}`);
+                const badges = [
+                    { count: 3, id: 4 },
+                    { count: 7, id: 5 },
+                    { count: 14, id: 6 },
+                    { count: 20, id: 7 }
+                ];
+    
+                for (const badge of badges) {
+                    if (cptDefi === badge.count) {
+                        await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=${badge.id}`);
+                    }
                 }
             } catch (error) {
-                console.error("Erreur lors de la mise à jour de la base de données", error);
+                console.error("Erreur lors de la mise à jour des badges", error);
             }
     
             return cptDefi;
         } catch (error) {
-            console.error("Erreur lors de la récupération des réussites de défi :", error);
+            if (error.response && error.response.status === 404) {
+                const cptDefi = 1;
+                try {
+                    await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
+                    return cptDefi;
+                } catch (putError) {
+                    console.error("Erreur lors de l'initialisation du compteur:", putError);
+                    throw putError;
+                }
+            }
+            console.error("Erreur lors de la gestion du défi quotidien:", error);
+            throw error;
         }
     };
+    
 
     // Calcul du temps écoulé une fois terminé
     useEffect(() => {
@@ -148,7 +163,8 @@ export default function Competition() {
                     );
                     //window.location.reload();
 
-                    console.log("Base de données mise à jour avec succès !");
+                    await gestionDefiQuotidien(userPseudo);
+
                 } catch (error) {
                     console.error("Erreur lors de la mise à jour de la base de données :", error);
                 }
@@ -159,7 +175,6 @@ export default function Competition() {
     }, [endTime]);
 
     const targetTextCompetition = defis.length > 0 ? defis[0]?.description_defi : '';
-    // console.log("Target Text Competition :", targetTextCompetition); // Vérification du texte cible
 
     return (
         <VerifConnection>

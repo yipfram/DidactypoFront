@@ -37,25 +37,35 @@ export default function MaClasse() {
     }
   }, []);
 
-  // Fetch class details for the logged-in user
   useEffect(() => {
     if (decodedToken) {
       const fetchClasse = async (userId) => {
         try {
+          // Premier appel à l'api, vérifie si l'utilisateur à une classe
           const reponseIdClasse = await api.get(`/membre_classe/${userId}`);
+          
+          // Vérifie si l'utilisateur est dans un groupe
+          if (!reponseIdClasse.data.id_groupe) {
+            setLoadingClasse(false); // Arrêter le chargement si aucun groupe n'est trouvé
+            return; // Quitter la fonction
+          }
+          
+          // Si un groupe est trouvé, deuxième appel à l'API
           const tempIdClasse = reponseIdClasse.data.id_groupe;
           setIdClasse(tempIdClasse);
-
+  
           const reponseClasse = await api.get(`/groupe/${tempIdClasse}`);
           setClasse(reponseClasse.data);
           setLoadingClasse(false);
         } catch (error) {
-          console.error("Erreur lors de la récupération des infos de la classe :", error);
+          setLoadingClasse(false); //Indique que le chargement est fini
         }
       };
+  
       fetchClasse(decodedToken.sub);
     }
   }, [decodedToken]);
+  
 
   // Modals states and handlers
   const [isJoinOpen, setIsJoinOpen] = useState(false);

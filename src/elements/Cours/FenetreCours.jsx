@@ -2,7 +2,19 @@ import style from "../../style/Apprendre.module.css";
 import { useState, useEffect } from "react";
 import api from "../../api";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
+
+
+
+const getUserPseudo = () => {
+    const token = window.localStorage.getItem("token");
+    if (!token) return null;
+    const decoded = jwtDecode(token);
+    return decoded.sub;  // "sub" est le champ contenant le pseudo de l'utilisateur
+};
+
+const userPseudo = getUserPseudo();
 
 export default function FenetreCours(props) {
     const [index, setIndex] = useState(0);
@@ -25,7 +37,6 @@ export default function FenetreCours(props) {
                 ...coursPart,
                 contenu_cours: decodeEscapedString(coursPart.contenu_cours || "")
             }));
-            console.log("Decoded Data from API:", decodedData);
             setCours(decodedData);
         } catch (error) {
             console.error("Erreur lors de la récupération d'une partie d'un cours :", error);
@@ -36,9 +47,35 @@ export default function FenetreCours(props) {
         genererCours();
     }, []);
 
-    function handlerNext() {
-        if (index < cours.length - 1) setIndex(index + 1);
+    async function handlerNext() {
+        if (index < cours.length - 1) {
+            if (index === cours.length - 2) {
+                try {    
+                    // Créer l'objet de données
+                    const completionData = {
+                        pseudo_utilisateur: userPseudo,
+                        id_cours: parseInt(idCours),
+                        progression: 100
+                    };
+                        
+                    const response = await api.post('/completion_cours', completionData);
+                                        
+                } catch (error) {
+                    console.error("Erreur lors de la mise à jour de la progression :", error);
+                    if (error.response?.data?.detail) {
+                        console.error("Détails de validation:", error.response.data.detail);
+                        // Afficher les erreurs de validation spécifiques
+                        const erreurs = error.response.data.detail.map(err => 
+                            `${err.loc.join('.')} : ${err.msg}`
+                        ).join('\n');
+                        alert(`Erreurs de validation:\n${erreurs}`);
+                    }
+                }
+            }
+            setIndex(index + 1);
+        }
     }
+    
 
     function handlerBack() {
         if (index > 0) setIndex(index - 1);
