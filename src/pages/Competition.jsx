@@ -49,28 +49,46 @@ export default function Competition() {
     };
 
     const gestionDefiQuotidien = async (userPseudo) => {
-        const dateAct = new Date();
+        const dateAct = new Date(); // Date actuelle en minutes
+    
         try {
             const userResponse = await api.get(`/utilisateurs/${userPseudo}`);
             let cptDefi = userResponse.data.cptDefi;
             const reponse = await api.get(`/reussites_defi/${userPseudo}`);
             const reussites = reponse.data;
 
+            if (!reussites || reussites.length === 0) {
+                cptDefi = 1;
+                await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
+                return cptDefi;
+            }
+    
+            // Trier les réussites par date décroissante
             const sortedReussites = reussites.sort(
                 (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
             );
-
-            const lastDateReussite = sortedReussites.length > 0 ? sortedReussites[0].date_reussite : null;
-
+    
+            const lastDateReussite = sortedReussites[1] ? new Date(sortedReussites[1].date_reussite) : null;
+    
             if (lastDateReussite) {
-                const dateDerniereReussite = new Date(lastDateReussite);
-
-                const isSameDay = dateAct.getDate() === dateDerniereReussite.getDate() &&
-                    dateAct.getMonth() === dateDerniereReussite.getMonth() &&
-                    dateAct.getFullYear() === dateDerniereReussite.getFullYear();
-
-                if (!isSameDay) {
+                // Normaliser les dates pour comparer uniquement les jours
+                const lastDay = new Date(lastDateReussite.getFullYear(), 
+                                       lastDateReussite.getMonth(), 
+                                       lastDateReussite.getDate());
+                
+                const currentDay = new Date(dateAct.getFullYear(),
+                                          dateAct.getMonth(),
+                                          dateAct.getDate());
+                
+                const daysDiff = Math.floor((currentDay - lastDay) / (1000 * 60 * 60 * 24));
+                
+                
+                if (daysDiff === 0) {
+                    return cptDefi;
+                } else if (daysDiff === 1) {
                     cptDefi++;
+                } else {
+                    cptDefi = 1;
                 }
             } else {
                 cptDefi = 1;
@@ -78,14 +96,23 @@ export default function Competition() {
             }
 
             await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
-
+    
+            // Gestion des badges
             try {
-                if (cptDefi === 3) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=4`);
-                if (cptDefi === 7) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=5`);
-                if (cptDefi === 14) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
-                if (cptDefi === 20) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
+                const badges = [
+                    { count: 3, id: 4 },
+                    { count: 7, id: 5 },
+                    { count: 14, id: 6 },
+                    { count: 20, id: 7 }
+                ];
+    
+                for (const badge of badges) {
+                    if (cptDefi === badge.count) {
+                        await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=${badge.id}`);
+                    }
+                }
             } catch (error) {
-                console.error("Erreur lors de la mise à jour des badges :", error);
+                console.error("Erreur lors de la mise à jour des badges", error);
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -120,10 +147,16 @@ export default function Competition() {
                     };
                     const typeStat = "tempsdefi";
 
-                    await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`);
-                    await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
+                    await api.post(
+                        `/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`
+                    );
+                    await api.post(
+                        `/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`
+                    );
+                    window.location.reload();
 
-                    console.log("Base de données mise à jour avec succès !");
+                    await gestionDefiQuotidien(userPseudo);
+
                 } catch (error) {
                     console.error("Erreur lors de la mise à jour de la base de données :", error);
                 }
