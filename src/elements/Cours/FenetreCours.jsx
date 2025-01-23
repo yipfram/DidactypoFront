@@ -118,7 +118,7 @@ export default function FenetreCours(props) {
             <div className={style.fenetreCours}>
                 {contenuPartieCours()}
                 <div className={style.groupeButtonFenetreCours}>
-                    <button onClick={handlerBack} className={style.boutonsCours}>précédant</button>
+                    <button onClick={handlerBack} className={style.boutonsCours}>précédent</button>
                     <button onClick={handlerExit} className={style.boutonsCours}>sortir</button>
                     <button onClick={handlerNext} className={style.boutonsCours}>prochain</button>
                 </div>
