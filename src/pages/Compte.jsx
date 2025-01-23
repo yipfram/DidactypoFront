@@ -6,6 +6,7 @@ import Mpm from "../elements/Stats/Mpm";
 import TempsDefi from "../elements/Stats/TempsDefi";
 
 import Badges from "../elements/CompteUtilisateur/Badges";
+import ChangementMdp from "../elements/CompteUtilisateur/ChangementMdp";
 
 import style from "../style/Compte.module.css";
 import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
@@ -37,7 +38,9 @@ export default function Compte() {
           {/* Header avec le message de bienvenue et le bouton de déconnexion */}
           <div className={style.header}>
             <h1>Bienvenue {decodedToken.sub} !</h1>
+            <ChangementMdp />
             <button onClick={handleLogout}>Se déconnecter</button>
+           
           </div>
 
           

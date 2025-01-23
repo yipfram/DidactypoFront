@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: auto;
+    margin-top: 0;
     width: 100%;
 
     align-self: flex-end;

@@ -4,7 +4,7 @@ html, body {
 
 .apprendre {
     background-image: url("../img/fondapprendre.png");
-    min-height: 80vh; 
+    min-height: 84.2vh;
     background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
@@ -89,8 +89,8 @@ html, body {
 }
 
 .fenetreCours img {
-    max-width: 30%; 
-    max-height: 30%; 
+    max-width: 40%; 
+    max-height: 40%; 
     object-fit: contain;
 }
 
