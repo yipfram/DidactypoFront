@@ -37,3 +37,31 @@
   min-height: 300px; 
   max-width: 400px;
 }
+
+.readyButtonContainer {
+  display: flex;
+  flex-direction: column; /* Organise le texte et le bouton en colonne */
+  align-items: center; /* Centre horizontalement */
+  gap: 10px; /* Espacement entre le texte et le bouton */
+  margin-top: 20px; /* Espacement au-dessus du conteneur */
+}
+
+.readyButton {
+  background-color: #E8BB6D;
+  color: #060404;
+  border-radius: 8px;
+  border: black;
+  border-width: 2px;
+  padding: 15px 30px;
+  font-size: 1.5rem; /* Taille du texte augmentée */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.readyButton:hover {
+  transform: scale(1.1); /* Agrandit légèrement le bouton au survol */
+}
+
+.readyButton:active {
+  transform: scale(0.95); /* Réduit légèrement le bouton lorsqu'il est cliqué */
+}

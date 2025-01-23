@@ -79,7 +79,7 @@ export default function MaClasse() {
                     <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{idClasse}</strong></h3>
                   </div>
                   <button className={style.btnajouter} onClick={() => setIsAddOpen(true)}>Ajouter un élève</button>
-                  <button onClick={() => setIsLeaveOpen(true)}>Quitter la classe</button>
+                  <button className={style.btnQuitter} onClick={() => setIsLeaveOpen(true)}>Quitter la classe</button>
                 </div>
                 <Modal show={isLeaveOpen} onClose={() => setIsLeaveOpen(false)}>
                   <QuitterClasse pseudo_utilisateur={decodedToken.sub} id_groupe={idClasse} />
@@ -95,20 +95,29 @@ export default function MaClasse() {
             <MembresClasse idClasse={idClasse}/>
           </main>
         ) : (
-          <main className={style.pageClasse}>
+          <main className={style.pageClasseNotJoined}>
+            <h1>Vous ne faites pas partie d'une classe !</h1>
+            <h3>Rejoindre une classe ou créer la vôtre pour commencer !</h3>
+
+            <div className={style.buttonsContainerNotJoined}>
+              <button className={style.btnNotJoined} onClick={() => setIsJoinOpen(true)}>Rejoindre une classe</button>
+              <h3>ou</h3>
+              <button className={style.btnNotJoined} onClick={() => setIsCreateOpen(true)}>Créer votre propre classe</button>
+            </div>
+
+            <h3>Ici, tu peux rejoindre une classe afin de pouvoir discuter avec tes camarades, et consulter qui est dans ta classe !</h3>
+
             <Modal show={isJoinOpen} onClose={() => setIsJoinOpen(false)}>
               <RejoindreClasse pseudo_utilisateur={decodedToken.sub} />
               <button onClick={() => setIsJoinOpen(false)}>Annuler</button>
             </Modal>
+
             <Modal show={isCreateOpen} onClose={() => setIsCreateOpen(false)}>
               <CreerClasse pseudo_utilisateur={decodedToken.sub} />
               <button onClick={() => setIsCreateOpen(false)}>Annuler</button>
             </Modal>
-            <h1>Vous ne faites pas partie d'une classe !</h1>
-            <button onClick={() => setIsJoinOpen(true)}>Rejoindre une classe</button>
-            <p>ou</p>
-            <button onClick={() => setIsCreateOpen(true)}>Créer votre propre classe</button>
           </main>
+
         )
       ) : (
         <main>

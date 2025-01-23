@@ -31,7 +31,6 @@ export default function Competition() {
                 const response = await api.get("/defis");
                 setDefis(response.data);
                 setIsLoading(false);
-                //console.log("Défis récupérés :", response.data); // Vérification des défis
             } catch (err) {
                 setError("Erreur lors de la récupération des défis.");
                 setIsLoading(false);
@@ -41,10 +40,8 @@ export default function Competition() {
         fetchDefis();
     }, []);
 
-
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
-       // console.log("Bouton 'Prêt' cliqué");
         setIsReady(true);
         setStartTime(new Date());
         setEndTime(null);
@@ -54,69 +51,42 @@ export default function Competition() {
 
     const gestionDefiQuotidien = async (userPseudo) => {
         const dateAct = new Date();
-        //console.log("Date actuelle :", dateAct);
-    
         try {
-            // Obtenir l'utilisateur avec son cptDefi
             const userResponse = await api.get(`/utilisateurs/${userPseudo}`);
             let cptDefi = userResponse.data.cptDefi;
-    
-            // Obtenir les réussites de défi
             const reponse = await api.get(`/reussites_defi/${userPseudo}`);
             const reussites = reponse.data;
-    
-            // Trier les réussites par date décroissante
+
             const sortedReussites = reussites.sort(
                 (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
             );
-    
+
             const lastDateReussite = sortedReussites.length > 0 ? sortedReussites[0].date_reussite : null;
-            console.log("Dernière date de réussite :", lastDateReussite);
-    
+
             if (lastDateReussite) {
                 const dateDerniereReussite = new Date(lastDateReussite);
-    
-                // Comparer la date actuelle avec la dernière date de réussite en utilisant les jours
+
                 const isSameDay = dateAct.getDate() === dateDerniereReussite.getDate() &&
                     dateAct.getMonth() === dateDerniereReussite.getMonth() &&
                     dateAct.getFullYear() === dateDerniereReussite.getFullYear();
-    
-                if (isSameDay) {
-                 //   console.log("Le défi a déjà été comptabilisé aujourd'hui !");
-                } else {
+
+                if (!isSameDay) {
                     cptDefi++;
-                 //   console.log("Streak incrémenté !");
                 }
             } else {
-              //  console.log("Aucune réussite précédente trouvée. cptDefi initialisé à 1.");
-                cptDefi = 1; // Si aucune réussite n'a été trouvée, cptDefi commence à 1
+                cptDefi = 1;
             }
-    
-            // Mettre à jour cptDefi dans le backend
+
             await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
-    
+
             try {
-                if (cptDefi === 3) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=4`);
-                    console.log(`Badge 4 ajouté avec succès à ${userPseudo}`);
-                }
-                if (cptDefi === 7) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=5`);
-                    console.log(`Badge 5 ajouté avec succès à ${userPseudo}`);
-                }
-                if (cptDefi === 14) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
-                    console.log(`Badge 6 ajouté avec succès à ${userPseudo}`);
-                }
-                if (cptDefi === 20) {
-                    await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
-                    console.log(`Badge 7 ajouté avec succès à ${userPseudo}`);
-                }
+                if (cptDefi === 3) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=4`);
+                if (cptDefi === 7) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=5`);
+                if (cptDefi === 14) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
+                if (cptDefi === 20) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
             } catch (error) {
-                console.error("Erreur lors de la mise à jour de la base de données", error);
+                console.error("Erreur lors de la mise à jour des badges :", error);
             }
-    
-            return cptDefi;
         } catch (error) {
             console.error("Erreur lors de la récupération des réussites de défi :", error);
         }
@@ -129,24 +99,17 @@ export default function Competition() {
             setElapsedTime(timeDiff);
             setIsReady(false);
 
-            // Mettre à jour la base de données
             const updateDatabase = async () => {
                 try {
                     const payload = {
                         id_defi: defis[0]?.id_defi,
-                        pseudo_utilisateur: userPseudo, // Utilisation du pseudo de l'utilisateur
-                        temps_reussite: timeDiff,       
+                        pseudo_utilisateur: userPseudo,
+                        temps_reussite: timeDiff,
                     };
-
                     const typeStat = "tempsdefi";
 
-                    await api.post(
-                        `/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`
-                    );
-                    await api.post(
-                        `/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`
-                    );
-                    //window.location.reload();
+                    await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`);
+                    await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
 
                     console.log("Base de données mise à jour avec succès !");
                 } catch (error) {
@@ -159,7 +122,6 @@ export default function Competition() {
     }, [endTime]);
 
     const targetTextCompetition = defis.length > 0 ? defis[0]?.description_defi : '';
-    // console.log("Target Text Competition :", targetTextCompetition); // Vérification du texte cible
 
     return (
         <VerifConnection>
@@ -171,17 +133,22 @@ export default function Competition() {
                 ) : (
                     <div>
                         {!isReady && (
+                        <div className={style.readyButtonContainer}>
+                            <h3>
+                            Bienvenue dans le mode compétition !
+                            Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                            Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                            </h3>
                             <button
-                                onClick={handleReadyClick}
-                                style={{
-                                    padding: '1em',
-                                    fontSize: '1em',
-                                    marginBottom: '1em',
-                                    cursor: 'pointer',
-                                }}
+                            onClick={handleReadyClick}
+                            className={style.readyButton}
                             >
-                                Prêt
+                            Commencer le défi
                             </button>
+                            <h3>
+                            Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
+                            </h3>
+                        </div>
                         )}
                         {isReady && targetTextCompetition && (
                             <InterfaceSaisie
@@ -191,7 +158,7 @@ export default function Competition() {
                             />
                         )}
                         {elapsedTime && (
-                            <div style={{ marginTop: '1em', fontSize: '1.2em' }}>
+                            <div className={style.elapsedTime}>
                                 Temps écoulé : {elapsedTime.toFixed(2)} secondes
                             </div>
                         )}
