@@ -119,6 +119,8 @@ export default function Competition() {
                     await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`);
                     await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
 
+                    window.location.reload();
+
                 } catch (error) {
                 }
             };
