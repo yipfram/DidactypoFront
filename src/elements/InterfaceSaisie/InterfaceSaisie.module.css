@@ -1,0 +1,45 @@
+.textContainer {
+    margin-bottom: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.inputField {
+    width: 50%;
+    min-width: 200px;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    padding: 0.5em;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+.progressBarContainer {
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid black;
+    margin: 0 auto;
+    margin-top: 10px;
+    height: 7px;
+    background-color: #f5f5f5;
+    position: relative;
+}
+
+.progressBar {
+    height: 100%;
+    background: green;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.statsContainer {
+    margin-top: 10px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+

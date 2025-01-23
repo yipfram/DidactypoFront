@@ -3,10 +3,38 @@
     justify-content: space-evenly;
 }
 
+.pageClasseNotJoined{
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.buttonsContainerNotJoined{
+    min-width: 45vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.btnNotJoined {
+    background-color: var(--text-color-emphasis);
+    color: #060404;
+    border-radius: 8px;
+    border: black;
+    border-width: 2px;
+    padding: 15px 30px;
+    font-size: 1.5rem; /* Taille du texte augmentée */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
 .classegauche{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     margin: 1vw;
     
 }
@@ -39,6 +67,17 @@
     font-size: 1.8vw;
     cursor: pointer;
     transition: background-color 0.3s ease; 
+}
+
+.btnQuitter{
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 35px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 50%;
 }
 
 .btnajouter:hover {
