@@ -13,7 +13,7 @@ export default function Footer() {
             </a>
             <Link to="/infos">Qui sommes-nous ?</Link>
             <p>License Apache2.0</p>
-            <a href="https://www.github.com/orgs/team-maitrobe/didactypo">
+            <a href="https://github.com/Team-Maitrobe/DidactypoFront">
                 <img src={logo} alt="logo" className={style.logo} />
             </a>
         </div>
