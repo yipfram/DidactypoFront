@@ -74,9 +74,7 @@ export default function Competition() {
                 }
             } else {
                 cptDefi = 1;
-                cptDefi = 1;
             }
-
 
             await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
 
@@ -116,8 +114,6 @@ export default function Competition() {
                 try {
                     const payload = {
                         id_defi: defis[0]?.id_defi,
-                        pseudo_utilisateur: userPseudo,
-                        temps_reussite: timeDiff,
                         pseudo_utilisateur: userPseudo,
                         temps_reussite: timeDiff,
                     };
@@ -173,10 +169,6 @@ export default function Competition() {
                             Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
                             </h3>
                         </div>
-                            <h3>
-                            Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
-                            </h3>
-                        </div>
                         )}
                         {isReady && targetTextCompetition && (
                             <InterfaceSaisie
@@ -186,7 +178,6 @@ export default function Competition() {
                             />
                         )}
                         {elapsedTime && (
-                            <div className={style.elapsedTime}>
                             <div className={style.elapsedTime}>
                                 Temps écoulé : {elapsedTime.toFixed(2)} secondes
                             </div>
