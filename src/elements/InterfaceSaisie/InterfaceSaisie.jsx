@@ -132,9 +132,7 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
             if (wpm <= 10) {
                 await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=10`);
             }
-            console.log("Stat mise en bd");
         } catch (error) {
-            console.error("Erreur lors de la mise à jour de la base de données :", error);
         }
     };
 

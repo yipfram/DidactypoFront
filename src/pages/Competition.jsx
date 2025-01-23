@@ -46,7 +46,6 @@ export default function Competition() {
         setStartTime(new Date());
         setEndTime(null);
         setElapsedTime(null);
-        gestionDefiQuotidien(userPseudo);
     };
 
     const gestionDefiQuotidien = async (userPseudo) => {
@@ -88,9 +87,21 @@ export default function Competition() {
                 console.error("Erreur lors de la mise à jour des badges :", error);
             }
         } catch (error) {
-            console.error("Erreur lors de la récupération des réussites de défi :", error);
+            if (error.response && error.response.status === 404) {
+                const cptDefi = 1;
+                try {
+                    await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
+                    return cptDefi;
+                } catch (putError) {
+                    console.error("Erreur lors de l'initialisation du compteur:", putError);
+                    throw putError;
+                }
+            }
+            console.error("Erreur lors de la gestion du défi quotidien:", error);
+            throw error;
         }
     };
+    
 
     // Calcul du temps écoulé une fois terminé
     useEffect(() => {
@@ -139,10 +150,19 @@ export default function Competition() {
                             Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
                             Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
                             </h3>
+                        <div className={style.readyButtonContainer}>
+                            <h3>
+                            Bienvenue dans le mode compétition !
+                            Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                            Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                            </h3>
                             <button
                             onClick={handleReadyClick}
                             className={style.readyButton}
+                            onClick={handleReadyClick}
+                            className={style.readyButton}
                             >
+                            Commencer le défi
                             Commencer le défi
                             </button>
                             <h3>
