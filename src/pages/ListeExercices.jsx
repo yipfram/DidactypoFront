@@ -42,7 +42,6 @@ export default function ListeExercices() {
           }
         }
       } catch (error) {
-        console.log("Erreur lors de la récupération des exercices : ", error);
       }
     };
     fetchTitreExercices();
@@ -80,9 +79,7 @@ export default function ListeExercices() {
       }
   
       const data = await response.json();
-      console.log('Exercice marqué comme réalisé:', data);
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de l\'exercice comme réalisé:', error);
     }
   };
   
@@ -92,9 +89,7 @@ export default function ListeExercices() {
   const handleExerciseComplete = async () => {
     setIsModalOpen(false); // Ferme la modale
     setIsPopupVisible(true); // Affiche la pop-up
-  
-    console.log("Fin de l'exercice :", endTime); // Affiche l'heure de fin dans la console
-  
+    
     // Appel à l'API pour enregistrer l'exercice comme réalisé
     try {
       const response = await api.post("/exercices_realises/", null, {
@@ -104,9 +99,7 @@ export default function ListeExercices() {
         },
       });
   
-      console.log("Exercice réalisé enregistré :", response.data);
     } catch (error) {
-      console.error("Erreur lors de l'enregistrement de l'exercice réalisé :", error);
     }
   
     // Cache la pop-up après 3 secondes

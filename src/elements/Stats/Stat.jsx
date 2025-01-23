@@ -10,7 +10,6 @@ const Stat = async ({ pseudo, type }) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching stats:", error);
     throw error;
   }
 }

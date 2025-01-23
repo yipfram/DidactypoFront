@@ -23,7 +23,6 @@ const CreerClasse = (props) => {
 
             window.location.reload();
         } catch {
-            console.error('Erreur lors de la création de la classe : ', error);
         }
     }
 

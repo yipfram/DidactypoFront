@@ -84,7 +84,6 @@ export default function Competition() {
                 if (cptDefi === 14) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
                 if (cptDefi === 20) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
             } catch (error) {
-                console.error("Erreur lors de la mise à jour des badges :", error);
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -93,11 +92,9 @@ export default function Competition() {
                     await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
                     return cptDefi;
                 } catch (putError) {
-                    console.error("Erreur lors de l'initialisation du compteur:", putError);
                     throw putError;
                 }
             }
-            console.error("Erreur lors de la gestion du défi quotidien:", error);
             throw error;
         }
     };
@@ -122,9 +119,7 @@ export default function Competition() {
                     await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`);
                     await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
 
-                    console.log("Base de données mise à jour avec succès !");
                 } catch (error) {
-                    console.error("Erreur lors de la mise à jour de la base de données :", error);
                 }
             };
 
@@ -150,19 +145,10 @@ export default function Competition() {
                             Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
                             Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
                             </h3>
-                        <div className={style.readyButtonContainer}>
-                            <h3>
-                            Bienvenue dans le mode compétition !
-                            Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
-                            Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
-                            </h3>
                             <button
                             onClick={handleReadyClick}
                             className={style.readyButton}
-                            onClick={handleReadyClick}
-                            className={style.readyButton}
                             >
-                            Commencer le défi
                             Commencer le défi
                             </button>
                             <h3>
@@ -177,11 +163,6 @@ export default function Competition() {
                                 isReady={isReady}
                             />
                         )}
-                        {elapsedTime && (
-                            <div className={style.elapsedTime}>
-                                Temps écoulé : {elapsedTime.toFixed(2)} secondes
-                            </div>
-                        )}
                         <div className={style.leaderboard}>
                             <Leaderboard />
                         </div>
@@ -190,4 +171,5 @@ export default function Competition() {
             </main>
         </VerifConnection>
     );
+
 }

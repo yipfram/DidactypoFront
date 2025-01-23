@@ -23,7 +23,6 @@ export default function ChangementMdp() {
         try {
             const token = window.localStorage.getItem("token");
             const decoded = jwtDecode(token);
-            console.log(decoded.sub, String(ancienMdp.current.value), String(inputMdp.current.value));
 
             // Send the data as a JSON object in the request body
             const response = await api.patch("/modification_mdp", {
@@ -35,7 +34,6 @@ export default function ChangementMdp() {
             setMessageRetour(response.data.message);
         } catch (error) {
             setMessageRetour("Erreur lors de la modification du mot de passe");
-            console.error(error);
         } finally {
             handlerModalClose();
             setPopOpen(true);

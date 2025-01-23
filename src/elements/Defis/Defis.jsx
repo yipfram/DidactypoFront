@@ -38,7 +38,6 @@ export default function Defis() {
                 });
             }
         } catch (error) {
-            console.error("Erreur lors de la récupération des réussites de défi :", error);
         }
     };
 
@@ -117,7 +116,6 @@ export default function Defis() {
                 await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=1`);
             }
         } catch (error) {
-            console.error("Erreur lors de la mise à jour des badges :", error);
         }
     };
 
