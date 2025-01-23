@@ -33,7 +33,10 @@ export default function ChangementMdp() {
 
             setMessageRetour(response.data.message);
         } catch (error) {
-            setMessageRetour("Erreur lors de la modification du mot de passe");
+            if (error.response.status === 400)
+                setMessageRetour("Le nouveau mot de passe ne peux pas être vide");
+            else
+                setMessageRetour("Le mot de passe est incorrecte");
         } finally {
             handlerModalClose();
             setPopOpen(true);
