@@ -38,10 +38,12 @@ export default function Compte() {
           {/* Header avec le message de bienvenue et le bouton de déconnexion */}
           <div className={style.header}>
             <h1>Bienvenue {decodedToken.sub} !</h1>
+            <ChangementMdp />
             <button onClick={handleLogout}>Se déconnecter</button>
+           
           </div>
 
-          <ChangementMdp />
+          
 
           {/* Section des graphiques */}
           <div className={style.stats}>

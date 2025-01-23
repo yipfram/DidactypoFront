@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { jwtDecode } from 'jwt-decode';
 import Modal from '../Components/Modal';
 import api from '../../api';
-
+import style from "./ChangementMdp.module.css"
 
 export default function ChangementMdp() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -45,7 +45,7 @@ export default function ChangementMdp() {
 
     return (
         <>
-            <button onClick={handlerChangementMdp}>Changer mot de passe</button>
+            <button onClick={handlerChangementMdp} className={style.changement}>Changer mot de passe</button>
             <Modal show={modalOpen} onClose={handlerModalClose}>
                 <form onSubmit={handleSubmit} method="post">
                     <fieldset>
