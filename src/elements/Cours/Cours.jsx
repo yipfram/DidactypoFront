@@ -9,7 +9,6 @@ export default function Cours(id_cours) {
             const reponse = await api.get(`/cours/${id_cours}`);
             setCours(reponse.data);
         } catch (error) {
-            console.error("Erreur lors de la récupération des cours :", error);
         }
     };
 

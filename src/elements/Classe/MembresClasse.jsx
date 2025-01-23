@@ -19,7 +19,6 @@ export default function MembresClasse({ idClasse }) {
             const { nom, prenom } = reponseInfosEleve.data; // Extract nom and prenom
             return `${nom} ${prenom}`; // Concatenate nom and prenom
         } catch (error) {
-            console.error(`Erreur lors de la récupération des infos pour ${pseudo}:`, error);
             return "Erreur de chargement"; // Message par défaut en cas d'erreur
         }
     }    
@@ -47,7 +46,6 @@ export default function MembresClasse({ idClasse }) {
                     }, {});
                     setInfoByPseudo(infoMap);
                 } catch (error) {
-                    console.error("Erreur lors de la récupération des membres de la classe :", error);
                 } finally {
                     setLoadingMembres(false);
                 }

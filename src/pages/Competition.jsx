@@ -92,11 +92,9 @@ export default function Competition() {
                     await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
                     return cptDefi;
                 } catch (putError) {
-                    console.error("Erreur lors de l'initialisation du compteur:", putError);
                     throw putError;
                 }
             }
-            console.error("Erreur lors de la gestion du défi quotidien:", error);
             throw error;
         }
     };
@@ -121,9 +119,7 @@ export default function Competition() {
                     await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`);
                     await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
 
-                    console.log("Base de données mise à jour avec succès !");
                 } catch (error) {
-                    console.error("Erreur lors de la mise à jour de la base de données :", error);
                 }
             };
 

@@ -39,7 +39,6 @@ export default function FenetreCours(props) {
             }));
             setCours(decodedData);
         } catch (error) {
-            console.error("Erreur lors de la récupération d'une partie d'un cours :", error);
         }
     }
 
@@ -61,9 +60,7 @@ export default function FenetreCours(props) {
                     const response = await api.post('/completion_cours', completionData);
                                         
                 } catch (error) {
-                    console.error("Erreur lors de la mise à jour de la progression :", error);
                     if (error.response?.data?.detail) {
-                        console.error("Détails de validation:", error.response.data.detail);
                         // Afficher les erreurs de validation spécifiques
                         const erreurs = error.response.data.detail.map(err => 
                             `${err.loc.join('.')} : ${err.msg}`

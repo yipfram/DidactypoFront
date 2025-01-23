@@ -42,7 +42,6 @@ export default function VerifConnection({ children }) {
         setTimeOut(true);
       }
     } catch (error) {
-      console.error("Invalid token", error);
       setConnected(false);
     }
   }, []);

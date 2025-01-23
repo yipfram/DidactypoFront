@@ -24,7 +24,6 @@ export default function TempsDefi({ pseudo }) {
         setStats(data);
         setLoading(false);
       } catch (error) {
-        console.error("Erreur lors de la récupération des données Temps Défi :", error);
         setLoading(false);
       }
     };

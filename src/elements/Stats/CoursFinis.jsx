@@ -9,9 +9,7 @@ export default function CoursFinis({pseudo}) {
           try {
             const newStats = await Stat({ pseudo: pseudo, type: "courfini" });
             setStats(newStats);
-            console.log(stats);
           } catch (error) {
-            console.error("Error fetching stats:", error);
           }
         };
         

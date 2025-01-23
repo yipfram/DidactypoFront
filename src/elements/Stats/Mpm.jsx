@@ -24,7 +24,6 @@ export default function Mpm({ pseudo }) {
         setStats(data);
         setLoading(false);
       } catch (error) {
-        console.error("Erreur lors de la récupération des données WPM :", error);
         setLoading(false);
       }
     };

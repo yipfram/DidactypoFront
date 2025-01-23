@@ -19,7 +19,7 @@
 }
 
 .btnNotJoined {
-    background-color: var(--text-color-emphasis);
+    background-color: var(--quaternary);
     color: #060404;
     border-radius: 8px;
     border: black;

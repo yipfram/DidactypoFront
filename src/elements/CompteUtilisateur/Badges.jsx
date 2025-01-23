@@ -23,7 +23,6 @@ export default function Badges(props) {
             
             setBadges(badgesComplets);
         } catch (error){
-            console.error("Erreur lors de la récupération des badges :", error);
         }
 
     };

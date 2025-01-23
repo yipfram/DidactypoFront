@@ -15,7 +15,6 @@ const QuitterClasse = (props) => {
             });
             window.location.reload();
         } catch (error) {
-            console.error(error.response.data.detail);
         }
     };
 
