@@ -64,7 +64,7 @@ export default function MembresClasse({ idClasse }) {
                 ) : membres.length ? (
                     membres.map((membre) => (
                         <HoverText key={membre.pseudo} text={infoByPseudo[membre.pseudo] || 'Chargement...'}>
-                            <li className={style.eleve}>
+                            <li className={style.eleve} onClick={() => {window.location.href=`/profil/${membre.pseudo}`}}>
                                 <span>
                                     <img className={style.icone} src={icone} alt="icone" />
                                 </span>

@@ -1,4 +1,6 @@
 import { NavLink, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {jwtDecode} from "jwt-decode";
 
 import style from "./Header.module.css";
 
@@ -6,6 +8,16 @@ import logo from "../../img/logoDidactypo.png";
 import iconCompte from "../../img/IconCompte.png";
 
 export default function Header() {
+    const [pseudo, setPseudo] = useState("");
+
+    useEffect(() => {
+        const token = window.localStorage.getItem("token");
+        if (token) {
+            const decoded = jwtDecode(token);
+            setPseudo(decoded.sub);
+        }
+    }, [])
+    
     return (
         <div className={style.header}>
             <Link to="/">
@@ -18,9 +30,9 @@ export default function Header() {
                 <NavLink to="/maclasse">Ma Classe</NavLink>
                 <NavLink to="/infos">Infos utiles</NavLink>
             </nav>
-            <Link to="/compte">
+            <Link to={`/profil/${pseudo}`}>
                 <img src={iconCompte} alt="compte" className={style.iconCompte}/>
             </Link>
-        </div>
+        </div>  
     )
 }

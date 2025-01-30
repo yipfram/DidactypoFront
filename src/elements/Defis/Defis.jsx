@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import api from "../../api";
 import { jwtDecode } from "jwt-decode";
+
 import style from "./Defis.module.css";
 
 // Fonction pour obtenir le pseudo de l'utilisateur
@@ -133,13 +136,18 @@ export default function Defis() {
                 <tbody className={style.corpstable}>
                     {rows.map((reussiteDefi, index) => {
                         const position = reussiteDefi.position || startIndex + index + 1;
+                        const isCurrentUser = reussiteDefi.pseudo_utilisateur === userPseudo;
 
                         return (
                             <tr
-                                className={`${style.lignejoueur} ${
-                                    reussiteDefi.pseudo_utilisateur === userPseudo ? style.utilisateurActuel : ""
-                                }`}
+                                className={`${style.lignejoueur} ${isCurrentUser ? style.utilisateurActuel : ""
+                                    }`}
                                 key={index}
+                                onClick={() => {
+                                    // Navigate to the user's profile when the row is clicked
+                                    window.location.href = `/profil/${reussiteDefi.pseudo_utilisateur}`;
+                                }}
+                                style={{ cursor: "pointer" }} // Change cursor to indicate clickability
                             >
                                 <td className={style.cellule}>{position}</td>
                                 <td className={style.cellule}>{reussiteDefi.pseudo_utilisateur}</td>
