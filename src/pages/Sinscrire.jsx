@@ -5,10 +5,10 @@ import api from "../api";
 
 import style from "../style/Connexion.module.css";
 
-import logo from "../img/logoDidactypo.png";
-
 export default function Sinscrire() {
-  const [utilisateurs, setUtilisateurs] = useState([]);
+  const [utilisateurs, setUtilisateurs] = useState([]); // Initialisation avec un tableau vide
+  const [pseudo, setPseudo] = useState("");
+
   const [formData, setFormData] = useState({
     pseudo: "",
     mot_de_passe: "",
@@ -23,15 +23,33 @@ export default function Sinscrire() {
 
   const navigate = useNavigate();
 
+  // Fonction pour récupérer les utilisateurs via l'API
   const fetchUtilisateurs = async () => {
-    const reponse = await api.get("/utilisateurs/");
-    setUtilisateurs(reponse.data);
+    try {
+      const reponse = await api.get("/utilisateurs/");
+      console.log("Données reçues de l'API :", reponse.data);
+      const data = Array.isArray(reponse.data) ? reponse.data : reponse.data.utilisateurs || [];
+      setUtilisateurs(data); // S'assurer que la donnée est un tableau
+    } catch (erreur) {
+      console.error("Erreur lors de la récupération des utilisateurs :", erreur);
+      setUtilisateurs([]); // En cas d'erreur, garder utilisateurs comme un tableau vide
+    }
   };
 
+  // Chargement initial des utilisateurs
   useEffect(() => {
     fetchUtilisateurs();
   }, []);
 
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      setPseudo(decoded.sub);
+    }
+  }, [utilisateurs]);
+
+  // Gestion des changements dans le formulaire
   const handleInputChange = (evenement) => {
     const valeur = evenement.target.value;
     setFormData({
@@ -40,8 +58,18 @@ export default function Sinscrire() {
     });
   };
 
+  // Gestion de la soumission du formulaire
   const handleFormSubmit = async (evenement) => {
     evenement.preventDefault();
+
+    // Vérification que "utilisateurs" est bien un tableau
+    if (!Array.isArray(utilisateurs)) {
+      console.error("Les utilisateurs ne sont pas un tableau :", utilisateurs);
+      alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+      return;
+    }
+
+    // Vérification si le pseudo existe déjà
     const pseudoExiste = utilisateurs.some(
       (utilisateur) => utilisateur.pseudo === formData.pseudo
     );
@@ -50,6 +78,7 @@ export default function Sinscrire() {
       return;
     }
 
+    // Vérification si le courriel existe déjà
     const courrielExiste = utilisateurs.some(
       (utilisateur) => utilisateur.courriel === formData.courriel
     );
@@ -58,21 +87,32 @@ export default function Sinscrire() {
       return;
     }
 
-    await api.post("/utilisateurs/", formData);
-    fetchUtilisateurs();
-    setFormData({
-      pseudo: "",
-      mot_de_passe: "",
-      nom: "",
-      prenom: "",
-      courriel: "",
-      est_admin: false,
-      cptDefi: 0,
-      numCours: 0,
-      tempsTotal: 0,
-    });
+    try {
+      // Ajout de l'utilisateur via l'API
+      await api.post("/utilisateurs/", formData);
 
-    navigate("/compte"); // Utilisation correcte après la soumission
+      // Recharger la liste des utilisateurs
+      fetchUtilisateurs();
+
+      // Réinitialiser le formulaire
+      setFormData({
+        pseudo: "",
+        mot_de_passe: "",
+        nom: "",
+        prenom: "",
+        courriel: "",
+        est_admin: false,
+        cptDefi: 0,
+        numCours: 0,
+        tempsTotal: 0,
+      });
+
+      // Redirection vers la page de connexion
+      navigate("/");
+    } catch (erreur) {
+      console.error("Erreur lors de l'inscription :", erreur);
+      alert("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
+    }
   };
 
   return (
@@ -132,7 +172,7 @@ export default function Sinscrire() {
 
         <button type="submit">Inscription</button>
         <p>
-          Déjà inscrit ? <Link to="/compte">Se connecter</Link>
+          Déjà inscrit ? <Link to={`/profil/${pseudo}`}>Se connecter</Link>
         </p>
       </form>
     </div>

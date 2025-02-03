@@ -147,6 +147,9 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
                     onChange={handleInputChange}
                     disabled={!isReady}
                     className={styles.inputField}
+                    onPaste={(e) => {e.preventDefault()}}
+                    onDragStart={(e) => {e.preventDefault()}}
+                    onDrop={(e) => {e.preventDefault()}}
                 />
             </form>
             <div className={styles.progressBarContainer}>

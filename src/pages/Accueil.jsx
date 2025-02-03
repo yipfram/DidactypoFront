@@ -1,11 +1,26 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import style from "../style/Accueil.module.css";
+
+import Modal from "../elements/Components/Modal";
+import Connexion from "../elements/CompteUtilisateur/Connexion";
 import Leaderboard from "../elements/Defis/Defis";
 
 
 export default function Accueil() {
- return (
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const openModal = () => {
+      if (window.localStorage.getItem("token")) {
+         window.location.href = "/compte";
+      }
+      else {
+         setIsModalOpen(true);
+      }
+   }
+   const closeModal = () => setIsModalOpen(false);
+ 
+   return (
     <>
     <main className={style.accueil}>
        <div className={style.accueilmenu}>
@@ -15,7 +30,11 @@ export default function Accueil() {
                 </p>
             </div>
             <div className={style.choixboutons}>
-               <Link to="./compte" className={style.bouton}>Se connecter</Link>
+               <Modal show={isModalOpen} onClose={closeModal}>
+                  <Connexion />
+                  <button onClick={closeModal}>Annuler</button>
+               </Modal>
+               <input type="button" onClick={openModal} className={style.bouton} value="Se connecter"/>
                <Link to="./apprendre" className={style.bouton}>Apprendre</Link>
                <Link to="./competition" className={style.bouton}>Compétition</Link>
             </div>

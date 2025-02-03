@@ -100,7 +100,7 @@ export default function FenetreCours(props) {
                             <img src={partieCours.chemin_img_sous_cours} alt="image partie cours" />
                         )}
                         {/*On met seulement un boutton si le titre dans la bd (titre_sous_cours) est égal à "Exercice"*/}
-                        {partieCours.titre_sous_cours === "Exercice" && <Link to={`/listeExercices?idExo=${partieCours.id_cours_parent}`}
+                        {partieCours.titre_sous_cours === "Exercice" && <Link to={`/apprendre/exercices?idExo=${partieCours.id_cours_parent}`}
                          className={style.boutonsCours}>Exercices</Link>}
                     </>
                 ) : (
