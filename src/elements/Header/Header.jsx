@@ -8,7 +8,7 @@ import logo from "../../img/logoDidactypo.png";
 import iconCompte from "../../img/IconCompte.png";
 
 export default function Header() {
-    const [pseudo, setPseudo] = useState("");
+    const [pseudo, setPseudo] = useState("xav");
 
     useEffect(() => {
         const token = window.localStorage.getItem("token");

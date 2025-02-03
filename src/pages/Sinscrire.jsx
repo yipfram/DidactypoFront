@@ -5,10 +5,10 @@ import api from "../api";
 
 import style from "../style/Connexion.module.css";
 
-import logo from "../img/logoDidactypo.png";
-
 export default function Sinscrire() {
   const [utilisateurs, setUtilisateurs] = useState([]); // Initialisation avec un tableau vide
+  const [pseudo, setPseudo] = useState("");
+
   const [formData, setFormData] = useState({
     pseudo: "",
     mot_de_passe: "",
@@ -40,6 +40,14 @@ export default function Sinscrire() {
   useEffect(() => {
     fetchUtilisateurs();
   }, []);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      setPseudo(decoded.sub);
+    }
+  }, [utilisateurs]);
 
   // Gestion des changements dans le formulaire
   const handleInputChange = (evenement) => {
@@ -100,7 +108,7 @@ export default function Sinscrire() {
       });
 
       // Redirection vers la page de connexion
-      navigate("/compte");
+      navigate("/");
     } catch (erreur) {
       console.error("Erreur lors de l'inscription :", erreur);
       alert("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
@@ -164,7 +172,7 @@ export default function Sinscrire() {
 
         <button type="submit">Inscription</button>
         <p>
-          Déjà inscrit ? <Link to="/compte">Se connecter</Link>
+          Déjà inscrit ? <Link to={`/profil/${pseudo}`}>Se connecter</Link>
         </p>
       </form>
     </div>

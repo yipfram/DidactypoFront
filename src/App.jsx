@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import './style/App.css';
 import Header from './elements/Header/Header';
@@ -30,6 +30,7 @@ export default function App() {
             <Route path="/maclasse" element={<MaClasse />} />
             <Route path="/infos" element={<InfosUtiles />} />
             <Route path="/profil/*" element={<Compte />} />
+            <Route path="/profil" element={<Navigate to="/" />} />
             <Route path="/inscription" element={<Sinscrire />} />
             <Route path="/apprendre/cours" element={<ListeCours />} />
             <Route path="/apprendre/exercices" element={<ListeExercices />} />
