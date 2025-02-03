@@ -8,7 +8,7 @@ import logo from "../../img/logoDidactypo.png";
 import iconCompte from "../../img/IconCompte.png";
 
 export default function Header() {
-    const [pseudo, setPseudo] = useState("xav");
+    const [pseudo, setPseudo] = useState("Se connecter");
 
     useEffect(() => {
         const token = window.localStorage.getItem("token");
@@ -27,10 +27,11 @@ export default function Header() {
                 <NavLink to="/">Accueil</NavLink>
                 <NavLink to="/apprendre">Apprendre</NavLink>
                 <NavLink to="/competition">Competition</NavLink>
-                <NavLink to="/maclasse">Ma Classe</NavLink>
+                <NavLink to="/classe">Ma Classe</NavLink>
                 <NavLink to="/infos">Infos utiles</NavLink>
             </nav>
             <Link to={`/profil/${pseudo}`}>
+                <p>{pseudo}</p>
                 <img src={iconCompte} alt="compte" className={style.iconCompte}/>
             </Link>
         </div>  

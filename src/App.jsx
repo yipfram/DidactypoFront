@@ -9,6 +9,7 @@ import Loading from './elements/Components/Loading';
 const Accueil = lazy(() => import('./pages/Accueil'));
 const Apprendre = lazy(() => import('./pages/Apprendre'));
 const Competition = lazy(() => import('./pages/Competition'));
+const ChoixClasse = lazy(() => import('./pages/ChoixClasse'));
 const MaClasse = lazy(() => import('./pages/MaClasse'));
 const InfosUtiles = lazy(() => import('./pages/InfosUtiles'));
 const Compte = lazy(() => import('./pages/Compte'));
@@ -27,7 +28,8 @@ export default function App() {
             <Route path="/" element={<Accueil />} />
             <Route path="/apprendre" element={<Apprendre />} />
             <Route path="/competition" element={<Competition />} />
-            <Route path="/maclasse" element={<MaClasse />} />
+            <Route path="/classe" element={<ChoixClasse />} />
+            <Route path="/classe/:id" element={<MaClasse />} />
             <Route path="/infos" element={<InfosUtiles />} />
             <Route path="/profil/*" element={<Compte />} />
             <Route path="/profil" element={<Navigate to="/" />} />
