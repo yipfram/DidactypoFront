@@ -44,6 +44,10 @@
     }
 }
 
+.header>a:hover{
+    text-decoration: underline;
+}
+
 @media (max-width: 630px) {
     .header {
         height: auto;

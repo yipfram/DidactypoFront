@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 import InterfaceSaisie from '../elements/InterfaceSaisie/InterfaceSaisie.jsx';
 import Leaderboard from "../elements/Defis/Defis.jsx";
+import Loading from '../elements/Components/Loading.jsx';
 
 export default function Competition() {
     const [defis, setDefis] = useState([]);
@@ -135,7 +136,7 @@ export default function Competition() {
         <VerifConnection>
             <main className={style.Competition}>
                 {isLoading ? (
-                    <p>Chargement des défis...</p>
+                    <Loading />
                 ) : error ? (
                     <p className={style.error}>{error}</p>
                 ) : (
@@ -150,6 +151,7 @@ export default function Competition() {
                             <button
                             onClick={handleReadyClick}
                             className={style.readyButton}
+                            
                             >
                             Commencer le défi
                             </button>

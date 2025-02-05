@@ -115,7 +115,7 @@ export default function ListeExercices() {
 
   return (
     <>
-      <main className={style.apprendre}>
+      <main className={`${style.apprendre} ${style.exercices}`}>
         <h1>Exercices</h1>
         <div className={style.listeExercices}>
           {exercises.map((exercise) => (

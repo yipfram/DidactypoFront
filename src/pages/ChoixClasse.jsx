@@ -71,11 +71,9 @@ export default function ChoixClasse() {
                 ) : classes.length > 0 ? (
                     <ul className={style.classesList}>
                         {classes.map(classe => (
-                            <li key={classe.id_groupe}>
-                                <Link to={`/classe/${classe.id_groupe}`}>
-                                    <h2>{classe.nom_groupe}</h2>
-                                    <p>{classe.description_groupe}</p>
-                                </Link>
+                            <li key={classe.id_groupe} onClick={() => {window.location.href = `/classe/${classe.id_groupe}`}}>
+                                <h2>{classe.nom_groupe}</h2>
+                                <p>{classe.description_groupe}</p>
                             </li>
                         ))}
                     </ul>

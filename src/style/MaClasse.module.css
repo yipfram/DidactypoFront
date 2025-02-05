@@ -109,6 +109,7 @@
     background-color: var(--quaternary);
     transition: background-color 0.25s ease-in-out;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .classesList a {
