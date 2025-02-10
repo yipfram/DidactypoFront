@@ -7,6 +7,7 @@ import api from "../api";
 
 export default function ListeExercices() {
   const [selectedExercise, setSelectedExercise] = useState(null); // Stocke l'exercice sélectionné
+  const [listeExercices, setListeExercices] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // Gère l'état de la modale
   const [isPopupVisible, setIsPopupVisible] = useState(false); // Gère l'état de la pop-up
   const [endTime, setEndTime] = useState(null); // Stocke l'heure de fin d'exercice
@@ -39,6 +40,7 @@ export default function ListeExercices() {
           if (exercise) {
             setSelectedExercise(exercise);
             setIsModalOpen(true);
+            setListeExercices(false);
           }
         }
       } catch (error) {
@@ -52,13 +54,19 @@ export default function ListeExercices() {
     setSelectedExercise(exercise); // Définit l'exercice sélectionné
     setEndTime(null); // Réinitialise l'heure de fin
     setIsModalOpen(true); // Ouvre la modale
+    setListeExercices(false);
   };
 
   // Fonction pour fermer la modale
   const closeModal = () => {
     setIsModalOpen(false); // Ferme la modale
     setSelectedExercise(null); // Réinitialise l'exercice sélectionné
+    setListeExercices(true);
   };
+
+  const closePopUp = () => {
+    setIsPopupVisible(false);
+  }
 
 
   const markExerciseAsCompleted = async (exerciseId, userPseudo) => {
@@ -88,6 +96,7 @@ export default function ListeExercices() {
   // Fonction pour afficher la pop-up lorsque l'exercice est terminé
   const handleExerciseComplete = async () => {
     setIsModalOpen(false); // Ferme la modale
+    setListeExercices(true);
     setIsPopupVisible(true); // Affiche la pop-up
     
     // Appel à l'API pour enregistrer l'exercice comme réalisé
@@ -102,11 +111,10 @@ export default function ListeExercices() {
     } catch (error) {
     }
   
-    // Cache la pop-up après 3 secondes
+    // Cache la pop-up après 2.5 secondes
     setTimeout(() => {
       setIsPopupVisible(false); // Cache la pop-up
-      setSelectedExercise(null); // Réinitialise l'exercice sélectionné
-    }, 3000);
+    }, 2500);
   };
   
 
@@ -116,19 +124,19 @@ export default function ListeExercices() {
   return (
     <>
       <main className={`${style.apprendre} ${style.exercices}`}>
-        <h1>Exercices</h1>
+        {/* Liste des exercices */}
+        {listeExercices && (
         <div className={style.listeExercices}>
           {exercises.map((exercise) => (
             <div key={exercise.id_exercice} className={style.exercice}>
               <h2>{exercise.titre_exercice}</h2>
-              <button onClick={() => handleStartExercise(exercise)}>
+              <button onClick={() => handleStartExercise(exercise)} className="btngeneral">
                 Commencer
               </button>
             </div>
           ))}
         </div>
-      </main>
-
+        )}
       {/* Modale */}
       {isModalOpen && (
         <div className={style.modal}>
@@ -144,16 +152,21 @@ export default function ListeExercices() {
                 />
               </>
             )}
-            <button onClick={closeModal} className={style.closeButton}>
+            <button onClick={closeModal} className="btngeneral">
               Fermer
             </button>
           </div>
         </div>
       )}
+      </main>
+
 
       {/* Pop-up de félicitations */}
       {isPopupVisible && (
         <div className={style.popup}>
+          <button onClick={closePopUp} className={style.boutonfermer}>
+            x
+          </button>
           <div className={style.popupContent}>
             <h2>Bravo pour avoir terminé cet exercice !</h2>
           </div>

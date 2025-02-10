@@ -30,11 +30,28 @@ html, body {
     color: var(--text-color);
 }
 
+.liste{
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.texteListeApprendre{
+    list-style-type:upper-roman;
+    list-style-position: inside;
+    background-color: var(--secondary);
+    width: 15vw;
+    margin: 1vw;
+    border-radius: 20px ;
+    padding: 5px;
+    box-shadow: -1px 3px 3px rgb(78, 75, 75);
+
+}
 
 .texteListeApprendre:hover{ /*Le texte dans la liste dans liste cours*/
-
     background-color: #E8BB6D;
-   
+    cursor: pointer;
 }
 
 
@@ -121,11 +138,12 @@ html, body {
 
   .popup {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 18%;
+  left: 92%;
+  width: 12vw;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
+  padding: 0.2vw;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   border-radius: 8px;
@@ -133,24 +151,50 @@ html, body {
 }
 
 .popupContent h2 {
+  margin-top: 0px;
   font-size: 18px;
   color: #4caf50;
 }
 
-.btnajouter {
-    background-color: #E8BB6D;
-    height: 4vw;
-    padding: 1vw 2vw;
-    margin: 0.7vw;
-    margin-top: 1vw;
+
+.boutonfermer{
+    background-color: rgba(0, 0, 0, 0);
+    display:flex;
+    margin-left: auto;
     border: none;
-    border-radius: 50px;
-    box-shadow: -1px 3px 3px rgb(78, 75, 75);
-    font-size: 1.8vw;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: large;
+}
+  
+
+.modal{
+    background-color: rgba(241, 243, 194, 0.90);
+    width: 65%;
+    border-radius: 20px;
+    margin: 2vw;
 }
 
-.btnajouter:hover {
-    background-color: #D8A75F;
+
+.listeExercices{
+    background-color: rgba(241, 243, 194, 0.90);
+    box-shadow: -1px 2px 2px rgb(78, 75, 75);
+    border-radius: 20px;
+    width: 65%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;    
+}
+
+.exercice{
+    margin: 2vw;
+    background-color: var(--secondary);
+    box-shadow: -1px 2px 2px rgb(78, 75, 75);
+    border-radius: 10px;
+    justify-items: center;
+    padding: 5px;
+}
+
+.exercice h2{
+    font-size: 2vw;
+    margin: 1vw;
 }

@@ -15,6 +15,7 @@ export default function Competition() {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
+    const [lastScore, setLastScore] = useState(null);
 
     const getUserPseudo = () => {
         const token = window.localStorage.getItem("token");
@@ -25,21 +26,34 @@ export default function Competition() {
 
     const userPseudo = getUserPseudo();
 
-    // Fetch des défis
+    // Fetch des défis et du dernier score
     useEffect(() => {
-        const fetchDefis = async () => {
+        const fetchData = async () => {
             try {
-                const response = await api.get("/defis");
-                setDefis(response.data);
+                const defisResponse = await api.get("/defis");
+                setDefis(defisResponse.data);
+                
+                if (userPseudo) {
+                    try {
+                        const reussitesResponse = await api.get(`/reussites_defi/${userPseudo}`);
+                        if (reussitesResponse.data && reussitesResponse.data.length > 0) {
+                            const sortedReussites = reussitesResponse.data.sort(
+                                (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
+                            );
+                            setLastScore(sortedReussites[0].temps_reussite);
+                        }
+                    } catch (reussitesError) {
+                    }
+                }
+                
                 setIsLoading(false);
             } catch (err) {
                 setError("Erreur lors de la récupération des défis.");
-                setIsLoading(false);
             }
         };
 
-        fetchDefis();
-    }, []);
+        fetchData();
+    }, [userPseudo]);
 
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
@@ -107,6 +121,7 @@ export default function Competition() {
             const timeDiff = (endTime - startTime) / 1000;
             setElapsedTime(timeDiff);
             setIsReady(false);
+            setLastScore(timeDiff);
 
             const updateDatabase = async () => {
                 try {
@@ -140,33 +155,40 @@ export default function Competition() {
                 ) : error ? (
                     <p className={style.error}>{error}</p>
                 ) : (
-                    <div>
-                        {!isReady && (
-                        <div className={style.readyButtonContainer}>
-                            <h3>
-                            Bienvenue dans le mode compétition !
-                            Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
-                            Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
-                            </h3>
-                            <button
-                            onClick={handleReadyClick}
-                            className={style.readyButton}
-                            
-                            >
-                            Commencer le défi
-                            </button>
-                            <h3>
-                            Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
-                            </h3>
+                    <div className={style.competContainer}>
+                        <div>
+                            {!isReady && (
+                            <div className={style.readyButtonContainer}>
+                                <h3>
+                                Bienvenue dans le mode compétition !
+                                Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                                Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                                </h3>
+                                <button
+                                onClick={handleReadyClick}
+                                className={style.readyButton}
+                                
+                                >
+                                Commencer le défi
+                                </button>
+                                <h3>
+                                Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
+                                </h3>
+                            </div>
+                            )}
+                            {isReady && targetTextCompetition && (
+                                <InterfaceSaisie
+                                    targetText={targetTextCompetition}
+                                    setEndTime={setEndTime}
+                                    isReady={isReady}
+                                />
+                            )}
+                            {lastScore && !isReady && (
+                                <div className={style.lastScoreContainer}>
+                                    <h4>Ton dernier temps : {lastScore} secondes</h4>
+                                </div>
+                            )}
                         </div>
-                        )}
-                        {isReady && targetTextCompetition && (
-                            <InterfaceSaisie
-                                targetText={targetTextCompetition}
-                                setEndTime={setEndTime}
-                                isReady={isReady}
-                            />
-                        )}
                         <div className={style.leaderboard}>
                             <Leaderboard />
                         </div>

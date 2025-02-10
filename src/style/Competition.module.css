@@ -44,6 +44,7 @@
   align-items: center; /* Centre horizontalement */
   gap: 10px; /* Espacement entre le texte et le bouton */
   margin-top: 20px; /* Espacement au-dessus du conteneur */
+  width: 50vw;
 }
 
 .readyButton {
@@ -64,4 +65,18 @@
 
 .readyButton:active {
   transform: scale(0.95); /* Réduit légèrement le bouton lorsqu'il est cliqué */
+}
+
+.lastScoreContainer {
+  margin: 20px auto;
+  text-align: center;
+  padding: 10px;
+  background-color: var(--tertiary);
+  border-radius: 5px;
+  max-width: 400px;
+}
+
+.competContainer{
+  display: flex;
+  flex-wrap: wrap;
 }
