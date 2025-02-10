@@ -162,6 +162,7 @@ html, body {
     background-color: rgba(0, 0, 0, 0);
     display:flex;
     margin-left: auto;
+}
 
 .boutonfermer{
     background-color: rgba(0, 0, 0, 0);
@@ -178,8 +179,6 @@ html, body {
     border-radius: 20px;
     margin: 2vw;
 }
-
-<<<<<<< HEAD
 
 .listeExercices{
     background-color: rgba(241, 243, 194, 0.90);
