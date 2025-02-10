@@ -173,6 +173,7 @@ html, body {
     margin: 2vw;
 }
 
+<<<<<<< HEAD
 
 .listeExercices{
     background-color: rgba(241, 243, 194, 0.90);
@@ -198,3 +199,13 @@ html, body {
     font-size: 2vw;
     margin: 1vw;
 }
+=======
+.btnajouter:hover {
+    background-color: #D8A75F;
+}
+
+.sandbox{
+    display: flex;
+    flex-direction: column;
+}
+>>>>>>> f9fb16a (ajout fonctionnalite sandbox)
