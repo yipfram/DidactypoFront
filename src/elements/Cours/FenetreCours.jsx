@@ -3,14 +3,12 @@ import { useState, useEffect } from "react";
 import { api, getPseudo } from "../../api";
 import { Link } from "react-router-dom";
 
-export default function FenetreCours(props) {
+export default function FenetreCours({ idCours, onClose }) {
     const [userPseudo, setUserPseudo] = useState(getPseudo());
     const [index, setIndex] = useState(0);
-    const [cours, setCours] = useState([]); // Table of all sub-parts of a course
+    const [cours, setCours] = useState([]);
 
     const partieCours = cours[index];
-    const setShowCours = props.setShowCours;
-    const idCours = props.idCours;
 
     useEffect(() => {
         setUserPseudo(getPseudo());
@@ -42,18 +40,14 @@ export default function FenetreCours(props) {
         if (index < cours.length - 1) {
             if (index === cours.length - 2) {
                 try {    
-                    // Créer l'objet de données
                     const completionData = {
                         pseudo_utilisateur: userPseudo,
                         id_cours: parseInt(idCours),
                         progression: 100
                     };
-                        
-                    const response = await api.post('/completion_cours', completionData);
-                                        
+                    await api.post('/completion_cours', completionData);
                 } catch (error) {
                     if (error.response?.data?.detail) {
-                        // Afficher les erreurs de validation spécifiques
                         const erreurs = error.response.data.detail.map(err => 
                             `${err.loc.join('.')} : ${err.msg}`
                         ).join('\n');
@@ -83,7 +77,6 @@ export default function FenetreCours(props) {
             <div className={style.contenuPartieCours}>
                 {partieCours ? ( 
                     <>
-                        {/*pour générer le titre, le texte et l'image*/}
                         {partieCours.titre_sous_cours && <h1>{partieCours.titre_sous_cours}</h1>}
                         {partieCours.contenu_cours && (
                             <p className={style.contenuPartieCours}>{partieCours.contenu_cours}</p>
@@ -91,27 +84,30 @@ export default function FenetreCours(props) {
                         {partieCours.chemin_img_sous_cours && (
                             <img src={partieCours.chemin_img_sous_cours} alt="image partie cours" />
                         )}
-                        {/*On met seulement un boutton si le titre dans la bd (titre_sous_cours) est égal à "Exercice"*/}
-                        {partieCours.titre_sous_cours === "Exercice" && <Link to={`/apprendre/exercices?idExo=${partieCours.id_cours_parent}`}
-                         className={style.boutonsCours}>Exercices</Link>}
+                        {partieCours.titre_sous_cours === "Exercice" && (
+                            <Link 
+                                to={`/apprendre/exercices?idExo=${partieCours.id_cours_parent}`}
+                                className={style.boutonsCours}
+                            >
+                                Exercices
+                            </Link>
+                        )}
                     </>
                 ) : (
-                    <p>Chargement...</p> //pour le temps d'attente de l'appel api
+                    <p>Chargement...</p>
                 )}
             </div>
         );
     }
 
     return (
-        <>
-            <div className={style.fenetreCours}>
-                {contenuPartieCours()}
-                <div className={style.groupeButtonFenetreCours}>
-                    <button onClick={handlerBack} className={style.boutonsCours}>précédent</button>
-                    <button onClick={handlerExit} className={style.boutonsCours}>sortir</button>
-                    <button onClick={handlerNext} className={style.boutonsCours}>prochain</button>
-                </div>
+        <div className={style.fenetreCours} onClick={(e) => e.stopPropagation()}>
+            {contenuPartieCours()}
+            <div className={style.groupeButtonFenetreCours}>
+                <button onClick={handlerBack} className={style.boutonsCours}>précédent</button>
+                <button onClick={onClose} className={style.boutonsCours}>sortir</button>
+                <button onClick={handlerNext} className={style.boutonsCours}>prochain</button>
             </div>
-        </>
+        </div>
     );
 }

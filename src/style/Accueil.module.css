@@ -47,16 +47,12 @@
     text-align: center;
 }
 
+.bouton:hover{
+    background-color: #b79151;
+}
 
 .leaderboard{
     border-radius: 20px;
     margin: 2vw;
 }
 
-.leaderboard h2{
-    margin-left: 2vw;
-}
-
-.leaderboard table{
-    width: 15vw;
-}
