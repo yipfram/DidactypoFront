@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 import { useLocation } from "react-router-dom";
+import { getPseudo } from "../api";
 
 import CoursFinis from "../elements/Stats/CoursFinis";
 import Mpm from "../elements/Stats/Mpm";
@@ -13,7 +13,7 @@ import style from "../style/Compte.module.css";
 import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
 
 export default function Compte() {
-  const [decodedToken, setDecodedToken] = useState(null);
+  const [pseudoToken, setPseudoToken] = useState(getPseudo());
   const [pseudo, setPseudo] = useState("");
   const [propreCompte, setPropreCompte] = useState(false);
   const location = useLocation();
@@ -22,39 +22,36 @@ export default function Compte() {
     const pseudoFromUrl = location.pathname.split("/").pop();
     setPseudo(pseudoFromUrl);
 
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      setDecodedToken(jwtDecode(token));
-    }
+    setPseudoToken(getPseudo());
+
   }, [location]);
 
   useEffect(() => {
-    if (decodedToken && pseudo === decodedToken.sub) {
+    if (pseudo === pseudoToken) {
       setPropreCompte(true);
     } else {
       setPropreCompte(false);
     }
-  }, [decodedToken, pseudo])
+  }, [pseudoToken, pseudo])
 
   const handleLogout = () => {
     // Efface le token dans le stockage local
     window.localStorage.removeItem("token");
 
-    // Réinitialise l'état `decodedToken`
-    setDecodedToken(null);
+    setPseudoToken(null);
     window.location.href = "/";
   };
 
 
   return (
     <VerifConnection>
-      {decodedToken ? (
+      {pseudoToken ? (
         <div className={style.container}>
           {/* Header avec le message de bienvenue et le bouton de déconnexion */}
           <div className={style.header}>
             {propreCompte ? (
               <>
-                <h1>Bienvenue {decodedToken.sub} !</h1>
+                <h1>Bienvenue {pseudoToken} !</h1>
                 <ChangementMdp />
                 <button onClick={handleLogout}>Se déconnecter</button>
               </>

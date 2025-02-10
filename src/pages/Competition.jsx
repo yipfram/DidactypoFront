@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import api from "../api";
+import  { api, getPseudo } from "../api";
 import style from '../style/Competition.module.css';
-import { jwtDecode } from "jwt-decode";
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 import InterfaceSaisie from '../elements/InterfaceSaisie/InterfaceSaisie.jsx';
 import Leaderboard from "../elements/Defis/Defis.jsx";
 import Loading from '../elements/Components/Loading.jsx';
 
 export default function Competition() {
+    const [userPseudo, setUserPseudo] = useState(getPseudo());
     const [defis, setDefis] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,15 +16,6 @@ export default function Competition() {
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
     const [lastScore, setLastScore] = useState(null);
-
-    const getUserPseudo = () => {
-        const token = window.localStorage.getItem("token");
-        if (!token) return null;
-        const decoded = jwtDecode(token);
-        return decoded.sub; //"sub" est le champ contenant le pseudo de l'utilisateur
-    };
-
-    const userPseudo = getUserPseudo();
 
     // Fetch des défis et du dernier score
     useEffect(() => {

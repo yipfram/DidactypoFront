@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { jwtDecode } from "jwt-decode";
 
-import api from '../api';
+import { api, getPseudo } from '../api';
 
 import Loading from '../elements/Components/Loading';
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion';
@@ -17,7 +16,7 @@ import MembresClasse from '../elements/Classe/MembresClasse';
 
 export default function MaClasse() {
   const { id } = useParams();
-  const [decodedToken, setDecodedToken] = useState(null);
+  const [pseudo, setPseudo] = useState(getPseudo());
   const [classe, setClasse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMember, setIsMember] = useState(false);
@@ -25,22 +24,13 @@ export default function MaClasse() {
   const [isAddOpen, setIsAddOpen] = useState(false);
 
   useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      try {
-        setDecodedToken(jwtDecode(token));
-      } catch (error) {
-        console.error("Erreur de décodage du token:", error);
-      }
-    }
-  }, []);
+    setPseudo(getPseudo());
 
-  useEffect(() => {
-    if (!decodedToken || !id) return;
+    if (!pseudo || !id) return;
   
     const fetchClasseData = async () => {
       try {
-        const responseUserClasses = await api.get(`/membre_classes/${decodedToken.sub}`);
+        const responseUserClasses = await api.get(`/membre_classes/${pseudo}`);
   
         const userClasses = responseUserClasses.data.map(c => c.id_groupe);
   
@@ -60,7 +50,7 @@ export default function MaClasse() {
     };
   
     fetchClasseData();
-  }, [decodedToken, id]);
+  }, [id]);
   
   
 
@@ -72,7 +62,7 @@ export default function MaClasse() {
 
   return (
     <VerifConnection>
-      {decodedToken ? (
+      {pseudo ? (
         <main className={style.pageClasse}>
           {loading ? (
             <Loading />
@@ -89,7 +79,7 @@ export default function MaClasse() {
               </div>
 
               <Modal show={isLeaveOpen} onClose={handleCloseLeave}>
-                <QuitterClasse pseudo_utilisateur={decodedToken.sub} id_groupe={id} />
+                <QuitterClasse pseudo_utilisateur={pseudo} id_groupe={id} />
                 <button onClick={handleCloseLeave}>Annuler</button>
               </Modal>
 
@@ -98,7 +88,7 @@ export default function MaClasse() {
                 <button onClick={handleCloseAdd}>Annuler</button>
               </Modal>
 
-              <Chat class_id={id} utilisateur={decodedToken.sub} />
+              <Chat class_id={id} utilisateur={pseudo} />
               <MembresClasse idClasse={id} />
             </>
           ) : (
