@@ -152,10 +152,16 @@ html, body {
 
 .popupContent h2 {
   margin-top: 0px;
+  margin-top: 0px;
   font-size: 18px;
   color: #4caf50;
 }
 
+
+.boutonfermer{
+    background-color: rgba(0, 0, 0, 0);
+    display:flex;
+    margin-left: auto;
 
 .boutonfermer{
     background-color: rgba(0, 0, 0, 0);
@@ -199,7 +205,7 @@ html, body {
     font-size: 2vw;
     margin: 1vw;
 }
-=======
+
 .btnajouter:hover {
     background-color: #D8A75F;
 }
@@ -208,4 +214,3 @@ html, body {
     display: flex;
     flex-direction: column;
 }
->>>>>>> f9fb16a (ajout fonctionnalite sandbox)

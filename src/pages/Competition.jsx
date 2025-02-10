@@ -15,6 +15,7 @@ export default function Competition() {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
+    const [lastScore, setLastScore] = useState(null);
 
     // Fetch des défis et du dernier score
     useEffect(() => {
