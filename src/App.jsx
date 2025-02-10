@@ -5,6 +5,7 @@ import './style/App.css';
 import Header from './elements/Header/Header';
 import Footer from './elements/Footer/Footer';
 import Loading from './elements/Components/Loading';
+import Sandbox from './pages/Sandbox';
 
 const Accueil = lazy(() => import('./pages/Accueil'));
 const Apprendre = lazy(() => import('./pages/Apprendre'));
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/inscription" element={<Sinscrire />} />
             <Route path="/apprendre/cours" element={<ListeCours />} />
             <Route path="/apprendre/exercices" element={<ListeExercices />} />
+            <Route path="/apprendre/sandbox" element={<Sandbox />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

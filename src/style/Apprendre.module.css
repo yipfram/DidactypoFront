@@ -154,3 +154,8 @@ html, body {
 .btnajouter:hover {
     background-color: #D8A75F;
 }
+
+.sandbox{
+    display: flex;
+    flex-direction: column;
+}
