@@ -15,16 +15,6 @@ export default function Competition() {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
-    const [lastScore, setLastScore] = useState(null);
-
-    const getUserPseudo = () => {
-        const token = window.localStorage.getItem("token");
-        if (!token) return null;
-        const decoded = jwtDecode(token);
-        return decoded.sub; //"sub" est le champ contenant le pseudo de l'utilisateur
-    };
-
-    const userPseudo = getUserPseudo();
 
     // Fetch des défis et du dernier score
     useEffect(() => {
