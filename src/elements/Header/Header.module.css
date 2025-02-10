@@ -48,6 +48,17 @@
     text-decoration: underline;
 }
 
+.header p {
+    padding-right: 1vh;
+    padding-left: 1vh;
+}
+
+.header .active p {
+    background-color: var(--quaternary);
+    border-radius: 4px;
+    padding: 1vh;
+}
+
 @media (max-width: 630px) {
     .header {
         height: auto;

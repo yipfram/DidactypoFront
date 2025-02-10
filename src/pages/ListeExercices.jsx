@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom'; //Pour récupérer les variables dans l'URL
-import {jwtDecode} from "jwt-decode"; // Si non installé : npm install jwt-decode
 import InterfaceSaisie from "../elements/InterfaceSaisie/InterfaceSaisie.jsx";
 import style from "../style/Apprendre.module.css";
-import api from "../api";
+import { api, getPseudo } from "../api";
 
 export default function ListeExercices() {
   const [selectedExercise, setSelectedExercise] = useState(null); // Stocke l'exercice sélectionné
@@ -13,18 +12,6 @@ export default function ListeExercices() {
   const [exercises, setExercises] = useState([]);
   const [searchParams] = useSearchParams(); //stocke les variables dans l'URL
   const idExo = searchParams.get('idExo'); //seulement si on passe par le bouton exercice dans le sous-cours
-
-  
-
-  // Récupère le pseudo de l'utilisateur depuis le token
-  const getUserPseudo = () => {
-    const token = window.localStorage.getItem("token");
-    if (!token) return null;
-    const decoded = jwtDecode(token);
-    return decoded.sub; // Remplacez "sub" par la clé correspondant au pseudo dans votre token
-  };
-
-  const userPseudo = getUserPseudo();
 
   // Fonction pour récupérer les exercices
   useEffect(() => {
@@ -89,6 +76,7 @@ export default function ListeExercices() {
   const handleExerciseComplete = async () => {
     setIsModalOpen(false); // Ferme la modale
     setIsPopupVisible(true); // Affiche la pop-up
+    const userPseudo = getPseudo();
     
     // Appel à l'API pour enregistrer l'exercice comme réalisé
     try {

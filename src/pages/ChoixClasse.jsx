@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import { Link } from "react-router-dom";
-import api from "../api";
+import { api, getPseudo } from "../api";
 
 import Loading from "../elements/Components/Loading";
 import VerifConnexion from "../elements/CompteUtilisateur/VerifConnexion";
@@ -12,8 +10,7 @@ import RejoindreClasse from "../elements/Classe/RejoindreClasse";
 import style from "../style/MaClasse.module.css";
 
 export default function ChoixClasse() {
-    const [decodedToken, setDecodedToken] = useState(null);
-    const [pseudo, setPseudo] = useState(null);
+    const [pseudo, setPseudo] = useState(getPseudo());
     const [classes, setClasses] = useState([]);
     const [loadingClasses, setLoadingClasses] = useState(false);
     const [error, setError] = useState(null);
@@ -22,13 +19,8 @@ export default function ChoixClasse() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
 
     useEffect(() => {
-        const token = window.localStorage.getItem("token");
-        if (token) {
-            const decoded = jwtDecode(token);
-            setDecodedToken(decoded);
-            setPseudo(decoded.sub);
-            fetchClasses(decoded.sub);
-        }
+        setPseudo(getPseudo());
+        fetchClasses(pseudo);
     }, []);
 
     const fetchClasses = async (pseudo_utilisateur) => {

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import { getPseudo } from "../api";
 
 import style from "../style/Accueil.module.css";
 
@@ -20,10 +20,10 @@ export default function Accueil() {
    }, []);
 
    const openModal = () => {
-      if (window.localStorage.getItem("token")) {
-         const token = window.localStorage.getItem("token");
-         const decodedToken = jwtDecode(token);
-         window.location.href = `/profil/${decodedToken.sub}`;
+      const pseudo = getPseudo();
+      if (pseudo) {
+         
+         window.location.href = `/profil/${pseudo}`;
       }
       else {
          setIsModalOpen(true);

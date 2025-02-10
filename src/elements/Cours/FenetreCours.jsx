@@ -1,28 +1,20 @@
 import style from "../../style/Apprendre.module.css";
 import { useState, useEffect } from "react";
-import api from "../../api";
+import { api, getPseudo } from "../../api";
 import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-
-
-
-
-const getUserPseudo = () => {
-    const token = window.localStorage.getItem("token");
-    if (!token) return null;
-    const decoded = jwtDecode(token);
-    return decoded.sub;  // "sub" est le champ contenant le pseudo de l'utilisateur
-};
-
-const userPseudo = getUserPseudo();
 
 export default function FenetreCours(props) {
+    const [userPseudo, setUserPseudo] = useState(getPseudo());
     const [index, setIndex] = useState(0);
     const [cours, setCours] = useState([]); // Table of all sub-parts of a course
 
     const partieCours = cours[index];
     const setShowCours = props.setShowCours;
     const idCours = props.idCours;
+
+    useEffect(() => {
+        setUserPseudo(getPseudo());
+    }, []);
 
     // Decode escaped newlines
     function decodeEscapedString(str) {

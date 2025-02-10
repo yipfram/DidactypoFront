@@ -1,20 +1,21 @@
 import { NavLink, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {jwtDecode} from "jwt-decode";
 
 import style from "./Header.module.css";
 
 import logo from "../../img/logoDidactypo.png";
 import iconCompte from "../../img/IconCompte.png";
+import { getPseudo } from "../../api";
 
 export default function Header() {
     const [pseudo, setPseudo] = useState("Se connecter");
 
     useEffect(() => {
-        const token = window.localStorage.getItem("token");
-        if (token) {
-            const decoded = jwtDecode(token);
-            setPseudo(decoded.sub);
+        const pseudo = getPseudo();
+        if (pseudo) {
+            setPseudo(getPseudo());
+        } else {
+            setPseudo("Se connecter")
         }
     }, [])
     
@@ -30,10 +31,10 @@ export default function Header() {
                 <NavLink to="/classe">Ma Classe</NavLink>
                 <NavLink to="/infos">Infos utiles</NavLink>
             </nav>
-            <Link to={`/profil/${pseudo}`}>
+            <NavLink to={`/profil/${pseudo}`} className={({ isActive }) => isActive ? style.active : ""}>
                 <p>{pseudo}</p>
                 <img src={iconCompte} alt="compte" className={style.iconCompte}/>
-            </Link>
+            </NavLink>
         </div>  
     )
 }

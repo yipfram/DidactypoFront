@@ -1,4 +1,4 @@
-import api from '../../api';
+import { api } from '../../api';
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 
