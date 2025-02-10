@@ -156,7 +156,7 @@ export default function Competition() {
                     <p className={style.error}>{error}</p>
                 ) : (
                     <div className={style.competContainer}>
-                        <div>
+                        <div className={style.defi}>
                             {!isReady && (
                             <div className={style.readyButtonContainer}>
                                 <h3>
