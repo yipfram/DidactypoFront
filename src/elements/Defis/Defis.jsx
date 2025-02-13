@@ -4,8 +4,18 @@ import { api, getPseudo } from "../../api";
 
 import style from "./Defis.module.css";
 
-export default function Defis() {
-    const [userPseudo, setUserPseudo] = useState(getPseudo()); // Pseudo de l'utilisateur actuel
+// Fonction pour obtenir le pseudo de l'utilisateur
+const getUserPseudo = () => {
+    const token = window.localStorage.getItem("token");
+    if (!token) return null;
+    const decoded = jwtDecode(token);
+    return decoded.sub; // "sub" est le champ contenant le pseudo de l'utilisateur
+};
+
+
+
+export default function Defis({idDefi}) {
+    const userPseudo = getUserPseudo(); // Pseudo de l'utilisateur actuel
     const [reussitesDefis, setReussitesDefis] = useState([]);
     const [classementUtilisateur, setClassementUtilisateur] = useState(null); // Classement de l'utilisateur actuel
 
@@ -17,7 +27,7 @@ export default function Defis() {
         setUserPseudo(getPseudo());
 
         try {
-            const reponse = await api.get("/reussites_defi");
+            const reponse = await api.get(`/reussites_defi/defi/${idDefi}`);
             const data = reponse.data.sort((a, b) => a.temps_reussite - b.temps_reussite);
             setReussitesDefis(data);
             if (userPseudo) {
