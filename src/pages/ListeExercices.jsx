@@ -19,7 +19,7 @@ export default function ListeExercices() {
     const fetchTitreExercices = async () => {
       try {
         const response = await api.get("/exercices/");
-        setExercises(response.data);
+        setExercises(response.data.slice(0,5)); //uniquement les premiers 5, car les exos des groupes sont stockés au même endroit
 
         // If idExo is present in URL, select the exercise after fetching exercises
         if (idExo) {
