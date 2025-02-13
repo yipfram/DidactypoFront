@@ -14,7 +14,9 @@ const getUserPseudo = () => {
     return decoded.sub; // "sub" est le champ contenant le pseudo de l'utilisateur
 };
 
-export default function Defis() {
+
+
+export default function Defis({idDefi}) {
     const userPseudo = getUserPseudo(); // Pseudo de l'utilisateur actuel
     const [reussitesDefis, setReussitesDefis] = useState([]);
     const [classementUtilisateur, setClassementUtilisateur] = useState(null); // Classement de l'utilisateur actuel
@@ -25,7 +27,7 @@ export default function Defis() {
     // Fonction pour récupérer les réussites de défi
     const fetchReussitesDefi = async () => {
         try {
-            const reponse = await api.get("/reussites_defi");
+            const reponse = await api.get(`/reussites_defi/defi/${idDefi}`);
             const data = reponse.data.sort((a, b) => a.temps_reussite - b.temps_reussite);
             setReussitesDefis(data);
 

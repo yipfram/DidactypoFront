@@ -8,6 +8,7 @@ import Leaderboard from "../elements/Defis/Defis.jsx";
 import Loading from '../elements/Components/Loading.jsx';
 
 export default function Competition() {
+    const [idSemaine, setIdSemaine] = useState(null);
     const [defis, setDefis] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,6 +17,7 @@ export default function Competition() {
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
     const [lastScore, setLastScore] = useState(null);
+    const [currentDefi, setCurrentDefi] = useState(null);
 
     const getUserPseudo = () => {
         const token = window.localStorage.getItem("token");
@@ -26,34 +28,63 @@ export default function Competition() {
 
     const userPseudo = getUserPseudo();
 
-    // Fetch des défis et du dernier score
+    const defiSemaine = async () => {
+        try{
+            const response = await api.get("/defi_semaine");
+            setIdSemaine(response.data.numero_defi);
+        }
+        catch{}
+    }
+
+    // Fetch initial des défis
     useEffect(() => {
-        const fetchData = async () => {
+        defiSemaine();
+        const fetchDefis = async () => {
             try {
                 const defisResponse = await api.get("/defis");
                 setDefis(defisResponse.data);
-                
-                if (userPseudo) {
-                    try {
-                        const reussitesResponse = await api.get(`/reussites_defi/${userPseudo}`);
-                        if (reussitesResponse.data && reussitesResponse.data.length > 0) {
-                            const sortedReussites = reussitesResponse.data.sort(
-                                (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
-                            );
-                            setLastScore(sortedReussites[0].temps_reussite);
-                        }
-                    } catch (reussitesError) {
+                setCurrentDefi(defisResponse.data[idSemaine]);
+            } catch (err) {}
+        };
+        fetchDefis();
+    }, []);
+
+
+    // Fetch des défis et du dernier score
+    useEffect(() => {
+        const fetchLastScore = async () => {
+            if (userPseudo) {
+                try {
+                    const reussitesResponse = await api.get(`/reussites_defi/utilisateurs/${userPseudo}`);
+                    if (reussitesResponse.data && reussitesResponse.data.length > 0) {
+                        const sortedReussites = reussitesResponse.data.sort(
+                            (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
+                        );
+                        setLastScore(sortedReussites[0].temps_reussite);
                     }
+                } catch (reussitesError) {
                 }
-                
-                setIsLoading(false);
-            } catch (err) {
-                setError("Erreur lors de la récupération des défis.");
             }
         };
 
-        fetchData();
+        fetchLastScore();
     }, [userPseudo]);
+
+
+    // Mise à jour du défi courant quand idSemaine ou defis change
+    useEffect(() => {
+        if (defis.length > 0 && idSemaine !== null) {
+            const defi = defis.find(d => d.id_defi === idSemaine);
+            
+            if (defi) {
+                setCurrentDefi(defi);
+                setError(null);
+            } else {
+            }
+            setIsLoading(false);
+        }
+    }, [idSemaine, defis]);
+    
 
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
@@ -126,7 +157,7 @@ export default function Competition() {
             const updateDatabase = async () => {
                 try {
                     const payload = {
-                        id_defi: defis[0]?.id_defi,
+                        id_defi: defis[idSemaine-1]?.id_defi,
                         pseudo_utilisateur: userPseudo,
                         temps_reussite: timeDiff,
                     };
@@ -144,8 +175,6 @@ export default function Competition() {
             updateDatabase();
         }
     }, [endTime]);
-
-    const targetTextCompetition = defis.length > 0 ? defis[0]?.description_defi : '';
 
     return (
         <VerifConnection>
@@ -167,7 +196,7 @@ export default function Competition() {
                                 <button
                                 onClick={handleReadyClick}
                                 className={style.readyButton}
-                                
+                                disabled={!currentDefi}
                                 >
                                 Commencer le défi
                                 </button>
@@ -176,9 +205,9 @@ export default function Competition() {
                                 </h3>
                             </div>
                             )}
-                            {isReady && targetTextCompetition && (
+                            {isReady && currentDefi && (
                                 <InterfaceSaisie
-                                    targetText={targetTextCompetition}
+                                    targetText={currentDefi.description_defi}
                                     setEndTime={setEndTime}
                                     isReady={isReady}
                                 />
@@ -190,7 +219,7 @@ export default function Competition() {
                             )}
                         </div>
                         <div className={style.leaderboard}>
-                            <Leaderboard />
+                            <Leaderboard idDefi={idSemaine}/>
                         </div>
                     </div>
                 )}
