@@ -34,7 +34,7 @@ export default function Badges(props) {
     return (
         <div className={style.badges}>
             {badges.map((badge, index) => (
-                <div key={`${badge.id_badge}-${index}`}>
+                <div key={`${badge.id_badge}-${index}`} onClick={() => {window.location.href = `/badge/${badge.id_badge}`}}>
                     <img src={badge.image_badge} alt={badge.titre_badge} />
                     <h3>{badge.titre_badge}</h3>
                     <p>{badge.description_badge}</p>
