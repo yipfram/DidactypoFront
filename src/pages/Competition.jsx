@@ -131,47 +131,62 @@ export default function Competition() {
 
     const targetTextCompetition = defis.length > 0 ? defis[0]?.description_defi : '';
 
+    const content = error ? (
+        <p className={style.error}>{error}</p>
+    ) : (
+        <IsConnected
+            isReady={isReady}
+            handleReadyClick={handleReadyClick}
+            targetTextCompetition={targetTextCompetition}
+            setEndTime={setEndTime}
+        />
+    );
+
     return (
         <VerifConnection>
             <main className={style.Competition}>
                 {isLoading ? (
                     <p>Chargement des défis...</p>
-                ) : error ? (
-                    <p className={style.error}>{error}</p>
                 ) : (
-                    <div>
-                        {!isReady && (
-                        <div className={style.readyButtonContainer}>
-                            <h3>
-                            Bienvenue dans le mode compétition !
-                            Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
-                            Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
-                            </h3>
-                            <button
-                            onClick={handleReadyClick}
-                            className={style.readyButton}
-                            >
-                            Commencer le défi
-                            </button>
-                            <h3>
-                            Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
-                            </h3>
-                        </div>
-                        )}
-                        {isReady && targetTextCompetition && (
-                            <InterfaceSaisie
-                                targetText={targetTextCompetition}
-                                setEndTime={setEndTime}
-                                isReady={isReady}
-                            />
-                        )}
-                        <div className={style.leaderboard}>
-                            <Leaderboard />
-                        </div>
-                    </div>
+                    content
                 )}
             </main>
         </VerifConnection>
     );
 
+}
+
+function IsConnected(isReady, handleReadyClick, targetTextCompetition, setEndTime) {
+    return (
+        <div>
+            {!isReady && (
+            <div className={style.readyButtonContainer}>
+                <h3>
+                Bienvenue dans le mode compétition !
+                Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                </h3>
+                <button
+                onClick={handleReadyClick}
+                className={style.readyButton}
+                >
+                Commencer le défi
+                </button>
+                <h3>
+                Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
+                </h3>
+            </div>
+            )}
+            {isReady && targetTextCompetition && (
+                <InterfaceSaisie
+                    targetText={targetTextCompetition}
+                    setEndTime={setEndTime}
+                    isReady={isReady}
+                />
+            )}
+            <div className={style.leaderboard}>
+                <Leaderboard />
+            </div>
+        </div>
+    )
 }
