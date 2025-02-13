@@ -147,6 +147,10 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
                     onPaste={(e) => {e.preventDefault()}}
                     onDragStart={(e) => {e.preventDefault()}}
                     onDrop={(e) => {e.preventDefault()}}
+                    style={{
+                        background: hasError ? '#ff9999' : 'white',
+                    }}
+                    
                 />
             </form>
             <div className={styles.progressBarContainer}>
