@@ -6,7 +6,6 @@ import Leaderboard from "../elements/Defis/Defis";
 
 export default function Accueil() {
  return (
-    <>
     <main className={style.accueil}>
        <div className={style.accueilmenu}>
             <div className={style.texteaccueil}>
@@ -23,7 +22,6 @@ export default function Accueil() {
        <div className={style.leaderboard}>
           <Leaderboard/>
        </div>
-    </main>   
-    </>
+    </main>
  )
 }
