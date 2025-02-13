@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getPseudo } from "../api";
 
 import CoursFinis from "../elements/Stats/CoursFinis";
@@ -14,13 +14,12 @@ import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
 
 export default function Compte() {
   const [pseudoToken, setPseudoToken] = useState(getPseudo());
-  const [pseudo, setPseudo] = useState("");
+  const { pseudo } = useParams();
   const [propreCompte, setPropreCompte] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const pseudoFromUrl = location.pathname.split("/").pop();
-    setPseudo(pseudoFromUrl);
 
     setPseudoToken(getPseudo());
 

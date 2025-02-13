@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { api } from "../api";
+import { api, getPseudo } from "../api";
 
 import style from "../style/Connexion.module.css";
 
@@ -42,11 +42,7 @@ export default function Sinscrire() {
   }, []);
 
   useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      const decoded = jwtDecode(token);
-      setPseudo(decoded.sub);
-    }
+    setPseudo(getPseudo());
   }, [utilisateurs]);
 
   // Gestion des changements dans le formulaire

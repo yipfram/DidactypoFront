@@ -5,7 +5,6 @@ import './style/App.css';
 import Header from './elements/Header/Header';
 import Footer from './elements/Footer/Footer';
 import Loading from './elements/Components/Loading';
-import Sandbox from './pages/Sandbox';
 
 const Accueil = lazy(() => import('./pages/Accueil'));
 const Apprendre = lazy(() => import('./pages/Apprendre'));
@@ -18,6 +17,8 @@ const Sinscrire = lazy(() => import('./pages/Sinscrire'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ListeCours = lazy(() => import('./pages/ListeCours'));
 const ListeExercices = lazy(() => import('./pages/ListeExercices'));
+const Sandbox = lazy(() => import('./pages/Sandbox'));
+const BadgeInfo = lazy(() => import('./pages/BadgeInfo'));
 
 export default function App() {
   return (
@@ -32,12 +33,13 @@ export default function App() {
             <Route path="/classe" element={<ChoixClasse />} />
             <Route path="/classe/:id" element={<MaClasse />} />
             <Route path="/infos" element={<InfosUtiles />} />
-            <Route path="/profil/*" element={<Compte />} />
+            <Route path="/profil/:pseudo" element={<Compte />} />
             <Route path="/profil" element={<Navigate to="/" />} />
             <Route path="/inscription" element={<Sinscrire />} />
             <Route path="/apprendre/cours" element={<ListeCours />} />
             <Route path="/apprendre/exercices" element={<ListeExercices />} />
             <Route path="/apprendre/sandbox" element={<Sandbox />} />
+            <Route path="/badge/:badgeId" element={<BadgeInfo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

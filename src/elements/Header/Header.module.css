@@ -51,6 +51,10 @@
 .header p {
     padding-right: 1vh;
     padding-left: 1vh;
+    max-width: 20vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .header .active p {

@@ -9,8 +9,6 @@ export default function FenetreCours({ idCours, onClose }) {
     const [cours, setCours] = useState([]);
 
     const partieCours = cours[index];
-    const setShowCours = props.setShowCours;
-    const idCours = props.idCours;
 
     useEffect(() => {
         setUserPseudo(getPseudo());
