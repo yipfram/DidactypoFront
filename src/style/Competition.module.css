@@ -4,7 +4,6 @@
   padding: 20px;
   min-height: 80vh;
   box-sizing: border-box;
-  position: relative; /* Nécessaire pour un positionnement absolu */
   align-items: center; /* Centre horizontalement le contenu principal */
   justify-content: center;
 }
@@ -14,14 +13,6 @@
   margin-bottom: 20px; /* Espacement sous le titre */
 }
 
-.Competition > div {
-  display: flex;
-  flex-direction: row; /* Organise les enfants horizontalement */
-  align-items: center; /* Centre verticalement */
-  /* justify-content: space-between; Éloigne les éléments entre eux */
-  width: 100%;
-  max-width: 1200px; /* Limite la largeur totale de la ligne */
-}
 
 .InterfaceSaisie {
   display: flex;
@@ -36,7 +27,6 @@
 
 .Competition .leaderboard {
   min-height: 300px; 
-  max-width: 400px;
 }
 
 .readyButtonContainer {
@@ -45,7 +35,7 @@
   align-items: center; /* Centre horizontalement */
   gap: 10px; /* Espacement entre le texte et le bouton */
   margin-top: 20px; /* Espacement au-dessus du conteneur */
-  width: 40vw;
+  width: 45vw;
 }
 
 .readyButton {
@@ -74,19 +64,29 @@
   padding: 10px;
   background-color: var(--tertiary);
   border-radius: 5px;
-  max-width: 400px;
+  max-width: 6000px;
 }
 
 .competContainer{
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;  
-}
+  }
 
 .defi{
   margin-right:2vw;
+  margin-top: 2vw;
 }
 
 .leaderboard{
   margin-left: 2vw;
+}
+
+@media (max-width: 1250px) {
+  .competContainer{
+    flex-wrap: wrap;
+  }
+
+  .readyButtonContainer{
+    width: 70vw;
+  }
 }

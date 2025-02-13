@@ -77,11 +77,11 @@
     padding: 0.6rem;
     font-size: 1rem;
     border: 1px solid #AAAAAA;
+    width: 100px;
+    max-width: 140px;
     border-right: none;
     border-left: none;
-    max-width: none; /* Remove max-width restriction */
-  white-space: normal; 
-
+    white-space: normal; 
     overflow: hidden;
     text-overflow:ellipsis;
   }
@@ -90,6 +90,7 @@
   .utilisateurActuel {
     background-color: #E8BB6D !important; 
     font-weight: bold; 
+    border-style:solid;
     color: #000000; 
 }
 
