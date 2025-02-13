@@ -14,6 +14,8 @@ import style from "../style/MaClasse.module.css";
 
 import Chat from '../elements/Chat/Chat';
 import MembresClasse from '../elements/Classe/MembresClasse';
+import CreerSupprExerciceClasse from '../elements/Classe/CreerSupprExerciceClasse';
+import ExerciceClasse from '../elements/Classe/ExerciceClasse';
 
 export default function MaClasse() {
   const { id } = useParams();
@@ -23,6 +25,7 @@ export default function MaClasse() {
   const [isMember, setIsMember] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -52,6 +55,11 @@ export default function MaClasse() {
         } else {
           setIsMember(false);
         }
+
+        const responsAdmin = await api.get(`/admins_par_groupe/${id}`)
+        if(responsAdmin.data[0].pseudo === decodedToken.sub)
+          setIsAdmin(true);
+
       } catch (error) {
         console.error("❌ Erreur récupération classe:", error);
       } finally {
@@ -86,6 +94,8 @@ export default function MaClasse() {
                 </div>
                 <button className={style.btnajouter} onClick={handleOpenAdd}>Ajouter un élève</button>
                 <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
+                {isAdmin && <CreerSupprExerciceClasse idClasse={id}/>}
+                <ExerciceClasse idClasse={id}></ExerciceClasse>
               </div>
 
               <Modal show={isLeaveOpen} onClose={handleCloseLeave}>
@@ -100,6 +110,7 @@ export default function MaClasse() {
 
               <Chat class_id={id} utilisateur={decodedToken.sub} />
               <MembresClasse idClasse={id} />
+              
             </>
           ) : (
             !loading && (
