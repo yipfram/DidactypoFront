@@ -1,17 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../../api';
+import { api, getPseudo } from '../../api';
 import Loading from '../Components/Loading';
 import HoverText from '../Components/HoverText';
 import style from './MembresClasse.module.css';
 import icone from '../../img/IconCompte.png';
 
 export default function MembresClasse({ idClasse }) {
+    const [isAdmin, setIsAdmin] = useState(false)
+
     const [membres, setMembres] = useState([]);
     const [infoByPseudo, setInfoByPseudo] = useState({});
     const [loadingMembres, setLoadingMembres] = useState(true);
 
     const [professeurs, setProfesseurs] = useState([]);
     const [loadingProfesseurs, setLoadingProfesseurs] = useState(true);
+
+    const checkIfAdmin = async () => {
+        try {
+            const response = await api.get(`/membre_est_admin/${idClasse}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setIsAdmin(response.data);
+            console.log(response.data)
+        } catch (error) {
+            console.error("Erreur pendant la vérification de l'admin :", error);
+        }
+    };
 
     async function fetchInfosEleve(pseudo) {
         try {
@@ -79,11 +95,38 @@ export default function MembresClasse({ idClasse }) {
     };
 
     useEffect(() => {
+        checkIfAdmin();
+
+    }, [idClasse])
+
+    useEffect(() => {
         if (idClasse) {
             fetchMembreClasse();
             fetchProfesseurs();
         }
-    }, [idClasse]);
+    }, [isAdmin]);
+
+    async function toggleAdmin(isAdmin, pseudo) {
+        try {
+            console.log("Les paramètres : ", isAdmin, pseudo, idClasse);
+            const response = await api.patch('/admin_classe/', null, {
+                params: {
+                    id_groupe: idClasse,
+                    pseudo_utilisateur: pseudo,
+                    est_admin: isAdmin
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            console.log(response.data);
+            // Optionally, you can refresh the members and professors list
+            fetchMembreClasse();
+            fetchProfesseurs();
+        } catch (error) {
+            console.error("Erreur pendant la modification de l'admin :", error);
+        }
+    }
 
     return (
         <div>
@@ -100,6 +143,10 @@ export default function MembresClasse({ idClasse }) {
                                 </span>
                                 {prof.pseudo}
                             </li>
+                            {(isAdmin && prof.pseudo !== getPseudo()) ? (
+                                    <button onClick={() => toggleAdmin(false, prof.pseudo)} >Unset admin</button>
+                                ) : null
+                                }
                         </HoverText>
                     ))
                 ) : (
@@ -118,8 +165,12 @@ export default function MembresClasse({ idClasse }) {
                                 <span>
                                     <img className={style.icone} src={icone} alt="icone" />
                                 </span>
-                                {membre.pseudo}
+                                <p>{membre.pseudo}</p>
                             </li>
+                            {isAdmin ? (
+                                    <button onClick={() => toggleAdmin(true, membre.pseudo)} >Set admin</button>
+                                ) : null
+                                }
                         </HoverText>
                     ))
                 ) : (
