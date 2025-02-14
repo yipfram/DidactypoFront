@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getPseudo } from "../api";
+import { api, getPseudo } from "../api";
 import style from "../style/Accueil.module.css";
-
-import api from "../api";
 
 import Modal from "../elements/Components/Modal";
 import Connexion from "../elements/CompteUtilisateur/Connexion";
