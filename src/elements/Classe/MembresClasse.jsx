@@ -31,11 +31,15 @@ export default function MembresClasse({ idClasse }) {
 
     async function fetchInfosEleve(pseudo) {
         try {
-            const reponseInfosEleve = await api.get(`/utilisateurs/${pseudo}`);
+            const reponseInfosEleve = await api.get(`/utilisateur/${pseudo}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
             const { nom, prenom } = reponseInfosEleve.data;
             return `${nom} ${prenom}`;
         } catch (error) {
-            return "Erreur de chargement";
+            console.error(error);
         }
     }
 
