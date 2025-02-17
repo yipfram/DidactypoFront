@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react';
-import { jwtDecode } from "jwt-decode";
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
-import api from '../api';
+import { api, getPseudo } from '../api';
 
 import Loading from '../elements/Components/Loading';
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion';
 import Modal from '../elements/Components/Modal';
-import CreerClasse from '../elements/Classe/CreerClasse';
-import RejoindreClasse from '../elements/Classe/RejoindreClasse';
 import QuitterClasse from '../elements/Classe/QuitterClasse';
 import AjouterEleve from '../elements/Classe/AjouterEleve';
 
@@ -18,120 +15,121 @@ import Chat from '../elements/Chat/Chat';
 import MembresClasse from '../elements/Classe/MembresClasse';
 
 export default function MaClasse() {
-  const [connected, setConnected] = useState(false);
-  const [decodedToken, setDecodedToken] = useState(null);
+  const { id } = useParams();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [pseudo, setPseudo] = useState(getPseudo());
   const [classe, setClasse] = useState(null);
-  const [idClasse, setIdClasse] = useState(null);
-  const [loadingClasse, setLoadingClasse] = useState(true);
-
-  // Check connection status and decode token
-  useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      setConnected(true);
-      try {
-        setDecodedToken(jwtDecode(token));
-      } catch (error) {
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (decodedToken) {
-      const fetchClasse = async (userId) => {
-        try {
-          // Premier appel à l'api, vérifie si l'utilisateur à une classe
-          const reponseIdClasse = await api.get(`/membre_classe/${userId}`);
-          
-          // Vérifie si l'utilisateur est dans un groupe
-          if (!reponseIdClasse.data.id_groupe) {
-            setLoadingClasse(false); // Arrêter le chargement si aucun groupe n'est trouvé
-            return; // Quitter la fonction
-          }
-          
-          // Si un groupe est trouvé, deuxième appel à l'API
-          const tempIdClasse = reponseIdClasse.data.id_groupe;
-          setIdClasse(tempIdClasse);
-  
-          const reponseClasse = await api.get(`/groupe/${tempIdClasse}`);
-          setClasse(reponseClasse.data);
-          setLoadingClasse(false);
-        } catch (error) {
-          setLoadingClasse(false); //Indique que le chargement est fini
-        }
-      };
-  
-      fetchClasse(decodedToken.sub);
-    }
-  }, [decodedToken]);
-  
-
-  // Modals states and handlers
-  const [isJoinOpen, setIsJoinOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isMember, setIsMember] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
+
+  useEffect(() => {
+    setPseudo(getPseudo());
+
+    if (!pseudo || !id) return;
+
+    const fetchClasseData = async () => {
+      try {
+        const responseUserClasses = await api.get(`/membre_classes/${pseudo}`);
+
+        const userClasses = responseUserClasses.data.map(c => c.id_groupe);
+
+        if (userClasses.includes(Number(id))) {
+          setIsMember(true);
+
+          const responseClasse = await api.get(`/groupe/${id}`);
+          setClasse(responseClasse.data);
+        } else {
+          setIsMember(false);
+        }
+      } catch (error) {
+        console.error("❌ Erreur récupération classe:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClasseData();
+  }, [id]);
+
+  const checkAdminStatus = async () => {
+    try {
+      const response = await api.get(`/membre_est_admin/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setIsAdmin(response.data);
+    } catch (error) {
+      console.error("Erreur pendant la vérification de l'admin :", error);
+    }
+  };
+
+  useEffect(() => {
+
+    if (isMember) {
+      checkAdminStatus();
+    }
+
+  }, [isMember, id]);
+
+
+
+  // Optimisation des fonctions de gestion des modals avec useCallback
+  const handleOpenAdd = useCallback(() => setIsAddOpen(true), []);
+  const handleCloseAdd = useCallback(() => setIsAddOpen(false), []);
+  const handleOpenLeave = useCallback(() => setIsLeaveOpen(true), []);
+  const handleCloseLeave = useCallback(() => setIsLeaveOpen(false), []);
 
   return (
     <VerifConnection>
-      {connected ? (
-        idClasse ? (
-          <main className={style.pageClasse}>
-            {loadingClasse ? (
-              <Loading />
-            ) : (
-              <>
-                <div className={style.classegauche}>
-                  <div className={style.classe}>
-                    <h2>{classe.nom_groupe}</h2>
-                    <h3>Description: {classe.description_groupe}</h3>
-                    <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{idClasse}</strong></h3>
-                  </div>
-                  <button className={style.btnajouter} onClick={() => setIsAddOpen(true)}>Ajouter un élève</button>
-                  <button className={style.btnQuitter} onClick={() => setIsLeaveOpen(true)}>Quitter la classe</button>
+      {pseudo ? (
+        <main className={style.pageClasse}>
+          {loading ? (
+            <Loading />
+          ) : isMember && classe ? (
+            <>
+              <div className={style.classegauche}>
+                <div className={style.classe}>
+                  <h2>{classe.nom_groupe}</h2>
+                  <h3>Description: {classe.description_groupe}</h3>
+                  <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{id}</strong></h3>
                 </div>
-                <Modal show={isLeaveOpen} onClose={() => setIsLeaveOpen(false)}>
-                  <QuitterClasse pseudo_utilisateur={decodedToken.sub} id_groupe={idClasse} />
-                  <button onClick={() => setIsLeaveOpen(false)}>Annuler</button>
+                {isAdmin && (
+                  <button className={style.btnajouter} onClick={handleOpenAdd}>Ajouter un élève</button>
+                )}
+                <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
+              </div>
+
+              <Modal show={isLeaveOpen} onClose={handleCloseLeave}>
+                <QuitterClasse pseudo_utilisateur={pseudo} id_groupe={id} />
+                <button onClick={handleCloseLeave}>Annuler</button>
+              </Modal>
+
+              {isAdmin && (
+                <Modal show={isAddOpen} onClose={handleCloseAdd}>
+                  <AjouterEleve id_groupe={id} />
+                  <button onClick={handleCloseAdd}>Annuler</button>
                 </Modal>
-                <Modal show={isAddOpen} onClose={() => setIsAddOpen(false)}>
-                  <AjouterEleve id_groupe={idClasse} />
-                  <button onClick={() => setIsAddOpen(false)}>Annuler</button>
-                </Modal>
-              </>
-            )}
-            <Chat class_id={idClasse} utilisateur={decodedToken.sub} />
-            <MembresClasse idClasse={idClasse}/>
-          </main>
-        ) : (
-          <main className={style.pageClasseNotJoined}>
-            <h1>Vous ne faites pas partie d'une classe !</h1>
-            <h3>Rejoindre une classe ou créer la vôtre pour commencer !</h3>
+              )}
 
-            <div className={style.buttonsContainerNotJoined}>
-              <button className={style.btnNotJoined} onClick={() => setIsJoinOpen(true)}>Rejoindre une classe</button>
-              <h3>ou</h3>
-              <button className={style.btnNotJoined} onClick={() => setIsCreateOpen(true)}>Créer votre propre classe</button>
-            </div>
-
-            <h3>Ici, tu peux rejoindre une classe afin de pouvoir discuter avec tes camarades, et consulter qui est dans ta classe !</h3>
-
-            <Modal show={isJoinOpen} onClose={() => setIsJoinOpen(false)}>
-              <RejoindreClasse pseudo_utilisateur={decodedToken.sub} />
-              <button onClick={() => setIsJoinOpen(false)}>Annuler</button>
-            </Modal>
-
-            <Modal show={isCreateOpen} onClose={() => setIsCreateOpen(false)}>
-              <CreerClasse pseudo_utilisateur={decodedToken.sub} />
-              <button onClick={() => setIsCreateOpen(false)}>Annuler</button>
-            </Modal>
-          </main>
-
-        )
+              <Chat class_id={id} utilisateur={pseudo} />
+              <MembresClasse idClasse={id} />
+            </>
+          ) : (
+            !loading && (
+              <main className={style.pageClasseNotJoined}>
+                <h1>Vous n'êtes pas membre de cette classe ou elle n'existe pas.</h1>
+                <Link to="/classe">Retour à l'accueil</Link>
+              </main>
+            )
+          )}
+        </main>
       ) : (
         <main>
-          <h1>Vous devez être connecté pour accéder à votre classe</h1>
-          <Link to="/compte">Se connecter !</Link>
+          <h1>Vous devez être connecté pour accéder à cette classe</h1>
+          <Link to="/profil/connecter">Se connecter !</Link>
         </main>
       )}
     </VerifConnection>

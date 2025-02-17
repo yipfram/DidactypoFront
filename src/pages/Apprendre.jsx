@@ -4,6 +4,7 @@ import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 
 
 export default function Apprendre() {
+  
   return (
     <VerifConnection>
       <main className={style.apprendre}>
@@ -13,8 +14,9 @@ export default function Apprendre() {
             et en faisant des exercices pour vous entrainer.</p>
         </div>
         <div className={style.choixboutons}>
-          <Link to="/listeCours" className={style.boutonsCours}>Cours</Link>
-          <Link to="/listeExercices" className={style.boutonsCours}>Exercices</Link>
+          <Link to="/apprendre/cours" className={style.boutonsCours}>Cours</Link>
+          <Link to="/apprendre/exercices" className={style.boutonsCours}>Exercices</Link>
+          <Link to="/apprendre/sandbox" className={style.boutonsCours}>Bac à sable</Link>
         </div>
       </main>
     </VerifConnection>

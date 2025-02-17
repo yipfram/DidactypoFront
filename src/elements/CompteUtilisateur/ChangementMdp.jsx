@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
-import { jwtDecode } from 'jwt-decode';
 import Modal from '../Components/Modal';
-import api from '../../api';
+import { api, getPseudo } from '../../api';
 import style from "./ChangementMdp.module.css"
 
 export default function ChangementMdp() {
@@ -21,12 +20,11 @@ export default function ChangementMdp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const token = window.localStorage.getItem("token");
-            const decoded = jwtDecode(token);
+            const pseudo = getPseudo();
 
             // Send the data as a JSON object in the request body
             const response = await api.patch("/modification_mdp", {
-                pseudo: decoded.sub,
+                pseudo: pseudo,
                 ancien_mdp: ancienMdp.current.value,
                 new_mdp: inputMdp.current.value,
             });

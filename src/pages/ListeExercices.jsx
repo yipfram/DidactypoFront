@@ -1,30 +1,18 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom'; //Pour récupérer les variables dans l'URL
-import {jwtDecode} from "jwt-decode"; // Si non installé : npm install jwt-decode
 import InterfaceSaisie from "../elements/InterfaceSaisie/InterfaceSaisie.jsx";
 import style from "../style/Apprendre.module.css";
-import api from "../api";
+import { api, getPseudo } from "../api";
 
 export default function ListeExercices() {
   const [selectedExercise, setSelectedExercise] = useState(null); // Stocke l'exercice sélectionné
+  const [listeExercices, setListeExercices] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // Gère l'état de la modale
   const [isPopupVisible, setIsPopupVisible] = useState(false); // Gère l'état de la pop-up
   const [endTime, setEndTime] = useState(null); // Stocke l'heure de fin d'exercice
   const [exercises, setExercises] = useState([]);
   const [searchParams] = useSearchParams(); //stocke les variables dans l'URL
   const idExo = searchParams.get('idExo'); //seulement si on passe par le bouton exercice dans le sous-cours
-
-  
-
-  // Récupère le pseudo de l'utilisateur depuis le token
-  const getUserPseudo = () => {
-    const token = window.localStorage.getItem("token");
-    if (!token) return null;
-    const decoded = jwtDecode(token);
-    return decoded.sub; // Remplacez "sub" par la clé correspondant au pseudo dans votre token
-  };
-
-  const userPseudo = getUserPseudo();
 
   // Fonction pour récupérer les exercices
   useEffect(() => {
@@ -39,6 +27,7 @@ export default function ListeExercices() {
           if (exercise) {
             setSelectedExercise(exercise);
             setIsModalOpen(true);
+            setListeExercices(false);
           }
         }
       } catch (error) {
@@ -52,13 +41,19 @@ export default function ListeExercices() {
     setSelectedExercise(exercise); // Définit l'exercice sélectionné
     setEndTime(null); // Réinitialise l'heure de fin
     setIsModalOpen(true); // Ouvre la modale
+    setListeExercices(false);
   };
 
   // Fonction pour fermer la modale
   const closeModal = () => {
     setIsModalOpen(false); // Ferme la modale
     setSelectedExercise(null); // Réinitialise l'exercice sélectionné
+    setListeExercices(true);
   };
+
+  const closePopUp = () => {
+    setIsPopupVisible(false);
+  }
 
 
   const markExerciseAsCompleted = async (exerciseId, userPseudo) => {
@@ -88,7 +83,9 @@ export default function ListeExercices() {
   // Fonction pour afficher la pop-up lorsque l'exercice est terminé
   const handleExerciseComplete = async () => {
     setIsModalOpen(false); // Ferme la modale
+    setListeExercices(true);
     setIsPopupVisible(true); // Affiche la pop-up
+    const userPseudo = getPseudo();
     
     // Appel à l'API pour enregistrer l'exercice comme réalisé
     try {
@@ -102,11 +99,10 @@ export default function ListeExercices() {
     } catch (error) {
     }
   
-    // Cache la pop-up après 3 secondes
+    // Cache la pop-up après 2.5 secondes
     setTimeout(() => {
       setIsPopupVisible(false); // Cache la pop-up
-      setSelectedExercise(null); // Réinitialise l'exercice sélectionné
-    }, 3000);
+    }, 2500);
   };
   
 
@@ -115,20 +111,20 @@ export default function ListeExercices() {
 
   return (
     <>
-      <main className={style.apprendre}>
-        <h1>Exercices</h1>
+      <main className={`${style.apprendre} ${style.exercices}`}>
+        {/* Liste des exercices */}
+        {listeExercices && (
         <div className={style.listeExercices}>
           {exercises.map((exercise) => (
             <div key={exercise.id_exercice} className={style.exercice}>
               <h2>{exercise.titre_exercice}</h2>
-              <button onClick={() => handleStartExercise(exercise)}>
+              <button onClick={() => handleStartExercise(exercise)} className="btngeneral">
                 Commencer
               </button>
             </div>
           ))}
         </div>
-      </main>
-
+        )}
       {/* Modale */}
       {isModalOpen && (
         <div className={style.modal}>
@@ -144,16 +140,21 @@ export default function ListeExercices() {
                 />
               </>
             )}
-            <button onClick={closeModal} className={style.closeButton}>
+            <button onClick={closeModal} className="btngeneral">
               Fermer
             </button>
           </div>
         </div>
       )}
+      </main>
+
 
       {/* Pop-up de félicitations */}
       {isPopupVisible && (
         <div className={style.popup}>
+          <button onClick={closePopUp} className={style.boutonfermer}>
+            x
+          </button>
           <div className={style.popupContent}>
             <h2>Bravo pour avoir terminé cet exercice !</h2>
           </div>
