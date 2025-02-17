@@ -23,7 +23,6 @@ export default function MembresClasse({ idClasse }) {
                 }
             });
             setIsAdmin(response.data);
-            console.log(response.data)
         } catch (error) {
             console.error("Erreur pendant la vérification de l'admin :", error);
         }
@@ -60,7 +59,11 @@ export default function MembresClasse({ idClasse }) {
     // Récupération des membres de la classe et leurs infos
     const fetchMembreClasse = async () => {
         try {
-            const reponseMembreClasse = await api.get(`/membre_classe_par_groupe/${idClasse}`);
+            const reponseMembreClasse = await api.get(`/membre_classe_par_groupe/${idClasse}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
             const membresData = reponseMembreClasse.data;
             setMembres(membresData);
 
@@ -80,7 +83,11 @@ export default function MembresClasse({ idClasse }) {
     // Récupération des professeurs et de leurs infos
     const fetchProfesseurs = async () => {
         try {
-            const reponseProfs = await api.get(`/admins_par_groupe/${idClasse}`);
+            const reponseProfs = await api.get(`/admins_par_groupe/${idClasse}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
             const profData = reponseProfs.data;
             setProfesseurs(profData);
 
@@ -132,6 +139,27 @@ export default function MembresClasse({ idClasse }) {
         }
     }
 
+    async function removeUser(pseudo) {
+        try {
+            const response = await api.delete("/membres_classe", {
+                params: {
+                    id_groupe: idClasse,
+                    pseudo_utilisateur: pseudo
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            console.log(response.data.detail);
+
+            // Refresh the members and professors list
+            fetchMembreClasse();
+        } catch (error) {
+            console.error("Erreur pendant la suppression de l'utilisateur : ", error)
+        }
+    }
+
     return (
         <div>
             <h2>Professeurs</h2>
@@ -148,9 +176,9 @@ export default function MembresClasse({ idClasse }) {
                                 {prof.pseudo}
                             </li>
                             {(isAdmin && prof.pseudo !== getPseudo()) ? (
-                                    <button onClick={() => toggleAdmin(false, prof.pseudo)} >Unset admin</button>
-                                ) : null
-                                }
+                                <button onClick={() => toggleAdmin(false, prof.pseudo)} >Unset admin</button>
+                            ) : null
+                            }
                         </HoverText>
                     ))
                 ) : (
@@ -172,9 +200,12 @@ export default function MembresClasse({ idClasse }) {
                                 <p>{membre.pseudo}</p>
                             </li>
                             {isAdmin ? (
+                                <>
                                     <button onClick={() => toggleAdmin(true, membre.pseudo)} >Set admin</button>
-                                ) : null
-                                }
+                                    <button onClick={() => removeUser(membre.pseudo)}>Remove User</button>
+                                </>
+                            ) : null
+                            }
                         </HoverText>
                     ))
                 ) : (

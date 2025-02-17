@@ -16,6 +16,7 @@ import MembresClasse from '../elements/Classe/MembresClasse';
 
 export default function MaClasse() {
   const { id } = useParams();
+  const [isAdmin, setIsAdmin] = useState(false);
   const [pseudo, setPseudo] = useState(getPseudo());
   const [classe, setClasse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,16 +28,16 @@ export default function MaClasse() {
     setPseudo(getPseudo());
 
     if (!pseudo || !id) return;
-  
+
     const fetchClasseData = async () => {
       try {
         const responseUserClasses = await api.get(`/membre_classes/${pseudo}`);
-  
+
         const userClasses = responseUserClasses.data.map(c => c.id_groupe);
-  
+
         if (userClasses.includes(Number(id))) {
           setIsMember(true);
-          
+
           const responseClasse = await api.get(`/groupe/${id}`);
           setClasse(responseClasse.data);
         } else {
@@ -48,11 +49,32 @@ export default function MaClasse() {
         setLoading(false);
       }
     };
-  
+
     fetchClasseData();
   }, [id]);
-  
-  
+
+  const checkAdminStatus = async () => {
+    try {
+      const response = await api.get(`/membre_est_admin/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setIsAdmin(response.data);
+    } catch (error) {
+      console.error("Erreur pendant la vérification de l'admin :", error);
+    }
+  };
+
+  useEffect(() => {
+
+    if (isMember) {
+      checkAdminStatus();
+    }
+
+  }, [isMember, id]);
+
+
 
   // Optimisation des fonctions de gestion des modals avec useCallback
   const handleOpenAdd = useCallback(() => setIsAddOpen(true), []);
@@ -74,7 +96,9 @@ export default function MaClasse() {
                   <h3>Description: {classe.description_groupe}</h3>
                   <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{id}</strong></h3>
                 </div>
-                <button className={style.btnajouter} onClick={handleOpenAdd}>Ajouter un élève</button>
+                {isAdmin && (
+                  <button className={style.btnajouter} onClick={handleOpenAdd}>Ajouter un élève</button>
+                )}
                 <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
               </div>
 
@@ -83,10 +107,12 @@ export default function MaClasse() {
                 <button onClick={handleCloseLeave}>Annuler</button>
               </Modal>
 
-              <Modal show={isAddOpen} onClose={handleCloseAdd}>
-                <AjouterEleve id_groupe={id} />
-                <button onClick={handleCloseAdd}>Annuler</button>
-              </Modal>
+              {isAdmin && (
+                <Modal show={isAddOpen} onClose={handleCloseAdd}>
+                  <AjouterEleve id_groupe={id} />
+                  <button onClick={handleCloseAdd}>Annuler</button>
+                </Modal>
+              )}
 
               <Chat class_id={id} utilisateur={pseudo} />
               <MembresClasse idClasse={id} />
