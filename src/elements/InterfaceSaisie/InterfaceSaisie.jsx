@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { jwtDecode } from "jwt-decode";
-import api from "../../api"; 
+import { api, getPseudo } from "../../api"; 
 import styles from "./InterfaceSaisie.module.css";
 
 const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }) => {
@@ -12,17 +11,15 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
     const [wordCount, setWordCount] = useState(0);
     const [wpm, setWpm] = useState(0);
 
+    const [userPseudo, setUserPseudo] = useState(getPseudo());
+
     const inputRef = useRef();
     const timerRef = useRef(null);
 
-    const getUserPseudo = () => {
-        const token = window.localStorage.getItem("token");
-        if (!token) return null;
-        const decoded = jwtDecode(token);
-        return decoded.sub;
-    };
+    useEffect(() => {
+        setUserPseudo(getPseudo());
+    }, []);
 
-    const userPseudo = getUserPseudo();
 
     const handleInputChange = (e) => {
         const newText = e.target.value;
@@ -147,6 +144,9 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
                     onChange={handleInputChange}
                     disabled={!isReady}
                     className={styles.inputField}
+                    onPaste={(e) => {e.preventDefault()}}
+                    onDragStart={(e) => {e.preventDefault()}}
+                    onDrop={(e) => {e.preventDefault()}}
                 />
             </form>
             <div className={styles.progressBarContainer}>

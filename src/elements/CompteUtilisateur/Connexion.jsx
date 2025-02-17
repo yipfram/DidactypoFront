@@ -1,4 +1,4 @@
-import api from '../../api';
+import { api } from '../../api';
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 
@@ -35,7 +35,7 @@ export default function Connexion(props) {
       .then(response => {
         window.localStorage.setItem("token", response.data.access_token);
         setIsLoading(false);
-        window.location.reload();
+        window.location.href = `/profil/${inputPseudo.current.value}`;
       })
       .catch(err => {
         setIsLoading(false);

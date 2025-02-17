@@ -42,3 +42,21 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb:hover {
   background-color: #D5A563;
 }
+
+.btngeneral{
+  background-color: #E8BB6D;
+  height: 4vw;
+  padding: 1vw 2vw;
+  margin: 0.7vw;
+  margin-top: 1vw;
+  border: none;
+  border-radius: 15px;
+  box-shadow: -1px 2px 2px rgb(78, 75, 75);
+  font-size: 1.8vw;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btngeneral:hover{
+  background-color: #b79151;
+}

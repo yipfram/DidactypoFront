@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import api from '../../api';
+import { api } from '../../api';
 
 const RejoindreClasse = (props) => {
     const [idGroupe, setIdGroupe] = useState('');
@@ -14,6 +14,9 @@ const RejoindreClasse = (props) => {
                     id_groupe: idGroupe,
                     pseudo_utilisateur: props.pseudo_utilisateur,
                     est_admin: false
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
 
