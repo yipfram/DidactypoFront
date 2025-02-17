@@ -21,7 +21,32 @@
     color: #333;
 }
 
-.header button {
+.containerCompte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+}
+
+.PreviewImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 10px;
+    border: 2px solid #ddd;
+}
+
+.containerButtons{
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.containerCompte button {
     background-color: #f44336;
     color: white;
     border: none;
@@ -31,7 +56,7 @@
     font-size: 14px;
 }
 
-.header button:hover {
+.containerCompte button:hover {
     background-color: #d32f2f;
 }
 

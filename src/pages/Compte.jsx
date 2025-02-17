@@ -11,6 +11,7 @@ import ChangementMdp from "../elements/CompteUtilisateur/ChangementMdp";
 
 import style from "../style/Compte.module.css";
 import VerifConnection from "../elements/CompteUtilisateur/VerifConnexion";
+import ChangementPP from "../elements/CompteUtilisateur/ChangementPP";
 
 export default function Compte() {
   const [pseudoToken, setPseudoToken] = useState(getPseudo());
@@ -51,12 +52,23 @@ export default function Compte() {
             {propreCompte ? (
               <>
                 <h1>Bienvenue {pseudoToken} !</h1>
-                <ChangementMdp />
-                <button onClick={handleLogout}>Se déconnecter</button>
               </>
             ) : (
               <h1>Profil de {pseudo}</h1>
             )}
+          </div>
+          <div className={style.containerCompte}>
+            <h3>Informations du compte</h3>
+            <div className={style.infosCompte}>
+              <p>Pseudo </p>
+              <p>{pseudo}</p>
+              <p>Adresse Mail</p>
+            </div>
+            <div className={style.containerButtons}>
+              <ChangementMdp />
+              <ChangementPP />
+              <button onClick={handleLogout}>Se déconnecter</button>
+            </div>
           </div>
 
           {/* Section des graphiques */}
