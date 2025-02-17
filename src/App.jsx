@@ -30,14 +30,6 @@ export default function App() {
             <Route path="/" element={<Accueil />} />
             <Route path="/apprendre" element={<Apprendre />} />
             <Route path="/competition" element={<Competition />} />
-<<<<<<< HEAD
-            <Route path="/maclasse" element={<MaClasse />} />
-            <Route path="/infos" element={<InfosUtiles />} />
-            <Route path="/compte" element={<Compte />} />
-            <Route path="/inscription" element={<Sinscrire />} />
-            <Route path="/listeCours" element={<ListeCours />} />
-            <Route path="/listeExercices" element={<ListeExercices />} />
-=======
             <Route path="/classe" element={<ChoixClasse />} />
             <Route path="/classe/:id" element={<MaClasse />} />
             <Route path="/infos" element={<InfosUtiles />} />
@@ -48,7 +40,6 @@ export default function App() {
             <Route path="/apprendre/exercices" element={<ListeExercices />} />
             <Route path="/apprendre/sandbox" element={<Sandbox />} />
             <Route path="/badge/:badgeId" element={<BadgeInfo />} />
->>>>>>> f4bbf157e55584dc81073a7802dd3295d57a5b2b
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
