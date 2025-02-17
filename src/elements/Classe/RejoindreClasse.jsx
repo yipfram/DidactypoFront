@@ -14,6 +14,9 @@ const RejoindreClasse = (props) => {
                     id_groupe: idGroupe,
                     pseudo_utilisateur: props.pseudo_utilisateur,
                     est_admin: false
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
 

@@ -4,8 +4,9 @@ import { api, getPseudo } from "../../api";
 
 import style from "./Defis.module.css";
 
+
 export default function Defis({idDefi}) {
-    const userPseudo = getPseudo(); // Pseudo de l'utilisateur actuel
+    const [userPseudo, setUserPseudo] = useState(getPseudo()); // Pseudo de l'utilisateur actuel
     const [reussitesDefis, setReussitesDefis] = useState([]);
     const [classementUtilisateur, setClassementUtilisateur] = useState(null); // Classement de l'utilisateur actuel
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import  { api, getPseudo } from "../api";
+import { api, getPseudo } from "../api";
 import style from '../style/Competition.module.css';
 import VerifConnection from '../elements/CompteUtilisateur/VerifConnexion.jsx';
 import InterfaceSaisie from '../elements/InterfaceSaisie/InterfaceSaisie.jsx';
@@ -20,11 +20,11 @@ export default function Competition() {
     const [currentDefi, setCurrentDefi] = useState(null);
 
     const defiSemaine = async () => {
-        try{
+        try {
             const response = await api.get("/defi_semaine");
             setIdSemaine(response.data.numero_defi);
         }
-        catch{}
+        catch { }
     }
 
     // Fetch initial des défis
@@ -35,7 +35,7 @@ export default function Competition() {
                 const defisResponse = await api.get("/defis");
                 setDefis(defisResponse.data);
                 setCurrentDefi(defisResponse.data[idSemaine]);
-            } catch (err) {}
+            } catch (err) { }
         };
         fetchDefis();
     }, []);
@@ -66,7 +66,7 @@ export default function Competition() {
     useEffect(() => {
         if (defis.length > 0 && idSemaine !== null) {
             const defi = defis.find(d => d.id_defi === idSemaine);
-            
+
             if (defi) {
                 setCurrentDefi(defi);
                 setError(null);
@@ -75,7 +75,7 @@ export default function Competition() {
             setIsLoading(false);
         }
     }, [idSemaine, defis]);
-    
+
 
     // Logique pour démarrer la saisie
     const handleReadyClick = () => {
@@ -88,7 +88,11 @@ export default function Competition() {
     const gestionDefiQuotidien = async (userPseudo) => {
         const dateAct = new Date();
         try {
-            const userResponse = await api.get(`/utilisateurs/${userPseudo}`);
+            const userResponse = await api.get(`/utilisateur/${userPseudo}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
             let cptDefi = userResponse.data.cptDefi;
             const reponse = await api.get(`/reussites_defi/${userPseudo}`);
             const reussites = reponse.data;
@@ -135,7 +139,6 @@ export default function Competition() {
             throw error;
         }
     };
-    
 
     // Calcul du temps écoulé une fois terminé
     useEffect(() => {
@@ -148,13 +151,22 @@ export default function Competition() {
             const updateDatabase = async () => {
                 try {
                     const payload = {
-                        id_defi: defis[idSemaine-1]?.id_defi,
+                        id_defi: defis[idSemaine - 1]?.id_defi,
                         pseudo_utilisateur: userPseudo,
                         temps_reussite: timeDiff,
                     };
                     const typeStat = "tempsdefi";
 
-                    await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&pseudo_utilisateur=${userPseudo}&temps_reussite=${payload.temps_reussite}`);
+                    const token = localStorage.getItem('token');
+                    if (token) {
+                        await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&temps_reussite=${payload.temps_reussite}`, null, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        });
+                    } else {
+                        console.error("No token found in localStorage");
+                    }
                     await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
 
                     window.location.reload();
@@ -178,23 +190,23 @@ export default function Competition() {
                     <div className={style.competContainer}>
                         <div className={style.defi}>
                             {!isReady && (
-                            <div className={style.readyButtonContainer}>
-                                <h3>
-                                Bienvenue dans le mode compétition !
-                                Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
-                                Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
-                                </h3>
-                                <button
-                                onClick={handleReadyClick}
-                                className={style.readyButton}
-                                disabled={!currentDefi}
-                                >
-                                Commencer le défi
-                                </button>
-                                <h3>
-                                Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
-                                </h3>
-                            </div>
+                                <div className={style.readyButtonContainer}>
+                                    <h3>
+                                        Bienvenue dans le mode compétition !
+                                        Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                                        Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                                    </h3>
+                                    <button
+                                        onClick={handleReadyClick}
+                                        className={style.readyButton}
+                                        disabled={!currentDefi}
+                                    >
+                                        Commencer le défi
+                                    </button>
+                                    <h3>
+                                        Si jamais tu as du mal, n'hésite pas à aller consulter l'onglet "Apprendre" ! Bonne chance !
+                                    </h3>
+                                </div>
                             )}
                             {isReady && currentDefi && (
                                 <InterfaceSaisie
@@ -210,7 +222,7 @@ export default function Competition() {
                             )}
                         </div>
                         <div className={style.leaderboard}>
-                            <Leaderboard idDefi={idSemaine}/>
+                            <Leaderboard idDefi={idSemaine} />
                         </div>
                     </div>
                 )}
