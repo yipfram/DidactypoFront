@@ -15,7 +15,6 @@ export default function Defis({idDefi}) {
 
     // Fonction pour récupérer les réussites de défi
     const fetchReussitesDefi = async () => {
-        setUserPseudo(getPseudo());
 
         try {
             const reponse = await api.get(`/reussites_defi/defi/${idDefi}`);
