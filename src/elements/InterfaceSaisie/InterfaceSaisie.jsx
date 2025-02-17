@@ -91,13 +91,15 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
     const renderTextWithColors = () => {
         return targetText.split('').map((char, index) => {
             let color;
+            let background;
             if (index < inputText.length) {
-                color = inputText[index] === char ? 'green' : 'red';
+                color = inputText[index] === char ? 'green' : 'black';
+                background = inputText[index] === char ? 'none' : 'lightcoral';
             } else {
                 color = 'gray';
             }
             return (
-                <span key={index} style={{ color }}>
+                <span key={index} style={{ color, background }}>
                     {char}
                 </span>
             );
