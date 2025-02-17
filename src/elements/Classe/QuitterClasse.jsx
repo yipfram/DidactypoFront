@@ -11,6 +11,9 @@ const QuitterClasse = (props) => {
                 params: {
                     id_groupe: id_groupe,
                     pseudo_utilisateur: pseudo_utilisateur
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
             window.location.reload();
