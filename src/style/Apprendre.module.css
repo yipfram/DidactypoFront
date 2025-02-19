@@ -205,6 +205,10 @@ html, body {
     margin: 1vw;
 }
 
+.titreExo{
+    margin-left: 1vw;
+}
+
 .btnajouter:hover {
     background-color: #D8A75F;
 }

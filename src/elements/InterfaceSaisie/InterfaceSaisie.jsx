@@ -135,6 +135,14 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
         }
     };
 
+    const badgeTricheur = async () => {
+        try{
+            console.log("HAHAHAHA LOOSER");
+            await api.post(`gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=16`);
+        } catch(error){
+        }
+    }
+
     return (
         <div style={{ textAlign: 'center' }}>
             <div className={styles.textContainer}>{renderTextWithColors()}</div>
@@ -146,9 +154,9 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
                     onChange={handleInputChange}
                     disabled={!isReady}
                     className={styles.inputField}
-                    onPaste={(e) => {e.preventDefault()}}
-                    onDragStart={(e) => {e.preventDefault()}}
-                    onDrop={(e) => {e.preventDefault()}}
+                    onPaste={(e) => {badgeTricheur(); e.preventDefault()}}
+                    onDragStart={(e) => {badgeTricheur(); e.preventDefault()}}
+                    onDrop={(e) => {badgeTricheur(); e.preventDefault()}}
                     style={{
                         background: hasError ? '#ff9999' : 'white',
                     }}
