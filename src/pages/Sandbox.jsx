@@ -41,7 +41,7 @@ export default function Sandbox() {
                             style={{ fontSize: "16px", padding: "5px", marginTop: "4vh" }}
                         />
                         <br />
-                        <button onClick={handleStart}>
+                        <button onClick={handleStart} className="btngeneral">
                             Démarrer l'exercice
                         </button>
                     </div>
@@ -51,10 +51,10 @@ export default function Sandbox() {
                         <h3 className={style.sousTitre}>
                             Tu peux aussi choisir un texte de notre sélection pour t'entraîner. Clique sur le bouton pour commencer.
                         </h3>
-                        <button onClick={() => handleDefiSelection(defi1Text)}>
+                        <button onClick={() => handleDefiSelection(defi1Text)} className="btngeneral">
                             Défi 1
                         </button>
-                        <button onClick={() => handleDefiSelection(defi2Text)}>
+                        <button onClick={() => handleDefiSelection(defi2Text)} className="btngeneral">
                             Défi 2
                         </button>
                     </div>
