@@ -99,7 +99,7 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
 
     return (
         <>
-            <button onClick={handlerModalAjoutOpen} className={style.btnajouter}>Ajouter un exercice</button>
+            <button onClick={handlerModalAjoutOpen} className='btngeneral'>Ajouter un exercice</button>
             <Modal show={modalOpenAjout} onClose={handlerModalAjoutClose}>
                 <form onSubmit={handleSubmitAjout} method="post">
                     <fieldset>
@@ -122,12 +122,12 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
                 </div>
             )}
 
-            <button onClick={handlerModalSuppOpen} className={style.btnajouter}>Supprimer un exercice</button>
+            <button onClick={handlerModalSuppOpen} className='btngeneral'>Supprimer un exercice</button>
             <Modal show={modalOpenSupp} onClose={handlerModalSuppClose}>
                 <form onSubmit={handleSubmitSupp} method="post">
                     <fieldset>
                         <label>
-                            Numéro de l'exercice (de 1 à x)
+                            Numéro de l'exercice (de 1 à {listeExercices.length})
                             <input type="text" ref={inputId} />
                         </label>
 

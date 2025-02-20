@@ -109,10 +109,10 @@ export default function MaClasse() {
                   <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{id}</strong></h3>
                 </div>
                 {isAdmin && (
-                  <button className={style.btnajouter} onClick={handleOpenAdd}>Ajouter un élève</button>
+                  <button className='btngeneral' onClick={handleOpenAdd}>Ajouter un élève</button>
                 )}
-                <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
                 {isAdmin && <CreerSupprExerciceClasse idClasse={id}/>}
+                <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
               </div>
 
               <Modal show={isLeaveOpen} onClose={handleCloseLeave}>

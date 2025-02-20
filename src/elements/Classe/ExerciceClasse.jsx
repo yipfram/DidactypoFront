@@ -26,6 +26,7 @@ export default function ExerciceClasse({idClasse}){
     
    function closeModal(){
     setIsModalOpen(false);
+    setExerciceSelected(null);
    }
 
    const closePopUp = () => {
@@ -47,15 +48,16 @@ export default function ExerciceClasse({idClasse}){
 
     return(
         <>
+            <div className={style.exercicesGroupe}>
             {/*La liste des exos*/}
-            <div className={style.listeExercices}>
+           {!selectedExercise && <div className={style.listeExercices}>
                 {listeExercices.map((exo)=>(
                     <div key={exo.id_exercice} className={style.exercice}>
                         <h2>{exo.titre_exercice} </h2>
                         <button onClick={()=> handlerStartExo(exo)} className="btngeneral">Commencer</button>
                     </div>
                 ))}
-            </div>
+            </div>}
             
             {/*Interface de saisie dans fenêtre*/}
             {isModalOpen && selectedExercise &&
@@ -80,6 +82,7 @@ export default function ExerciceClasse({idClasse}){
                       </div>
                     </div>
                   )}
+            </div>
         </>
     )
 }
