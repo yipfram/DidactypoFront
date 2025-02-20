@@ -46,7 +46,11 @@ export default function MaClasse() {
           setIsMember(false);
         }
 
-        const responsAdmin = await api.get(`/admins_par_groupe/${id}`)
+        const responsAdmin = await api.get(`/admins_par_groupe/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+      });
         if(responsAdmin.data[0].pseudo === decodedToken.sub)
           setIsAdmin(true);
 
@@ -97,6 +101,7 @@ export default function MaClasse() {
             <Loading />
           ) : isMember && classe ? (
             <>
+            <div className={style.partieTop}>
               <div className={style.classegauche}>
                 <div className={style.classe}>
                   <h2>{classe.nom_groupe}</h2>
@@ -108,7 +113,6 @@ export default function MaClasse() {
                 )}
                 <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
                 {isAdmin && <CreerSupprExerciceClasse idClasse={id}/>}
-                <ExerciceClasse idClasse={id}></ExerciceClasse>
               </div>
 
               <Modal show={isLeaveOpen} onClose={handleCloseLeave}>
@@ -126,6 +130,9 @@ export default function MaClasse() {
               <Chat class_id={id} utilisateur={pseudo} />
               <MembresClasse idClasse={id} />
               
+            </div>
+            <ExerciceClasse idClasse={id} ></ExerciceClasse>
+
             </>
           ) : (
             !loading && (

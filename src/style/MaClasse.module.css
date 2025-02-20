@@ -1,7 +1,15 @@
 .pageClasse {
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
 }
+
+.partieTop{
+    display:flex;
+    flex:1;
+    justify-content: space-evenly;
+}
+
 
 .pageClasseNotJoined {
     min-height: 50vh;

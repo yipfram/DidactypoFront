@@ -10,10 +10,6 @@ export default function ExerciceClasse({idClasse}){
     const [isPopupVisible,setIsPopupVisible] = useState(false);
     const [endTime, setEndTime] = useState(null); // Stocke l'heure de fin d'exercice
 
-    useEffect(()=>{
-       loadExercices(); 
-    }),[];
-
     async function loadExercices(){
         try{
             const response = await api.get(`/exercice_groupe/${idClasse}`);
@@ -23,6 +19,10 @@ export default function ExerciceClasse({idClasse}){
             console.error(Exception.message);
         }
     }
+
+    useEffect(()=>{
+        loadExercices(); 
+     },[idClasse]);
     
    function closeModal(){
     setIsModalOpen(false);
