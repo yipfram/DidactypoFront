@@ -18,7 +18,6 @@ import ExerciceClasse from '../elements/Classe/ExerciceClasse';
 
 export default function MaClasse() {
   const { id } = useParams();
-  const [isAdmin, setIsAdmin] = useState(false);
   const [pseudo, setPseudo] = useState(getPseudo());
   const [classe, setClasse] = useState(null);
   const [loading, setLoading] = useState(true);

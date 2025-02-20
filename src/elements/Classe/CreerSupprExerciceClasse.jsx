@@ -1,6 +1,7 @@
 import Modal from '../Components/Modal';
 import { useState, useRef, useEffect } from "react"
-import api from '../../api';
+import {api} from '../../api';
+import style from "../../style/MaClasse.module.css";
 
 export default function CreerSupprExerciceClasse({ idClasse }) {
 
@@ -98,7 +99,7 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
 
     return (
         <>
-            <button onClick={handlerModalAjoutOpen}>Ajouter un exercice</button>
+            <button onClick={handlerModalAjoutOpen} className={style.btnajouter}>Ajouter un exercice</button>
             <Modal show={modalOpenAjout} onClose={handlerModalAjoutClose}>
                 <form onSubmit={handleSubmitAjout} method="post">
                     <fieldset>
@@ -121,7 +122,7 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
                 </div>
             )}
 
-            <button onClick={handlerModalSuppOpen}>Supprimer un exercice</button>
+            <button onClick={handlerModalSuppOpen} className={style.btnajouter}>Supprimer un exercice</button>
             <Modal show={modalOpenSupp} onClose={handlerModalSuppClose}>
                 <form onSubmit={handleSubmitSupp} method="post">
                     <fieldset>
