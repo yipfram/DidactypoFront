@@ -23,11 +23,12 @@
 
 .containerCompte {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-evenly;
     gap: 20px;
     width: 100%;
-    padding: 20px;
+    padding: 50px;
 }
 
 .PreviewImage {
@@ -42,13 +43,13 @@
 .containerButtons{
     display: flex;
     gap: 20px;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
 }
 
 .containerCompte button {
-    background-color: #f44336;
-    color: white;
+    background-color: var(--quaternary);
+    color: black;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
@@ -57,7 +58,7 @@
 }
 
 .containerCompte button:hover {
-    background-color: #d32f2f;
+    background-color: #e3ad4e;
 }
 
 .badges {
@@ -127,4 +128,18 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     background-color: #fafafa;
+}
+
+.PPImage{
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+    border-radius: 100%;
+    padding: 15px;
+}
+
+.Selected{
+    border: 4px;
+    border-color: #f44336;
+    border-style: solid;
 }
