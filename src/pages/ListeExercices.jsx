@@ -131,7 +131,7 @@ export default function ListeExercices() {
           <div className={style.modalContent}>
             {selectedExercise && (
               <>
-                <h2>{selectedExercise.titre_exercice}</h2>
+                <h2 className={style.titreExo}>{selectedExercise.titre_exercice}</h2>
                 <InterfaceSaisie
                   targetText={targetText}
                   setEndTime={setEndTime} // Définit l'heure de fin via cette prop
