@@ -25,7 +25,6 @@ export default function Accueil() {
           const response = await api.get("/defi_semaine");
           const newId = response.data.numero_defi;
           setIdSemaine(newId);
-          console.log("Id de la semaine :", newId); // ✅ Affiche la bonne valeur
       } catch (error) {
           console.error("Erreur lors de la récupération du défi de la semaine :", error);
       } finally {
