@@ -217,3 +217,9 @@ html, body {
     display: flex;
     flex-direction: column;
 }
+
+.exercicesGroupe{
+    display: flex;
+    margin:2vw;
+    justify-content: center;
+}

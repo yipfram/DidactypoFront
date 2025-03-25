@@ -13,16 +13,18 @@ import style from "../style/MaClasse.module.css";
 
 import Chat from '../elements/Chat/Chat';
 import MembresClasse from '../elements/Classe/MembresClasse';
+import CreerSupprExerciceClasse from '../elements/Classe/CreerSupprExerciceClasse';
+import ExerciceClasse from '../elements/Classe/ExerciceClasse';
 
 export default function MaClasse() {
   const { id } = useParams();
-  const [isAdmin, setIsAdmin] = useState(false);
   const [pseudo, setPseudo] = useState(getPseudo());
   const [classe, setClasse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMember, setIsMember] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setPseudo(getPseudo());
@@ -43,6 +45,15 @@ export default function MaClasse() {
         } else {
           setIsMember(false);
         }
+
+        const responsAdmin = await api.get(`/admins_par_groupe/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+      });
+        if(responsAdmin.data[0].pseudo === decodedToken.sub)
+          setIsAdmin(true);
+
       } catch (error) {
         console.error("❌ Erreur récupération classe:", error);
       } finally {
@@ -90,6 +101,7 @@ export default function MaClasse() {
             <Loading />
           ) : isMember && classe ? (
             <>
+            <div className={style.partieTop}>
               <div className={style.classegauche}>
                 <div className={style.classe}>
                   <h2>{classe.nom_groupe}</h2>
@@ -97,8 +109,9 @@ export default function MaClasse() {
                   <h3>Code pour rejoindre la classe: <strong style={{ color: 'red' }}>{id}</strong></h3>
                 </div>
                 {isAdmin && (
-                  <button className={style.btnajouter} onClick={handleOpenAdd}>Ajouter un élève</button>
+                  <button className='btngeneral' onClick={handleOpenAdd}>Ajouter un élève</button>
                 )}
+                {isAdmin && <CreerSupprExerciceClasse idClasse={id}/>}
                 <button className={style.btnQuitter} onClick={handleOpenLeave}>Quitter la classe</button>
               </div>
 
@@ -116,6 +129,10 @@ export default function MaClasse() {
 
               <Chat class_id={id} utilisateur={pseudo} />
               <MembresClasse idClasse={id} />
+              
+            </div>
+            <ExerciceClasse idClasse={id} ></ExerciceClasse>
+
             </>
           ) : (
             !loading && (
