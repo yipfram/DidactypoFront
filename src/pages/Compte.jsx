@@ -24,10 +24,15 @@ export default function Compte() {
 
   const fetchInfosCompte = async (pseudo) => {
     try {
-      const reponse = await api.get(`/utilisateurCompte/${pseudo}`);
-      setEmailUtilisateur(reponse.data.courriel);
-      setNomUtilisateur(reponse.data.nom);
-      setPrenomUtilisateur(reponse.data.prenom);
+      if (pseudo) {
+        const reponse = await api.get(`/utilisateurCompte/${pseudo}`);
+        setEmailUtilisateur(reponse.data.courriel);
+        setNomUtilisateur(reponse.data.nom);
+        setPrenomUtilisateur(reponse.data.prenom);
+      }
+      else {
+        console.log("Pas d'infos sur le compte !")
+      }
     } catch (error) {
       console.error("Erreur lors de la récupération des informations du compte", error);
     }
@@ -35,9 +40,9 @@ export default function Compte() {
   
 
   useEffect(() => {
-    const pseudoFromUrl = location.pathname.split("/").pop();
-
+    
     setPseudoToken(getPseudo());
+
   }, [location]);
 
   useEffect(() => {

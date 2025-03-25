@@ -51,8 +51,9 @@ export default function MaClasse() {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
       });
-        if(responsAdmin.data[0].pseudo === decodedToken.sub)
+        if (responsAdmin.data.some(admin => admin.pseudo === pseudo)) {
           setIsAdmin(true);
+        }
 
       } catch (error) {
         console.error("❌ Erreur récupération classe:", error);

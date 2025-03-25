@@ -13,7 +13,12 @@ export default function ExerciceClasse({idClasse}){
     async function loadExercices(){
         try{
             const response = await api.get(`/exercice_groupe/${idClasse}`);
-            setListeExercices(response.data);
+            console.log(response);
+            if (response.status === 204) {
+                setListeExercices([]);
+            } else {
+                setListeExercices(response.data);
+            }
         }
         catch(Exception){
             console.error(Exception.message);

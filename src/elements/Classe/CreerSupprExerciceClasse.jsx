@@ -1,6 +1,6 @@
 import Modal from '../Components/Modal';
 import { useState, useRef, useEffect } from "react"
-import {api} from '../../api';
+import { api } from '../../api';
 import style from "../../style/MaClasse.module.css";
 
 export default function CreerSupprExerciceClasse({ idClasse }) {
@@ -35,8 +35,11 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
         try {
             const response = await api.get(`/exercice_groupe/${idClasse}`);
             const data = response.data;
-            const tab = data.map((e) => e.id_exercice);
-            setListeExercices(tab);
+
+            if (data) {
+                const tab = data.map((e) => e.id_exercice);
+                setListeExercices(tab);
+            }
         }
         catch (Exception) {
             console.error(Exception.message);
@@ -66,6 +69,7 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
 
 
             setMessageRetour("Ajout avec succès!");
+            window.location.reload()
         } catch (error) {
             setMessageRetour(error.message);
         }
@@ -86,7 +90,7 @@ export default function CreerSupprExerciceClasse({ idClasse }) {
 
             const responseLien = await api.delete(`/exercice_groupe/${idClasse}/${listeExercices[idExercice - 1]}`);
 
-
+            window.location.reload();
             setMessageRetour("Suppression avec succès!");
         } catch (error) {
             setMessageRetour(error.message);
