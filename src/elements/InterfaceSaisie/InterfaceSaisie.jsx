@@ -91,13 +91,15 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
     const renderTextWithColors = () => {
         return targetText.split('').map((char, index) => {
             let color;
+            let background;
             if (index < inputText.length) {
-                color = inputText[index] === char ? 'green' : 'red';
+                color = inputText[index] === char ? 'green' : 'black';
+                background = inputText[index] === char ? 'none' : 'lightcoral';
             } else {
                 color = 'gray';
             }
             return (
-                <span key={index} style={{ color }}>
+                <span key={index} style={{ color, background }}>
                     {char}
                 </span>
             );
@@ -133,6 +135,14 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
         }
     };
 
+    const badgeTricheur = async () => {
+        try{
+            console.log("HAHAHAHA LOOSER");
+            await api.post(`gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=16`);
+        } catch(error){
+        }
+    }
+
     return (
         <div style={{ textAlign: 'center' }}>
             <div className={styles.textContainer}>{renderTextWithColors()}</div>
@@ -144,9 +154,12 @@ const InterfaceSaisie = ({ targetText, setEndTime, isReady, onExerciseComplete }
                     onChange={handleInputChange}
                     disabled={!isReady}
                     className={styles.inputField}
-                    onPaste={(e) => {e.preventDefault()}}
-                    onDragStart={(e) => {e.preventDefault()}}
-                    onDrop={(e) => {e.preventDefault()}}
+                    onPaste={(e) => {badgeTricheur(); e.preventDefault()}}
+                    onDragStart={(e) => {badgeTricheur(); e.preventDefault()}}
+                    onDrop={(e) => {badgeTricheur(); e.preventDefault()}}
+                    style={{
+                        background: hasError ? '#ff9999' : 'white',
+                    }}
                 />
             </form>
             <div className={styles.progressBarContainer}>
