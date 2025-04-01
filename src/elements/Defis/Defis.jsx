@@ -40,15 +40,6 @@ export default function Defis({idDefi}) {
         fetchReussitesDefi();
     }, []);
 
-    useEffect(() => {
-        // Gérer les badges pour toutes les données chargées
-        reussitesDefis.forEach((reussiteDefi, index) => {
-            const position = index + 1;
-            if (reussiteDefi.pseudo_utilisateur !== "---") {
-                gererBadges(reussiteDefi.pseudo_utilisateur, position);
-            }
-        });
-    }, [reussitesDefis]);
 
     // Fonction pour formater la date
     const formatDate = (dateString) => {
@@ -94,25 +85,6 @@ export default function Defis({idDefi}) {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
-    // Fonction pour attribuer les badges
-    const gererBadges = async (pseudo, position) => {
-        try {
-            const response = await api.get(`/badge/${pseudo}`);
-            const badgesUtilisateur = response.data;
-            const aDejaBadge = (idBadge) => badgesUtilisateur.some(badge => badge.id_badge === idBadge);
-
-            if (position === 1 && !aDejaBadge(3)) {
-                await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=3`);
-            }
-            if (position <= 5 && !aDejaBadge(2)) {
-                await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=2`);
-            }
-            if (position <= 10 && !aDejaBadge(1)) {
-                await api.post(`/gain_badge/?pseudo_utilisateur=${pseudo}&id_badge=1`);
-            }
-        } catch (error) {
-        }
-    };
 
     return (
         <div className={style.tableWrapper}>

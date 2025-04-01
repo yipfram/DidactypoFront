@@ -5,7 +5,7 @@ import style from "../../style/Compte.module.css";
 
 export default function Badges(props) {
     const [badges, setBadges] = useState([]);
-    const totalBadge = 14;
+    const totalBadge = 15;
     const badgeHid = 9;
 
     const fetchBadges = async () => {
@@ -14,7 +14,7 @@ export default function Badges(props) {
             const userBadge = response.data;  
 
             const nbBadge = userBadge.length;
-            const badgesManquant = 14 - nbBadge;
+            const badgesManquant = totalBadge - nbBadge;
 
             const rep = await api.get(`/badge_manquant/${badgeHid}`);
             const badgeCache = rep.data;

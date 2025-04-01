@@ -59,7 +59,7 @@ export default function MembresClasse({ idClasse }) {
     // Récupération des membres de la classe et leurs infos
     const fetchMembreClasse = async () => {
         try {
-            const reponseMembreClasse = await api.get(`/membre_classe_par_groupe/${idClasse}`, {
+            const reponseMembreClasse = await api.get(`/membres_classe_par_groupe/${idClasse}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

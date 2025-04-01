@@ -169,6 +169,8 @@ export default function Competition() {
                     }
                     await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
 
+                    await gestionDefiQuotidien(userPseudo);
+
                     window.location.reload();
 
                 } catch (error) {
