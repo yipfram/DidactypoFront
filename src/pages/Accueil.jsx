@@ -1,19 +1,14 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import style from "../style/Accueil.module.css";
-
 import Leaderboard from "../elements/Defis/Defis";
 import Loading from "../elements/Components/Loading";
+import Modal from "../elements/Components/Modal";
+import Connexion from "../elements/Components/Connexion";
+import { api } from "../utils/api";
+import { getPseudo } from "../utils/user";
 
 export default function Accueil() {
-<<<<<<< HEAD
- return (
-    <main className={style.accueil}>
-       <div className={style.accueilmenu}>
-            <div className={style.texteaccueil}>
-                <p>Bienvenue sur Didactypo ! <br/>
-                Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t'amusant !
-                </p>
-=======
    const [idSemaine, setIdSemaine] = useState(null);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [connected, setConnected] = useState("Se connecter");
@@ -44,7 +39,6 @@ export default function Accueil() {
    const openModal = () => {
       const pseudo = getPseudo();
       if (pseudo) {
-         
          window.location.href = `/profil/${pseudo}`;
       }
       else {
@@ -55,34 +49,27 @@ export default function Accueil() {
    const closeModal = () => setIsModalOpen(false);
 
    return (
-      <>
-         <main className={style.accueil}>
-            <div className={style.accueilmenu}>
-               <div className={style.texteaccueil}>
-                  <p>
-                     Bienvenue sur Didactypo ! <br />
-                     Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t'amusant !
-                  </p>
-               </div>
-               <div className={style.choixboutons}>
-                  <Modal show={isModalOpen} onClose={closeModal}>
-                     <Connexion />
-                     <button onClick={closeModal}>Annuler</button>
-                  </Modal>
-                  <input type="button" onClick={openModal} className={style.bouton} value={connected} />
-                  <Link to="./apprendre" className={style.bouton}>Apprendre</Link>
-                  <Link to="./competition" className={style.bouton}>Compétition</Link>
-               </div>
->>>>>>> 4bbbb04fea3a21cbe6128aabcd9b2ae5f84bae7e
+      <main className={style.accueil}>
+         <div className={style.accueilmenu}>
+            <div className={style.texteaccueil}>
+               <p>
+                  Bienvenue sur Didactypo ! <br />
+                  Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t'amusant !
+               </p>
             </div>
-            <div className={style.leaderboard}>
-               {loading ? <Loading /> : <Leaderboard idDefi={idSemaine} />}
+            <div className={style.choixboutons}>
+               <Modal show={isModalOpen} onClose={closeModal}>
+                  <Connexion />
+                  <button onClick={closeModal}>Annuler</button>
+               </Modal>
+               <input type="button" onClick={openModal} className={style.bouton} value={connected} />
+               <Link to="./apprendre" className={style.bouton}>Apprendre</Link>
+               <Link to="./competition" className={style.bouton}>Compétition</Link>
             </div>
-       </div>
-       <div className={style.leaderboard}>
-          <Leaderboard/>
-       </div>
-       <Link to="/somewhere">Go somewhere</Link>
-    </main>
- )
+         </div>
+         <div className={style.leaderboard}>
+            {loading ? <Loading /> : <Leaderboard idDefi={idSemaine} />}
+         </div>
+      </main>
+   );
 }
