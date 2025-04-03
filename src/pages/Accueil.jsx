@@ -4,9 +4,8 @@ import style from "../style/Accueil.module.css";
 import Leaderboard from "../elements/Defis/Defis";
 import Loading from "../elements/Components/Loading";
 import Modal from "../elements/Components/Modal";
-import Connexion from "../elements/Components/Connexion";
-import { api } from "../utils/api";
-import { getPseudo } from "../utils/user";
+import Connexion from "../elements/CompteUtilisateur/Connexion";
+import { api, getPseudo } from "../api";
 
 export default function Accueil() {
    const [idSemaine, setIdSemaine] = useState(null);
@@ -54,7 +53,7 @@ export default function Accueil() {
             <div className={style.texteaccueil}>
                <p>
                   Bienvenue sur Didactypo ! <br />
-                  Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t'amusant !
+                  Ici tu peux apprendre à mieux utiliser ton clavier et te mesurer aux autres en t&apos;amusant !
                </p>
             </div>
             <div className={style.choixboutons}>
