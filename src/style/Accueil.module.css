@@ -33,22 +33,22 @@
 }
 
 .bouton{
-    background-color: #E8BB6D;
+    background-color: var(--quaternary);
     padding: 3vw;
     margin: 0.7vw;
     margin-top: 1vw;
     border: none;
     border-radius: 20px;
-    box-shadow: -1px 3px 3px rgb(78, 75, 75);
+    box-shadow: -1px 3px 3px var(--shadow-color);
     font-size: 1.8vw;
     cursor: pointer;
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     text-align: center;
 }
 
 .bouton:hover{
-    background-color: #b79151;
+    background-color: var(--quaternary-hover);
 }
 
 .leaderboard{

@@ -1,10 +1,19 @@
 :root {
   --primary: #A1D6B2;
+  --primary-transparent: rgba(161, 214, 178, 0.9);
   --secondary: #CEDF9F;
   --tertiary: #F1F3C2;
   --quaternary: #E8BB6D;
+  --quaternary-hover: #b79151;
+  --quaternary-dark: #D5A563;
   --text-color: #000000;
   --text-color-emphasis: #5a9a6a;
+  --shadow-color: rgb(78, 75, 75);
+  --text-dark: #060404;
+  --button-hover-blue: #357ab8;
+  --border-light: #ccc;
+  --white: #ffffff;
+  --black-transparent: rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -40,18 +49,18 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb:hover {
-  background-color: #D5A563;
+  background-color: var(--quaternary-dark);
 }
 
 .btngeneral{
-  background-color: #E8BB6D;
+  background-color: var(--quaternary);
   height: 4vw;
   padding: 1vw 2vw;
   margin: 0.7vw;
   margin-top: 1vw;
   border: none;
   border-radius: 15px;
-  box-shadow: -1px 1px 1px rgb(78, 75, 75);
+  box-shadow: -1px 1px 1px var(--shadow-color);
   font-size: 1.8vw;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -59,5 +68,5 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .btngeneral:hover{
-  background-color: #b79151;
+  background-color: var(--quaternary-hover);
 }

@@ -39,8 +39,8 @@
 }
 
 .readyButton {
-  background-color: #E8BB6D;
-  color: #060404;
+  background-color: var(--quaternary);
+  color: var(--text-dark);
   border-radius: 8px;
   border: black;
   border-width: 2px;

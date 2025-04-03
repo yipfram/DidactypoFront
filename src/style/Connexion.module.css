@@ -20,12 +20,10 @@ body {
     overflow-y: auto; /* Ajoute un scroll vertical si nécessaire */
 }
 
-
-
 .connexion form {
-    background-color: rgba(161, 214, 178, 0.9); /* Couleur de fond semi-transparente */
+    background-color: var(--primary-transparent);
     border-radius: 12px; /* Coins arrondis */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre marquée */
+    box-shadow: 0 4px 20px var(--black-transparent); /* Ombre marquée */
     padding: 15px; /* Espacement interne réduit */
     max-width: 300px; /* Largeur maximale réduite */
     width: 90%; /* Prend jusqu'à 90% de la largeur disponible */
@@ -48,7 +46,7 @@ body {
     width: 100%;
     padding: 8px; /* Réduit l'espacement interne */
     margin-bottom: 12px; /* Réduit l'espacement entre les champs */
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-light);
     border-radius: 4px;
     font-size: 14px; /* Taille de police légèrement réduite */
     box-sizing: border-box;
@@ -56,8 +54,8 @@ body {
 
 .connexion button {
     margin-top: 8px; /* Espacement au-dessus réduit */
-    background-color: white;
-    color: var(--text-color, #000);
+    background-color: var(--white);
+    color: var(--text-color);
     padding: 8px; /* Réduit la taille du bouton */
     border: none;
     border-radius: 4px;
@@ -67,8 +65,8 @@ body {
 }
 
 .connexion button:hover {
-    background-color: #357ab8;
-    color: white;
+    background-color: var(--button-hover-blue);
+    color: var(--white);
 }
 
 .connexion p {
