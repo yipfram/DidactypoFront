@@ -25,3 +25,5 @@ alwaysApply: true
 - Always think about what other methods and areas of code might be affected by code changes
 - Always check the directory to understand what the environement is, don't make architechture changes without my explicit validation. If a change requires archichtecture change, ask me first.
 - Create new git commits for each feature, Fix or else that you make. Make a 5 words long commit name and start by "FIX" if it is a fix, "FEAT" if it is a feature. Write the commit in French.
+- Always commit code when a full feature is changed or more than 1 Fix was made.. (exception if it is a big one.). Do commits according to best practices of version and git
+-  control.
