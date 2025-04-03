@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    # If you need environment variables from a .env file
+    env_file:
+      - .env
+    # Uncomment the following lines if you have an API service
+    # depends_on:
+    #   - api
+    volumes:
+      # For development hot-reload (optional)
+      # - ./src:/app/src
+      # For persisting nginx logs
+      - ./logs:/var/log/nginx
+
+  # Uncomment if you need a database
+  # db:
+  #   image: postgres:15-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: didactypo
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  
+  # Uncomment if you need a backend API
+  # api:
+  #   build:
+  #     context: ../DidactypoAPI  # Adjust the path to your API code
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=production
+  #     - DATABASE_URL=postgres://postgres:postgres@db:5432/didactypo
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env
+
+# Uncomment if you have a database
+# volumes:
+#   postgres_data: 
