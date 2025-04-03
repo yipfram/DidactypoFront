@@ -74,7 +74,7 @@ export default function MaClasse() {
       });
       setIsAdmin(response.data);
     } catch (error) {
-      console.error("Erreur pendant la vérification de l'admin :", error);
+      console.error("Erreur pendant la vérification de l&apos;admin :", error);
     }
   };
 
@@ -138,8 +138,8 @@ export default function MaClasse() {
           ) : (
             !loading && (
               <main className={style.pageClasseNotJoined}>
-                <h1>Vous n'êtes pas membre de cette classe ou elle n'existe pas.</h1>
-                <Link to="/classe">Retour à l'accueil</Link>
+                <h1>Vous n&apos;êtes pas membre de cette classe ou elle n&apos;existe pas.</h1>
+                <Link to="/classe">Retour à l&apos;accueil</Link>
               </main>
             )
           )}

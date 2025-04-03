@@ -27,7 +27,7 @@ export default function Sinscrire() {
   const fetchUtilisateurs = async () => {
     try {
       const reponse = await api.get("/utilisateurs/");
-      console.log("Données reçues de l'API :", reponse.data);
+      console.log("Données reçues de l&apos;API :", reponse.data);
       const data = Array.isArray(reponse.data) ? reponse.data : reponse.data.utilisateurs || [];
       setUtilisateurs(data); // S'assurer que la donnée est un tableau
     } catch (erreur) {
@@ -106,15 +106,15 @@ export default function Sinscrire() {
       // Redirection vers la page de connexion
       navigate("/");
     } catch (erreur) {
-      console.error("Erreur lors de l'inscription :", erreur);
-      alert("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
+      console.error("Erreur lors de l&apos;inscription :", erreur);
+      alert("Une erreur est survenue lors de l&apos;inscription. Veuillez réessayer.");
     }
   };
 
   return (
     <div className={style.connexion}>
       <form onSubmit={handleFormSubmit}>
-        <h1>S'inscrire</h1>
+        <h1>S&apos;inscrire</h1>
 
         <label htmlFor="pseudo">Pseudo</label>
         <input

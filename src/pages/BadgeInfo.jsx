@@ -22,11 +22,11 @@ export default function BadgeInfo() {
         try {
             const response = await api.get(`/badge_manquant/${badgeId}`);
             setBadge(response.data);
-        } catch (error) {
+        } catch {
             setBadge({
                 titre_badge: "Badge inexistant",
                 image_badge: "/BadgesDidactypo/hidden.png",
-                description_badge: "Ce badge n'existe pas",
+                description_badge: "Ce badge n&apos;existe pas",
             });
         }
     };
@@ -37,7 +37,7 @@ export default function BadgeInfo() {
             setLoadingUtilisateurs(true);
             const response = await api.get(`/badge_membres/${badgeId}`);
             setUtilisateurs(response.data);
-        } catch (error) {
+        } catch {
             setUtilisateurs([]); // ✅ Ensure state reset on error
         } finally {
             setLoadingUtilisateurs(false);
@@ -80,7 +80,7 @@ export default function BadgeInfo() {
                             </li>
                         ))
                     ) : (
-                        <p>Personne n'a eu ce badge pour le moment !</p>
+                        <p>Personne n&apos;a eu ce badge pour le moment !</p>
                     )}
                 </ul>
             </div>

@@ -24,7 +24,7 @@ export default function Competition() {
             setIdSemaine(response.data.numero_defi);
         } catch (fetchError) {
             console.error("Error fetching weekly challenge ID:", fetchError);
-            setError("Erreur lors de la récupération de l'ID du défi de la semaine.");
+            setError("Erreur lors de la récupération de l&apos;ID du défi de la semaine.");
         }
     }
 
@@ -87,50 +87,61 @@ export default function Competition() {
         setEndTime(null);
     };
 
+    // Vérifie si deux dates sont le même jour
+    const isSameDay = (date1, date2) => {
+        return date1.getDate() === date2.getDate() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getFullYear() === date2.getFullYear();
+    };
+
+    // Attribue un badge en fonction du compteur de défis
+    const attribuerBadges = async (userPseudo, cptDefi) => {
+        try {
+            if (cptDefi === 3) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=4`);
+            if (cptDefi === 7) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=5`);
+            if (cptDefi === 14) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
+            if (cptDefi === 20) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
+        } catch (badgeError) {
+            console.error("Error updating badge:", badgeError);
+        }
+    };
+
     const gestionDefiQuotidien = async (userPseudo) => {
         const dateAct = new Date();
         try {
+            // Récupère les données utilisateur
             const userResponse = await api.get(`/utilisateur/${userPseudo}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
             let cptDefi = userResponse.data.cptDefi;
+            
+            // Récupère les réussites
             const reponse = await api.get(`/reussites_defi/${userPseudo}`);
             const reussites = reponse.data;
-
             const sortedReussites = reussites.sort(
                 (a, b) => new Date(b.date_reussite) - new Date(a.date_reussite)
             );
-
+            
+            // Vérifie si le défi a été fait aujourd'hui
             const lastDateReussite = sortedReussites.length > 0 ? sortedReussites[0].date_reussite : null;
-
             if (lastDateReussite) {
                 const dateDerniereReussite = new Date(lastDateReussite);
-
-                const isSameDay = dateAct.getDate() === dateDerniereReussite.getDate() &&
-                    dateAct.getMonth() === dateDerniereReussite.getMonth() &&
-                    dateAct.getFullYear() === dateDerniereReussite.getFullYear();
-
-                if (!isSameDay) {
+                if (!isSameDay(dateAct, dateDerniereReussite)) {
                     cptDefi++;
                 }
             } else {
                 cptDefi = 1;
             }
-
+            
+            // Mise à jour du compteur et attribution des badges
             await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
-
-            try {
-                if (cptDefi === 3) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=4`);
-                if (cptDefi === 7) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=5`);
-                if (cptDefi === 14) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=6`);
-                if (cptDefi === 20) await api.post(`/gain_badge/?pseudo_utilisateur=${userPseudo}&id_badge=7`);
-            } catch (badgeError) {
-                console.error("Error updating badge:", badgeError);
-            }
+            await attribuerBadges(userPseudo, cptDefi);
+            
         } catch (error) {
             if (error.response && error.response.status === 404) {
+                // Premier défi pour l'utilisateur
                 const cptDefi = 1;
                 try {
                     await api.put(`/utilisateurs/${userPseudo}/cptDefi`, { cptDefi });
@@ -145,103 +156,104 @@ export default function Competition() {
         }
     };
 
+    // Soumet le score à la base de données
+    const submitScore = async (timeDiff) => {
+        if (!currentDefi) {
+            console.error("Cannot update database: currentDefi is not set.");
+            setError("Erreur interne : Défi actuel non défini.");
+            return;
+        }
+        
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error("No token found in localStorage for submitting score");
+            setError("Non connecté pour la soumission du score.");
+            return;
+        }
+        
+        try {
+            // Enregistre la réussite
+            await api.post(`/reussites_defi/?id_defi=${currentDefi.id_defi}&temps_reussite=${timeDiff}`, null, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            // Enregistre la statistique
+            await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=tempsdefi&valeur_stat=${timeDiff}`);
+            
+            // Met à jour le compteur de défis quotidiens
+            await gestionDefiQuotidien(userPseudo);
+            
+            window.location.reload();
+        } catch (dbError) {
+            console.error("Error updating database or stats:", dbError);
+            setError('Erreur lors de la sauvegarde du score.');
+        }
+    };
+
     // Calcul du temps écoulé une fois terminé
     useEffect(() => {
         if (startTime && endTime) {
             const timeDiff = (endTime - startTime) / 1000;
             setIsReady(false);
             setLastScore(timeDiff);
-
-            const updateDatabase = async () => {
-                if (!currentDefi) {
-                    console.error("Cannot update database: currentDefi is not set.");
-                    setError("Erreur interne : Défi actuel non défini.");
-                    return;
-                }
-                try {
-                    const payload = {
-                        id_defi: currentDefi.id_defi,
-                        pseudo_utilisateur: userPseudo,
-                        temps_reussite: timeDiff,
-                    };
-                    const typeStat = "tempsdefi";
-
-                    const token = localStorage.getItem('token');
-                    if (token) {
-                        await api.post(`/reussites_defi/?id_defi=${payload.id_defi}&temps_reussite=${payload.temps_reussite}`, null, {
-                            headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        });
-                    } else {
-                        console.error("No token found in localStorage for submitting score");
-                        setError("Non connecté pour la soumission du score.");
-                        return;
-                    }
-                    await api.post(`/stat/?pseudo_utilisateur=${userPseudo}&type_stat=${typeStat}&valeur_stat=${payload.temps_reussite}`);
-
-                    await gestionDefiQuotidien(userPseudo);
-
-                    window.location.reload();
-
-                } catch (dbError) {
-                    console.error("Error updating database or stats:", dbError);
-                    setError('Erreur lors de la sauvegarde du score.');
-                }
-            };
-
-            updateDatabase();
+            submitScore(timeDiff);
         }
     }, [endTime]);
 
+    // Render content based on state
+    const renderContent = () => {
+        if (isLoading) {
+            return <Loading />;
+        }
+        if (error) {
+            return <p className={style.error}>{error}</p>;
+        }
+        return (
+            <div className={style.competContainer}>
+                <div className={style.defi}>
+                    {!isReady && (
+                        <div className={style.readyButtonContainer}>
+                            <h3>
+                                Bienvenue dans le mode compétition !
+                                Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                                Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                            </h3>
+                            <button
+                                onClick={handleReadyClick}
+                                className={style.readyButton}
+                                disabled={!currentDefi}
+                            >
+                                Commencer le défi
+                            </button>
+                            <h3>
+                                Si jamais tu as du mal, n&apos;hésite pas à aller consulter l&apos;onglet &quot;Apprendre&quot; ! Bonne chance !
+                            </h3>
+                        </div>
+                    )}
+                    {isReady && currentDefi && (
+                        <InterfaceSaisie
+                            targetText={currentDefi.description_defi}
+                            setEndTime={setEndTime}
+                            isReady={isReady}
+                        />
+                    )}
+                    {lastScore && !isReady && (
+                        <div className={style.lastScoreContainer}>
+                            <h4>Ton dernier temps : {lastScore} secondes</h4>
+                        </div>
+                    )}
+                </div>
+                <div className={style.leaderboard}>
+                    <Leaderboard idDefi={idSemaine} />
+                </div>
+            </div>
+        );
+    };
+
     return (
-        <VerifConnection>
-            <main className={style.Competition}>
-                {isLoading ? (
-                    <Loading />
-                ) : error ? (
-                    <p className={style.error}>{error}</p>
-                ) : (
-                    <div className={style.competContainer}>
-                        <div className={style.defi}>
-                            {!isReady && (
-                                <div className={style.readyButtonContainer}>
-                                    <h3>
-                                        Bienvenue dans le mode compétition !
-                                        Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
-                                        Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
-                                    </h3>
-                                    <button
-                                        onClick={handleReadyClick}
-                                        className={style.readyButton}
-                                        disabled={!currentDefi}
-                                    >
-                                        Commencer le défi
-                                    </button>
-                                    <h3>
-                                        Si jamais tu as du mal, n\'hésite pas à aller consulter l\'onglet \"Apprendre\" ! Bonne chance !
-                                    </h3>
-                                </div>
-                            )}
-                            {isReady && currentDefi && (
-                                <InterfaceSaisie
-                                    targetText={currentDefi.description_defi}
-                                    setEndTime={setEndTime}
-                                    isReady={isReady}
-                                />
-                            )}
-                            {lastScore && !isReady && (
-                                <div className={style.lastScoreContainer}>
-                                    <h4>Ton dernier temps : {lastScore} secondes</h4>
-                                </div>
-                            )}
-                        </div>
-                        <div className={style.leaderboard}>
-                            <Leaderboard idDefi={idSemaine} />
-                        </div>
-                    </div>
-                )}
-            </main>
-        </VerifConnection>
+        <main className={style.competition}>
+            <VerifConnection />
+            {renderContent()}
+        </main>
     );
 }
