@@ -192,61 +192,55 @@ export default function Competition() {
 
             updateDatabase();
         }
-    }, [endTime, startTime, userPseudo, currentDefi]);
-
-    // Extract nested ternary into a variable
-    let content;
-    if (isLoading) {
-        content = <Loading />;
-    } else if (error) {
-        content = <p className={style.error}>{error}</p>;
-    } else {
-        content = (
-            <div className={style.competContainer}>
-                <div className={style.defi}>
-                    {!isReady && (
-                        <div className={style.readyButtonContainer}>
-                            <h3>
-                                Bienvenue dans le mode compétition !
-                                Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
-                                Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
-                            </h3>
-                            <button
-                                onClick={handleReadyClick}
-                                className={style.readyButton}
-                                disabled={!currentDefi}
-                            >
-                                Commencer le défi
-                            </button>
-                            <h3>
-                                Si jamais tu as du mal, n&apos;hésite pas à aller consulter l&apos;onglet &quot;Apprendre&quot; ! Bonne chance !
-                            </h3>
-                        </div>
-                    )}
-                    {isReady && currentDefi && (
-                        <InterfaceSaisie
-                            targetText={currentDefi.description_defi}
-                            setEndTime={setEndTime}
-                            isReady={isReady}
-                        />
-                    )}
-                    {lastScore && !isReady && (
-                        <div className={style.lastScoreContainer}>
-                            <h4>Ton dernier temps : {lastScore} secondes</h4>
-                        </div>
-                    )}
-                </div>
-                <div className={style.leaderboard}>
-                    <Leaderboard idDefi={idSemaine} />
-                </div>
-            </div>
-        );
-    }
+    }, [endTime]);
 
     return (
         <VerifConnection>
             <main className={style.Competition}>
-                {content}
+                {isLoading ? (
+                    <Loading />
+                ) : error ? (
+                    <p className={style.error}>{error}</p>
+                ) : (
+                    <div className={style.competContainer}>
+                        <div className={style.defi}>
+                            {!isReady && (
+                                <div className={style.readyButtonContainer}>
+                                    <h3>
+                                        Bienvenue dans le mode compétition !
+                                        Ici, tu vas pouvoir te mesurer aux autres joueurs en réalisant des défis de vitesse de frappe.
+                                        Lorsque tu te sens prêt, appuie sur le bouton ci-dessous.
+                                    </h3>
+                                    <button
+                                        onClick={handleReadyClick}
+                                        className={style.readyButton}
+                                        disabled={!currentDefi}
+                                    >
+                                        Commencer le défi
+                                    </button>
+                                    <h3>
+                                        Si jamais tu as du mal, n\'hésite pas à aller consulter l\'onglet \"Apprendre\" ! Bonne chance !
+                                    </h3>
+                                </div>
+                            )}
+                            {isReady && currentDefi && (
+                                <InterfaceSaisie
+                                    targetText={currentDefi.description_defi}
+                                    setEndTime={setEndTime}
+                                    isReady={isReady}
+                                />
+                            )}
+                            {lastScore && !isReady && (
+                                <div className={style.lastScoreContainer}>
+                                    <h4>Ton dernier temps : {lastScore} secondes</h4>
+                                </div>
+                            )}
+                        </div>
+                        <div className={style.leaderboard}>
+                            <Leaderboard idDefi={idSemaine} />
+                        </div>
+                    </div>
+                )}
             </main>
         </VerifConnection>
     );
