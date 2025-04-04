@@ -2,7 +2,9 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 const api = axios.create({
-    baseURL: 'https://127.0.0.1:8000',
+    baseURL: import.meta.env.MODE === 'production' 
+        ? import.meta.env.VITE_API_URL_PROD 
+        : import.meta.env.VITE_API_URL_DEV,
     headers: {
         'Content-Type': 'application/json',
     }
