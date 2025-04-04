@@ -31,7 +31,7 @@ export default function Badges({pseudo}) {
 
     useEffect(() => {
         fetchBadges();
-    });
+    },[]);
 
     return (
         <div className={style.badges}>
