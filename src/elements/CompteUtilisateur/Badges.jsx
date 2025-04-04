@@ -1,16 +1,17 @@
 import { api } from "../../api";
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 
 import style from "../../style/Compte.module.css";
 
-export default function Badges(props) {
+export default function Badges({pseudo}) {
     const [badges, setBadges] = useState([]);
     const totalBadge = 15;
     const badgeHid = 9;
 
     const fetchBadges = async () => {
         try{
-            const response = await api.get(`/badge/${props.pseudo}`);
+            const response = await api.get(`/badge/${pseudo}`);
             const userBadge = response.data;  
 
             const nbBadge = userBadge.length;
@@ -23,13 +24,14 @@ export default function Badges(props) {
             
             setBadges(badgesComplets);
         } catch (error){
+            console.error("Erreur lors du chargement des badges:", error);
         }
 
     };
 
     useEffect(() => {
         fetchBadges();
-    }, []);
+    });
 
     return (
         <div className={style.badges}>
@@ -43,4 +45,8 @@ export default function Badges(props) {
         </div>
     );
 }
+
+Badges.propTypes = {
+    pseudo: PropTypes.string.isRequired,
+};
 
